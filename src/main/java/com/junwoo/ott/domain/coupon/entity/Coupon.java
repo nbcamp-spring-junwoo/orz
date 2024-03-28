@@ -2,10 +2,9 @@ package com.junwoo.ott.domain.coupon.entity;
 
 import com.junwoo.ott.global.common.entity.Timestamped;
 import com.junwoo.ott.global.customenum.CouponType;
+import com.junwoo.ott.global.customenum.MembershipType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -33,8 +32,8 @@ public class Coupon extends Timestamped {
   private Long couponId;
   private String description;
   @Column(nullable = false)
-  @Enumerated(EnumType.STRING)
   private CouponType couponType;
+  private MembershipType membershipType;
   @Column(nullable = false)
   private Integer count;
   @Column(nullable = false)
