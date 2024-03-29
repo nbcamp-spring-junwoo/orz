@@ -24,7 +24,7 @@ class CouponServiceImplTest implements CouponTestValues {
   private CouponRepository couponRepository;
 
   @InjectMocks
-  private CouponServiceImpl couponService;
+  private CouponService couponService;
 
   @Nested
   @DisplayName("쿠폰 생성에 대한 테스트")
