@@ -1,5 +1,7 @@
 package com.junwoo.ott.domain.coupon.dto.body;
 
+import com.junwoo.ott.global.customenum.CouponType;
+import com.junwoo.ott.global.customenum.MembershipType;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,9 +13,9 @@ public class CouponCreateDto {
 
   private String description;
   @NotNull
-  private String type;
+  private CouponType type;
   @NotNull
-  private String membershipType;
+  private MembershipType membershipType;
   @NotNull
   private Integer discount;
   @NotNull

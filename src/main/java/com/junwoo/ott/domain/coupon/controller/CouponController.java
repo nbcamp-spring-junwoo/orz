@@ -2,7 +2,6 @@ package com.junwoo.ott.domain.coupon.controller;
 
 import com.junwoo.ott.domain.coupon.dto.body.CouponCreateDto;
 import com.junwoo.ott.domain.coupon.dto.request.CouponCreateRequestDto;
-import com.junwoo.ott.domain.coupon.dto.response.CouponCreateResponseDto;
 import com.junwoo.ott.domain.coupon.service.CouponService;
 import com.junwoo.ott.global.common.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -24,13 +23,11 @@ public class CouponController {
   }
 
   @PostMapping
-  public ResponseDto<CouponCreateResponseDto> postCoupon(
+  public void postCoupon(
       @Validated @RequestBody CouponCreateDto dto
   ) {
     CouponCreateRequestDto createRequestDto = new CouponCreateRequestDto(1L, dto);
-    CouponCreateResponseDto responseDto = couponService.createCoupon(createRequestDto);
-
-    return ResponseDto.ok(responseDto);
+    couponService.createCoupon(createRequestDto);
   }
 
   public ResponseDto<Void> putCoupon() {

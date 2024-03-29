@@ -53,8 +53,8 @@ public class Coupon extends Timestamped {
 
     return Coupon.builder()
         .description(dto.getDescription())
-        .couponType(CouponType.valueOf(dto.getType()))
-        .membershipType(MembershipType.valueOf(dto.getMembershipType()))
+        .couponType(dto.getType())
+        .membershipType(dto.getMembershipType())
         .count(dto.getCount())
         .discount(dto.getDiscount())
         .startAt(dto.getStartAt())
