@@ -17,4 +17,5 @@ public class AuthSignupRequestDto {
     this.email = authSignupDto.getEmail();
     this.born = authSignupDto.getBorn();
   }
+
 }
