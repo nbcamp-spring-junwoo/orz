@@ -35,6 +35,7 @@ public class Video extends Timestamped {
   private String title;
   @Column(nullable = false)
   private String description;
+  @Column(nullable = false)
   @Enumerated(EnumType.ORDINAL)
   private RatingType ratingType;
   private LocalDateTime deletedAt;
