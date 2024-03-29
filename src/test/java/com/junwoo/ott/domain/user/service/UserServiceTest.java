@@ -1,16 +1,21 @@
 package com.junwoo.ott.domain.user.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
 
 import com.junwoo.ott.domain.user.UserTestValues;
+import com.junwoo.ott.domain.user.dto.reponse.UserReadResponseDto;
 import com.junwoo.ott.domain.user.entity.User;
 import com.junwoo.ott.domain.user.repository.UserRepository;
+import com.junwoo.ott.global.exception.custom.UserNotFoundException;
 import com.junwoo.ott.global.exception.custom.UsernameAlreadyExistException;
-import org.junit.jupiter.api.Assertions;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -53,10 +58,41 @@ class UserServiceTest implements UserTestValues {
       given(userRepository.existsByUsername(anyString())).willReturn(true);
 
       // when, then
-      Assertions.assertThrows(UsernameAlreadyExistException.class,
+      assertThrows(UsernameAlreadyExistException.class,
           () -> userService.validateUserNotExist(anyString()));
     }
 
+  }
+
+  @Nested
+  @DisplayName("회원 단건 조회 테스트")
+  class UserGetTest {
+
+    @Test
+    void 회원_단건_조회_성공_테스트() {
+
+      // given
+      given(userRepository.findById(anyLong())).willReturn(Optional.of(TEST_USER));
+
+      // when
+      UserReadResponseDto userReadResponseDto = userService.getUser(anyLong());
+
+      // then
+      assertEquals(TEST_USER_ID, userReadResponseDto.getUserId());
+      assertEquals(TEST_USERNAME, userReadResponseDto.getUsername());
+    }
+
+  }
+
+  @Test
+  void 회원_단건_조회_실패_테스트() {
+
+    // given
+    given(userRepository.findById(anyLong())).willReturn(Optional.empty());
+
+    // when, then
+    assertThrows(UserNotFoundException.class,
+        () -> userService.getUser(anyLong()));
   }
 
 }

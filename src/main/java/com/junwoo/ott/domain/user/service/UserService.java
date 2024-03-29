@@ -30,6 +30,7 @@ public class UserService {
     userRepository.save(user);
   }
 
+  @Transactional(readOnly = true)
   public UserReadResponseDto getUser(Long id) {
     return userRepository.findById(id)
         .orElseThrow(() -> new UserNotFoundException("존재하지 않는 회원입니다."))
