@@ -37,6 +37,7 @@ public class UserService {
         .toReadResponseDto();
   }
 
+  @Transactional(readOnly = true)
   public void validateUserNotExist(String username) {
     if (userRepository.existsByUsername(username)) {
       throw new UsernameAlreadyExistException("이미 존재하는 username입니다.");
