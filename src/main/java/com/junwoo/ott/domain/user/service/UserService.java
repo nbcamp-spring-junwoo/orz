@@ -1,8 +1,10 @@
 package com.junwoo.ott.domain.user.service;
 
 import com.junwoo.ott.domain.auth.dto.reponse.AuthSignupRequestDto;
+import com.junwoo.ott.domain.user.dto.reponse.UserReadResponseDto;
 import com.junwoo.ott.domain.user.entity.User;
 import com.junwoo.ott.domain.user.repository.UserRepository;
+import com.junwoo.ott.global.exception.custom.UserNotFoundException;
 import com.junwoo.ott.global.exception.custom.UsernameAlreadyExistException;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
@@ -22,15 +24,16 @@ public class UserService {
   public void createUser(AuthSignupRequestDto authSignupRequestDto) {
 
     String encodedPassword = passwordEncoder.encode(authSignupRequestDto.getPassword());
-
-    User user = User.builder()
-        .username(authSignupRequestDto.getUsername())
-        .password(encodedPassword)
-        .email(authSignupRequestDto.getEmail())
-        .born(LocalDate.parse(authSignupRequestDto.getBorn()))
-        .build();
+    LocalDate datedBorn = LocalDate.parse(authSignupRequestDto.getBorn());
+    User user = authSignupRequestDto.authSignupRequestDtoToUser(encodedPassword, datedBorn);
 
     userRepository.save(user);
+  }
+
+  public UserReadResponseDto getUser(Long id) {
+    return userRepository.findById(id)
+        .orElseThrow(() -> new UserNotFoundException("존재하지 않는 회원입니다."))
+        .toReadResponseDto();
   }
 
   public void validateUserNotExist(String username) {

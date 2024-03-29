@@ -1,5 +1,6 @@
 package com.junwoo.ott.domain.user.entity;
 
+import com.junwoo.ott.domain.user.dto.reponse.UserReadResponseDto;
 import com.junwoo.ott.global.common.entity.Timestamped;
 import com.junwoo.ott.global.customenum.AuthorityType;
 import com.junwoo.ott.global.customenum.MembershipType;
@@ -50,6 +51,21 @@ public class User extends Timestamped implements OAuth2User {
   @Column(nullable = false)
   private MembershipType membershipType = MembershipType.NORMAL;
   private LocalDateTime deletedAt;
+
+
+  public UserReadResponseDto toReadResponseDto() {
+    return UserReadResponseDto.builder()
+        .userId(userId)
+        .username(username)
+        .email(email)
+        .born(born)
+        .authorityType(authorityType)
+        .membershipType(membershipType)
+        .createdAt(this.getCreatedAt())
+        .updatedAt(this.getUpdatedAt())
+        .deletedAt(deletedAt)
+        .build();
+  }
 
   @Override
   public Map<String, Object> getAttributes() {
