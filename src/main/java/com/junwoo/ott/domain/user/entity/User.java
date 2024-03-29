@@ -63,7 +63,6 @@ public class User extends Timestamped implements OAuth2User {
         .membershipType(membershipType)
         .createdAt(this.getCreatedAt())
         .updatedAt(this.getUpdatedAt())
-        .deletedAt(deletedAt)
         .build();
   }
 
