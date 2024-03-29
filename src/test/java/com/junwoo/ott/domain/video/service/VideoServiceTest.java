@@ -6,7 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.junwoo.ott.domain.video.common.VideoTestCommons;
+import com.junwoo.ott.domain.video.test.VideoTestValues;
 import com.junwoo.ott.domain.video.dto.response.VideoCreateResponseDto;
 import com.junwoo.ott.domain.video.entity.Video;
 import com.junwoo.ott.domain.video.repository.VideoJpaRepository;
@@ -19,7 +19,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class VideoServiceTest implements VideoTestCommons {
+class VideoServiceTest implements VideoTestValues {
 
   @Mock
   private VideoJpaRepository videoJpaRepository;
@@ -33,7 +33,7 @@ class VideoServiceTest implements VideoTestCommons {
 
     @Test
     @DisplayName("생성 성공")
-    void 비디오생성() {
+    void 비디오생성성공() {
       // given
       Video video = Video.builder()
           .title(TEST_VIDEO_CREATE_REQUEST_DTO.getTitle())
@@ -51,6 +51,7 @@ class VideoServiceTest implements VideoTestCommons {
       assertEquals(TEST_DESCRIPTION, dto.getDescription());
       assertEquals(TEST_RATING_TYPE, dto.getRatingType());
     }
+
   }
 
   @Nested
@@ -67,6 +68,7 @@ class VideoServiceTest implements VideoTestCommons {
       assertThrows(RuntimeException.class,
           () -> videoService.createVideo(TEST_VIDEO_CREATE_REQUEST_DTO), "생성 실패");
     }
+
   }
 
 }

@@ -1,9 +1,9 @@
-package com.junwoo.ott.domain.video.common;
+package com.junwoo.ott.domain.video.test;
 
 import com.junwoo.ott.domain.video.dto.request.VideoCreateRequestDto;
 import com.junwoo.ott.global.customenum.RatingType;
 
-public interface VideoTestCommons {
+public interface VideoTestValues {
 
   String TEST_TITLE = "테스트용 제목";
   String TEST_DESCRIPTION = "테스트용 설명";
