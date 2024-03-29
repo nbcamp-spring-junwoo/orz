@@ -17,4 +17,5 @@ public class AuthSignupDto {
   @NotNull
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private String born;
+
 }

@@ -20,4 +20,5 @@ public class AuthController {
   public void signup(@RequestBody AuthSignupDto authSignupDto) {
     authService.signup(new AuthSignupRequestDto(authSignupDto));
   }
+
 }
