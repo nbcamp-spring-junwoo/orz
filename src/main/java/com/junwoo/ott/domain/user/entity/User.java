@@ -2,7 +2,7 @@ package com.junwoo.ott.domain.user.entity;
 
 import com.junwoo.ott.global.common.entity.Timestamped;
 import com.junwoo.ott.global.customenum.AuthorityType;
-import com.junwoo.ott.global.customenum.StateType;
+import com.junwoo.ott.global.customenum.MembershipType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -10,6 +10,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
@@ -39,12 +40,13 @@ public class User extends Timestamped implements OAuth2User {
   private String password;
   @Column(nullable = false, unique = true)
   private String email;
+  private LocalDate born;
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
   private AuthorityType authorityType;
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
-  private StateType stateType;
+  private MembershipType membershipType;
   private LocalDateTime deletedAt;
 
   @Override
