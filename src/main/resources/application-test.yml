@@ -1,0 +1,26 @@
+server:
+  servlet:
+    encoding:
+      charset: utf-8
+      force: true
+
+spring:
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=MySQL
+
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        highlight_sql: true
+        use_sql_comments: true
+        auto_quote_keyword: true
+
+    hibernate:
+      ddl-auto: create-drop
