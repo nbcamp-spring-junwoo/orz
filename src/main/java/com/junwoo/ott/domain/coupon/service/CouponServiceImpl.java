@@ -7,6 +7,7 @@ import com.junwoo.ott.domain.coupon.repository.CouponIssuanceRepository;
 import com.junwoo.ott.domain.coupon.repository.CouponRepository;
 import com.junwoo.ott.global.customenum.CouponType;
 import com.junwoo.ott.global.customenum.MembershipType;
+import com.junwoo.ott.global.exception.custom.CustomTypeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,9 +24,7 @@ public class CouponServiceImpl implements CouponService {
   public CouponCreateResponseDto createCoupon(CouponCreateRequestDto createRequestDto) {
     // 회원에 대한 검증
 
-    // 쿠폰 등급에 따른 검증
     checkCouponMembershipType(createRequestDto.getMembershipType());
-    // 쿠폰 타입에 따른 검증
     checkCouponType(createRequestDto.getType());
 
     Coupon coupon = Coupon.of(createRequestDto);
@@ -41,7 +40,7 @@ public class CouponServiceImpl implements CouponService {
       }
     }
 
-    throw new IllegalArgumentException("해당 쿠폰 등급이 존재하지 않습니다.");
+    throw new CustomTypeException("해당 쿠폰 등급이 존재하지 않습니다.");
   }
 
   private void checkCouponMembershipType(String membershipType) {
@@ -51,6 +50,7 @@ public class CouponServiceImpl implements CouponService {
       }
     }
 
-    throw new IllegalArgumentException("해당 멤버쉽 등급이 존재하지 않습니다.");
+    throw new CustomTypeException("해당 멤버쉽 등급이 존재하지 않습니다.");
   }
+
 }
