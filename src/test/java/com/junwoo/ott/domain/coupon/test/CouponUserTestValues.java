@@ -14,7 +14,7 @@ public interface CouponUserTestValues {
   LocalDate TEST_BORN = LocalDate.of(1997, 3, 15);
   AuthorityType TEST_ADMIN_TYPE = AuthorityType.ADMIN;
   AuthorityType TEST_USER_TYPE = AuthorityType.USER;
-  MembershipType TEST_MEMBERSHIP = MembershipType.GOLD;
+  MembershipType TEST_MEMBERSHIP = MembershipType.SILVER;
 
   User TEST_USER = User.builder()
       .userId(TEST_USER_ID)
