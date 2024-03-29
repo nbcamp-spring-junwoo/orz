@@ -10,10 +10,14 @@ public enum MembershipType {
   GOLD("GOLD"),
   ;
 
-  private final String grade;
+  private final String membership;
 
-  MembershipType(String grade) {
-    this.grade = grade;
+  MembershipType(String membership) {
+    this.membership = membership;
   }
 
+  @Override
+  public String toString() {
+    return membership;
+  }
 }

@@ -15,4 +15,8 @@ public enum AuthorityType {
     this.authority = authority;
   }
 
+  @Override
+  public String toString() {
+    return authority;
+  }
 }
