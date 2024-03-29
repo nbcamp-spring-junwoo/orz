@@ -4,10 +4,8 @@ import com.junwoo.ott.domain.video.dto.body.VideoCreateDto;
 import com.junwoo.ott.global.customenum.RatingType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
 @AllArgsConstructor
 public class VideoCreateRequestDto {
 
