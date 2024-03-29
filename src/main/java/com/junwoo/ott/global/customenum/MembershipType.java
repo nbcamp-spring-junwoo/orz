@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum MembershipType {
+  NORMAL("NORMAL"),
   BRONZE("BRONZE"),
   SILVER("SILVER"),
   GOLD("GOLD"),
