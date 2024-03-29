@@ -5,8 +5,6 @@ import com.junwoo.ott.global.customenum.OauthType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
@@ -21,7 +19,6 @@ import lombok.NoArgsConstructor;
 public class Oauth {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private String oauthId;
   @ManyToOne
   private User user;
