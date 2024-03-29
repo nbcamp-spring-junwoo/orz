@@ -1,6 +1,8 @@
 package com.junwoo.ott.domain.coupon.dto.request;
 
 import com.junwoo.ott.domain.coupon.dto.body.CouponCreateDto;
+import com.junwoo.ott.global.customenum.CouponType;
+import com.junwoo.ott.global.customenum.MembershipType;
 import java.time.LocalDate;
 import lombok.Getter;
 
@@ -9,8 +11,8 @@ public class CouponCreateRequestDto {
 
   private final Long memberId;
   private final String description;
-  private final String type;
-  private final String membershipType;
+  private final CouponType type;
+  private final MembershipType membershipType;
   private final Integer discount;
   private final Integer count;
   private final LocalDate startAt;
