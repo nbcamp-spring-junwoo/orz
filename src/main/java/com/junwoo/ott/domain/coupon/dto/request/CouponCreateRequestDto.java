@@ -26,4 +26,5 @@ public class CouponCreateRequestDto {
     this.startAt = LocalDate.parse(dto.getStartAt());
     this.endAt = LocalDate.parse(dto.getEndAt());
   }
+
 }
