@@ -43,10 +43,12 @@ public class User extends Timestamped implements OAuth2User {
   private LocalDate born;
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
-  private AuthorityType authorityType;
+  @Builder.Default
+  private AuthorityType authorityType = AuthorityType.USER;
   @Enumerated(EnumType.STRING)
+  @Builder.Default
   @Column(nullable = false)
-  private MembershipType membershipType;
+  private MembershipType membershipType = MembershipType.NORMAL;
   private LocalDateTime deletedAt;
 
   @Override
