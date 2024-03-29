@@ -10,14 +10,15 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class VideoCreateRequestDto {
-    private String title;
-    private String description;
-    private RatingType ratingType;
 
-    public VideoCreateRequestDto(VideoCreateDto dto) {
-        this.title = dto.getTitle();
-        this.description = dto.getDescription();
-        this.ratingType = dto.getRatingType();
-    }
+  private String title;
+  private String description;
+  private RatingType ratingType;
+
+  public VideoCreateRequestDto(VideoCreateDto dto) {
+    this.title = dto.getTitle();
+    this.description = dto.getDescription();
+    this.ratingType = dto.getRatingType();
+  }
 
 }

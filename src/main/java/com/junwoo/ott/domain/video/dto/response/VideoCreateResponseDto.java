@@ -11,20 +11,21 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class VideoCreateResponseDto {
-    private Long videoId;
-    private String title;
-    private String description;
-    private RatingType ratingType;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
-    public VideoCreateResponseDto(Video video) {
-        this.videoId = video.getVideoId();
-        this.title = video.getTitle();
-        this.description = video.getDescription();
-        this.ratingType = video.getRatingType();
-        this.createdAt = video.getCreatedAt();
-        this.updatedAt = video.getUpdatedAt();
-    }
+  private Long videoId;
+  private String title;
+  private String description;
+  private RatingType ratingType;
+  private LocalDateTime createdAt;
+  private LocalDateTime updatedAt;
+
+  public VideoCreateResponseDto(Video video) {
+    this.videoId = video.getVideoId();
+    this.title = video.getTitle();
+    this.description = video.getDescription();
+    this.ratingType = video.getRatingType();
+    this.createdAt = video.getCreatedAt();
+    this.updatedAt = video.getUpdatedAt();
+  }
 
 }
