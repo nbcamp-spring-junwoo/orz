@@ -8,6 +8,7 @@ import com.junwoo.ott.domain.coupon.dto.response.CouponCreateResponseDto;
 import com.junwoo.ott.domain.coupon.entity.Coupon;
 import com.junwoo.ott.domain.coupon.repository.CouponRepository;
 import com.junwoo.ott.domain.coupon.test.CouponTest;
+import com.junwoo.ott.global.exception.custom.CustomTypeException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -54,7 +55,7 @@ class CouponServiceImplTest implements CouponTest {
           TEST_COUPON_COUPON_TYPE_ERROR_DTO
       );
 
-      Assertions.assertThrows(IllegalArgumentException.class,
+      Assertions.assertThrows(CustomTypeException.class,
           () -> couponService.createCoupon(dto));
     }
 
@@ -66,7 +67,7 @@ class CouponServiceImplTest implements CouponTest {
           TEST_MEMBERSHIP_TYPE_ERROR_DTO
       );
 
-      Assertions.assertThrows(IllegalArgumentException.class,
+      Assertions.assertThrows(CustomTypeException.class,
           () -> couponService.createCoupon(dto));
     }
   }
