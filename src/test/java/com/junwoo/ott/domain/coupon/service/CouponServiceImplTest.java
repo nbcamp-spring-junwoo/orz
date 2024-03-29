@@ -105,7 +105,8 @@ class CouponServiceImplTest implements CouponTestValues, CouponUserTestValues {
           TEST_COUPON_V2.getCouponId());
       Assertions.assertEquals(result.getContent().get(0).getCouponType(),
           TEST_COUPON_V1.getCouponType());
-      Assertions.assertEquals(result.getContent().get(0).getMembershipType(), TEST_MEMBERSHIP);
+      Assertions.assertEquals(result.getContent().get(0).getMembershipType(),
+          TEST_COUPON_V2.getMembershipType());
     }
 
   }
