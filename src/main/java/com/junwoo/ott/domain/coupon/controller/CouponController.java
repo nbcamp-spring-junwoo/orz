@@ -27,8 +27,7 @@ public class CouponController {
 
   @GetMapping("/coupons")
   public ResponseDto<Page<CouponReadResponseDto>> getCoupons(Pageable pageable) {
-    CouponReadRequestDto dto = new CouponReadRequestDto(pageable.getPageNumber(),
-        pageable.getPageSize());
+    CouponReadRequestDto dto = new CouponReadRequestDto(pageable);
     Page<CouponReadResponseDto> result = couponService.getCoupon(dto);
 
     return ResponseDto.ok(result);
@@ -39,8 +38,7 @@ public class CouponController {
       @PathVariable("userId") Long userId,
       Pageable pageable
   ) {
-    CouponReadRequestDto dto = new CouponReadRequestDto(userId, pageable.getPageNumber(),
-        pageable.getPageSize());
+    CouponReadRequestDto dto = new CouponReadRequestDto(userId, pageable);
     Page<CouponIssuanceReadResponseDto> result = couponService.getCoupons(dto);
 
     return ResponseDto.ok(result);

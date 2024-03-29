@@ -2,18 +2,17 @@ package com.junwoo.ott.domain.coupon.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.data.domain.Pageable;
 
 @Getter
 @AllArgsConstructor
 public class CouponReadRequestDto {
 
   private Long userId;
-  private Integer page;
-  private Integer size;
+  private Pageable pageable;
 
-  public CouponReadRequestDto(Integer page, Integer size) {
-    this.page = page;
-    this.size = size;
+  public CouponReadRequestDto(Pageable pageable) {
+    this.pageable = pageable;
   }
 
 }

@@ -10,6 +10,8 @@ import java.time.LocalDate;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 public interface CouponTestValues {
 
@@ -26,6 +28,8 @@ public interface CouponTestValues {
   String TEST_START_AT = "2024-04-01";
   String TEST_END_AT = "2024-04-30";
 
+  Pageable TEST_PAGEABLE = PageRequest.of(TEST_PAGE, TEST_SIZE);
+
   CouponCreateDto TEST_COUPON_CREATE_DTO = new CouponCreateDto(
       TEST_DESCRIPTION,
       TEST_COUPON_TYPE,
@@ -41,10 +45,7 @@ public interface CouponTestValues {
       TEST_COUPON_CREATE_DTO
   );
 
-  CouponReadRequestDto TEST_COUPON_READ_REQUEST_DTO = new CouponReadRequestDto(
-      TEST_PAGE,
-      TEST_SIZE
-  );
+  CouponReadRequestDto TEST_COUPON_READ_REQUEST_DTO = new CouponReadRequestDto(TEST_PAGEABLE);
 
   Coupon TEST_COUPON_V1 = Coupon.of(TEST_COUPON_CREATE_REQUEST_DTO);
 
