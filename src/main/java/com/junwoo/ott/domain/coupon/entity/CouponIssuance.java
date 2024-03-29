@@ -38,4 +38,12 @@ public class CouponIssuance {
   private LocalDateTime issuedAt;
   private LocalDateTime usedAt;
 
+  public static CouponIssuance of(Coupon coupon, User user) {
+
+    return CouponIssuance.builder()
+        .coupon(coupon)
+        .user(user)
+        .build();
+  }
+
 }
