@@ -11,8 +11,6 @@ import com.junwoo.ott.domain.coupon.repository.CouponIssuanceRepository;
 import com.junwoo.ott.domain.coupon.repository.CouponRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,9 +25,7 @@ public class CouponService {
   public Page<CouponReadResponseDto> getCoupon(CouponReadRequestDto dto) {
     // 관리자에 대한 검증
 
-    Pageable pageable = PageRequest.of(dto.getPage() - 1, dto.getSize());
-
-    Page<Coupon> couponList = couponRepository.getCoupons(pageable);
+    Page<Coupon> couponList = couponRepository.getCoupons(dto.getPageable());
 
     return couponList.map(CouponReadResponseDto::new);
   }
@@ -37,10 +33,8 @@ public class CouponService {
   public Page<CouponIssuanceReadResponseDto> getCoupons(CouponReadRequestDto dto) {
     // 회원에 대한 검증
 
-    Pageable pageable = PageRequest.of(dto.getPage() - 1, dto.getSize());
-
     Page<CouponIssuance> couponIssuanceList = couponIssuanceRepository.getCouponIssuance(
-        dto.getUserId(), pageable);
+        dto.getUserId(), dto.getPageable());
 
     return couponIssuanceList.map(
         coupon -> new CouponIssuanceReadResponseDto(coupon.getCoupon(), coupon));
