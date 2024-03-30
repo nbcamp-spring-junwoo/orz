@@ -1,7 +1,7 @@
 package com.junwoo.ott.domain.user;
 
 import com.junwoo.ott.domain.auth.dto.body.AuthSignupDto;
-import com.junwoo.ott.domain.auth.dto.reponse.AuthSignupRequestDto;
+import com.junwoo.ott.domain.auth.dto.request.AuthSignupRequestDto;
 import com.junwoo.ott.domain.user.entity.User;
 import java.time.LocalDate;
 

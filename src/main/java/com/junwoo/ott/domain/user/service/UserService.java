@@ -1,6 +1,6 @@
 package com.junwoo.ott.domain.user.service;
 
-import com.junwoo.ott.domain.auth.dto.reponse.AuthSignupRequestDto;
+import com.junwoo.ott.domain.auth.dto.request.AuthSignupRequestDto;
 import com.junwoo.ott.domain.user.dto.reponse.UserReadResponseDto;
 import com.junwoo.ott.domain.user.entity.User;
 import com.junwoo.ott.domain.user.repository.UserRepository;

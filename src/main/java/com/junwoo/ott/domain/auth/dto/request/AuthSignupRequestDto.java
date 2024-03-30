@@ -1,4 +1,4 @@
-package com.junwoo.ott.domain.auth.dto.reponse;
+package com.junwoo.ott.domain.auth.dto.request;
 
 import com.junwoo.ott.domain.auth.dto.body.AuthSignupDto;
 import com.junwoo.ott.domain.user.entity.User;

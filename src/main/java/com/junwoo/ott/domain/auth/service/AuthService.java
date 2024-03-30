@@ -1,6 +1,6 @@
 package com.junwoo.ott.domain.auth.service;
 
-import com.junwoo.ott.domain.auth.dto.reponse.AuthSignupRequestDto;
+import com.junwoo.ott.domain.auth.dto.request.AuthSignupRequestDto;
 import com.junwoo.ott.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
