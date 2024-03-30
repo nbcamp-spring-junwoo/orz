@@ -5,7 +5,7 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 
-import com.junwoo.ott.domain.auth.dto.reponse.AuthSignupRequestDto;
+import com.junwoo.ott.domain.auth.dto.request.AuthSignupRequestDto;
 import com.junwoo.ott.domain.user.UserTestValues;
 import com.junwoo.ott.domain.user.service.UserService;
 import com.junwoo.ott.global.exception.custom.UsernameAlreadyExistException;

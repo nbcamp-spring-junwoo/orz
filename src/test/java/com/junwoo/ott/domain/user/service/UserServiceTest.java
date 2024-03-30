@@ -82,17 +82,16 @@ class UserServiceTest implements UserTestValues {
       assertEquals(TEST_USERNAME, userReadResponseDto.getUsername());
     }
 
-  }
+    @Test
+    void 회원_단건_조회_실패_테스트() {
 
-  @Test
-  void 회원_단건_조회_실패_테스트() {
+      // given
+      given(userRepository.findById(anyLong())).willReturn(Optional.empty());
 
-    // given
-    given(userRepository.findById(anyLong())).willReturn(Optional.empty());
-
-    // when, then
-    assertThrows(UserNotFoundException.class,
-        () -> userService.getUser(anyLong()));
+      // when, then
+      assertThrows(UserNotFoundException.class,
+          () -> userService.getUser(anyLong()));
+    }
   }
 
 }
