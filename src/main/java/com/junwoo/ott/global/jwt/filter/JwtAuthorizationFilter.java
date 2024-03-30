@@ -25,8 +25,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Slf4j(topic = "JWT 검증 및 인가")
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
-  private final JwtUtil jwtUtil;
   private final RefreshTokenRepository refreshTokenRepository;
+  private final JwtUtil jwtUtil;
 
   ObjectMapper objectMapper = new ObjectMapper();
 
@@ -61,7 +61,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             AuthorityType authorityType = info.get("authorityType", AuthorityType.class);
             MembershipType membershipType = info.get("membershipType", MembershipType.class);
 
-            // regenerateAccessToken 이라는 퍼블릭 메서드를 만드는 것은 어떨까요
             String newToken = jwtUtil.regenerateAccessToken(userId, username, authorityType,
                 membershipType);
             res.addHeader(JwtUtil.AUTHORIZATION_HEADER, newToken);
