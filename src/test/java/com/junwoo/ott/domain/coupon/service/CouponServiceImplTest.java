@@ -5,16 +5,20 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
+import com.junwoo.ott.domain.coupon.dto.body.CouponCreateDto;
+import com.junwoo.ott.domain.coupon.dto.body.CouponUpdateDto;
 import com.junwoo.ott.domain.coupon.dto.request.CouponCreateRequestDto;
 import com.junwoo.ott.domain.coupon.dto.response.CouponCreateResponseDto;
 import com.junwoo.ott.domain.coupon.dto.response.CouponIssuanceReadResponseDto;
 import com.junwoo.ott.domain.coupon.dto.response.CouponReadResponseDto;
+import com.junwoo.ott.domain.coupon.dto.response.CouponUpdateResponseDto;
 import com.junwoo.ott.domain.coupon.entity.Coupon;
 import com.junwoo.ott.domain.coupon.entity.CouponIssuance;
 import com.junwoo.ott.domain.coupon.repository.CouponIssuanceRepository;
 import com.junwoo.ott.domain.coupon.repository.CouponRepository;
 import com.junwoo.ott.domain.coupon.test.CouponTestValues;
 import com.junwoo.ott.domain.coupon.test.CouponUserTestValues;
+import com.junwoo.ott.global.exception.custom.CustomInvalidDeadLineException;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
@@ -59,6 +63,22 @@ class CouponServiceImplTest implements CouponTestValues, CouponUserTestValues {
       Assertions.assertEquals(result.getCouponType(), createRequestDto.getType());
       Assertions.assertEquals(result.getStartAt(), createRequestDto.getStartAt());
       Assertions.assertEquals(result.getEndAt(), createRequestDto.getEndAt());
+    }
+
+    @Test
+    @DisplayName("쿠폰 생성 실패 마감일이 시작보다 빠름")
+    void 쿠폰_생성_실패() {
+
+      Assertions.assertThrows(CustomInvalidDeadLineException.class,
+          () -> new CouponCreateDto(
+              TEST_DESCRIPTION_V1,
+              TEST_COUPON_TYPE_V1,
+              TEST_MEMBERSHIP_TYPE_V1,
+              TEST_DISCOUNT_V1,
+              TEST_COUNT_V1,
+              TEST_START_AT_V1,
+              TEST_END_ERROR_AT
+          ));
     }
 
   }
@@ -108,7 +128,7 @@ class CouponServiceImplTest implements CouponTestValues, CouponUserTestValues {
       Assertions.assertEquals(result.getContent().get(0).getCouponId(),
           TEST_COUPON_V2.getCouponId());
       Assertions.assertEquals(result.getContent().get(0).getCouponType(),
-          TEST_COUPON_V1.getCouponType());
+          TEST_COUPON_V2.getCouponType());
       Assertions.assertEquals(result.getContent().get(0).getMembershipType(),
           TEST_COUPON_V2.getMembershipType());
     }
@@ -140,6 +160,44 @@ class CouponServiceImplTest implements CouponTestValues, CouponUserTestValues {
 
       Assertions.assertThrows(EntityNotFoundException.class,
           () -> couponService.deleteCoupon(any()));
+    }
+
+  }
+
+  @Nested
+  @DisplayName("쿠폰 테이블 수정")
+  class UpdateCoupon {
+
+    @Test
+    @DisplayName("쿠폰 테이블 수정 성공")
+    void 쿠폰_테이블_수정_성공() {
+      // given
+      given(couponRepository.findById(TEST_COUPON_ID)).willReturn(
+          Optional.ofNullable(TEST_COUPON_V1));
+
+      // when
+      CouponUpdateResponseDto result = couponService.updateCoupon(TEST_COUPON_UPDATE_REQUEST_DTO);
+
+      // then
+      Assertions.assertEquals(result.getCoupon().getCouponType(), TEST_COUPON_TYPE_V2);
+      Assertions.assertEquals(result.getCoupon().getDescription(), TEST_DESCRIPTION_V2);
+      Assertions.assertEquals(result.getCoupon().getCount(), TEST_COUNT_V2);
+    }
+
+    @Test
+    @DisplayName("쿠폰 테이블 수정 실패 마감이 시작보다 더 빠른 경우")
+    void 쿠폰_테이블_수정_실패_날짜_수정_실패() {
+
+      Assertions.assertThrows(CustomInvalidDeadLineException.class,
+          () -> new CouponUpdateDto(
+              TEST_DESCRIPTION_V1,
+              TEST_COUPON_TYPE_V1,
+              TEST_MEMBERSHIP_TYPE_V1,
+              TEST_DISCOUNT_V1,
+              TEST_COUNT_V1,
+              TEST_START_AT_V1,
+              TEST_END_ERROR_AT
+          ));
     }
 
   }
