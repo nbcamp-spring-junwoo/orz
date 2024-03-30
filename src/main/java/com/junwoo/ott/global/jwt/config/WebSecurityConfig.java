@@ -16,14 +16,14 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@Configuration
-@EnableWebSecurity
 @RequiredArgsConstructor
+@EnableWebSecurity
+@Configuration
 public class WebSecurityConfig {
 
+  private final RefreshTokenRepository refreshTokenRepository;
   private final JwtUtil jwtUtil;
   private final AuthenticationConfiguration authenticationConfiguration;
-  private final RefreshTokenRepository refreshTokenRepository;
 
   @Bean
   public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)

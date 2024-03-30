@@ -33,13 +33,10 @@ import org.springframework.util.StringUtils;
 @Component
 public class JwtUtil {
 
-  // Header KEY 값
   public static final String AUTHORIZATION_HEADER = "Authorization";
-  // Token 식별자
   public static final String BEARER_PREFIX = "Bearer ";
-  // 토큰 만료시간
-  private final long ACCESS_TOKEN_TIME = 60 * 60 * 1000L; // 60분
-  private final long REFRESH_TOKEN_TIME = 7 * 24 * 60 * 60 * 1000L; // 7일
+  private final long ACCESS_TOKEN_TIME = 60 * 60 * 1000L;
+  private final long REFRESH_TOKEN_TIME = 7 * 24 * 60 * 60 * 1000L;
   @Value("${jwt.secret.key}")
   private String secretKey;
   private Key key;
@@ -127,7 +124,6 @@ public class JwtUtil {
     }
   }
 
-  // 토큰에서 사용자 정보 가져오기
   public Claims getUserInfoFromToken(String token) {
     return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
   }
