@@ -1,8 +1,10 @@
 package com.junwoo.ott.domain.coupon.controller;
 
 import com.junwoo.ott.domain.coupon.dto.body.CouponCreateDto;
+import com.junwoo.ott.domain.coupon.dto.body.CouponUpdateDto;
 import com.junwoo.ott.domain.coupon.dto.request.CouponCreateRequestDto;
 import com.junwoo.ott.domain.coupon.dto.request.CouponReadRequestDto;
+import com.junwoo.ott.domain.coupon.dto.request.CouponUpdateRequestDto;
 import com.junwoo.ott.domain.coupon.dto.response.CouponIssuanceReadResponseDto;
 import com.junwoo.ott.domain.coupon.dto.response.CouponReadResponseDto;
 import com.junwoo.ott.domain.coupon.service.CouponService;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,8 +56,13 @@ public class CouponController {
     couponService.createCoupon(createRequestDto);
   }
 
-  public ResponseDto<Void> putCoupon() {
-    return null;
+  @PutMapping("/coupons/{couponId}")
+  public void putCoupon(
+      @PathVariable("couponId") Long couponId,
+      @RequestBody CouponUpdateDto dto
+  ) {
+    CouponUpdateRequestDto couponUpdateRequestDto = new CouponUpdateRequestDto(couponId, dto);
+    couponService.updateCoupon(couponUpdateRequestDto);
   }
 
   @DeleteMapping("/coupons/{couponId}")
