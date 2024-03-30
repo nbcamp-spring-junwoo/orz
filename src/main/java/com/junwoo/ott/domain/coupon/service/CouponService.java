@@ -9,6 +9,7 @@ import com.junwoo.ott.domain.coupon.entity.Coupon;
 import com.junwoo.ott.domain.coupon.entity.CouponIssuance;
 import com.junwoo.ott.domain.coupon.repository.CouponIssuanceRepository;
 import com.junwoo.ott.domain.coupon.repository.CouponRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class CouponService {
   private final CouponRepository couponRepository;
   private final CouponIssuanceRepository couponIssuanceRepository;
 
+  @Transactional(readOnly = true)
   public Page<CouponReadResponseDto> getCoupon(CouponReadRequestDto dto) {
     // 관리자에 대한 검증
 
@@ -30,6 +32,7 @@ public class CouponService {
     return couponList.map(CouponReadResponseDto::new);
   }
 
+  @Transactional(readOnly = true)
   public Page<CouponIssuanceReadResponseDto> getCoupons(CouponReadRequestDto dto) {
     // 회원에 대한 검증
 
@@ -47,6 +50,16 @@ public class CouponService {
     Coupon savedCoupon = couponRepository.save(coupon);
 
     return new CouponCreateResponseDto(savedCoupon);
+  }
+
+  public void deleteCoupon(Long couponId) {
+    // 관리자에 대한 검증
+
+    Coupon coupon = couponRepository.findById(couponId).orElseThrow(
+        () -> new EntityNotFoundException("해당 쿠폰이 존재하지 않습니다.")
+    );
+
+    couponRepository.delete(coupon);
   }
 
 }
