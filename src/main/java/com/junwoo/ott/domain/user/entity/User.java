@@ -18,12 +18,14 @@ import java.util.Map;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+@Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -51,6 +53,18 @@ public class User extends Timestamped implements OAuth2User {
   @Column(nullable = false)
   private MembershipType membershipType = MembershipType.NORMAL;
   private LocalDateTime deletedAt;
+
+  public User(
+      Long userId,
+      String username,
+      AuthorityType authorityType,
+      MembershipType membershipType
+  ) {
+    this.userId = userId;
+    this.username = username;
+    this.authorityType = authorityType;
+    this.membershipType = membershipType;
+  }
 
 
   public UserReadResponseDto toReadResponseDto() {
