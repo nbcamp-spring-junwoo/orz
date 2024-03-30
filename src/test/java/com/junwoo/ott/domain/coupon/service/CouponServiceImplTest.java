@@ -2,6 +2,8 @@ package com.junwoo.ott.domain.coupon.service;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.verify;
 
 import com.junwoo.ott.domain.coupon.dto.request.CouponCreateRequestDto;
 import com.junwoo.ott.domain.coupon.dto.response.CouponCreateResponseDto;
@@ -13,7 +15,9 @@ import com.junwoo.ott.domain.coupon.repository.CouponIssuanceRepository;
 import com.junwoo.ott.domain.coupon.repository.CouponRepository;
 import com.junwoo.ott.domain.coupon.test.CouponTestValues;
 import com.junwoo.ott.domain.coupon.test.CouponUserTestValues;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -107,6 +111,35 @@ class CouponServiceImplTest implements CouponTestValues, CouponUserTestValues {
           TEST_COUPON_V1.getCouponType());
       Assertions.assertEquals(result.getContent().get(0).getMembershipType(),
           TEST_COUPON_V2.getMembershipType());
+    }
+
+  }
+
+  @Nested
+  @DisplayName("쿠폰 테이블 삭제")
+  class DeleteCoupon {
+
+    @Test
+    @DisplayName("쿠폰 테이블 삭제 성공")
+    void 쿠폰_테이블_삭제_성공() {
+      // given
+      given(couponRepository.findById(TEST_COUPON_ID)).willReturn(
+          Optional.ofNullable(TEST_COUPON_V2));
+
+      // when
+      couponService.deleteCoupon(TEST_COUPON_ID);
+
+      // then
+      verify(couponRepository, atLeastOnce()).delete(any());
+    }
+
+    @Test
+    @DisplayName("쿠폰 테이블 삭제 실패 존재하지 않은 쿠폰")
+    void 쿠폰_테이블_삭제_실패_존재하지않은_쿠폰() {
+      given(couponRepository.findById(any())).willReturn(Optional.empty());
+
+      Assertions.assertThrows(EntityNotFoundException.class,
+          () -> couponService.deleteCoupon(any()));
     }
 
   }

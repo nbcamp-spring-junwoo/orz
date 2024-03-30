@@ -2,6 +2,7 @@ package com.junwoo.ott.global.exception;
 
 import com.junwoo.ott.global.common.dto.ExceptionDto;
 import com.junwoo.ott.global.exception.custom.CustomLockException;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,12 @@ public class ExceptionController {
   public ResponseEntity<ExceptionDto> customLockException(CustomLockException e) {
     log.error("CustomLockException: ", e);
     return createResponse(HttpStatus.REQUEST_TIMEOUT, "Lock Exception: " + e.getMessage());
+  }
+
+  @ExceptionHandler(EntityNotFoundException.class)
+  public ResponseEntity<ExceptionDto> entityNotFoundException(EntityNotFoundException e) {
+    log.error("EntityNotFoundException: ", e);
+    return createResponse(HttpStatus.BAD_REQUEST, "EntityNotFoundException: " + e.getMessage());
   }
 
   @ExceptionHandler(Exception.class)

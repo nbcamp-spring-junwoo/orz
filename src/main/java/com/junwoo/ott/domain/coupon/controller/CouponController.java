@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,8 +57,11 @@ public class CouponController {
     return null;
   }
 
-  public ResponseDto<Void> deleteCoupon() {
-    return null;
+  @DeleteMapping("/coupons/{couponId}")
+  public void deleteCoupon(
+      @PathVariable("couponId") Long couponId
+  ) {
+    couponService.deleteCoupon(couponId);
   }
 
 }
