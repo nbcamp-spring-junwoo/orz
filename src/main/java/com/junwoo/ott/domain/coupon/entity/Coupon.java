@@ -1,9 +1,11 @@
 package com.junwoo.ott.domain.coupon.entity;
 
+import com.junwoo.ott.domain.coupon.dto.body.CouponUpdateDto;
 import com.junwoo.ott.domain.coupon.dto.request.CouponCreateRequestDto;
 import com.junwoo.ott.global.common.entity.Timestamped;
 import com.junwoo.ott.global.customenum.CouponType;
 import com.junwoo.ott.global.customenum.MembershipType;
+import com.junwoo.ott.global.exception.custom.CustomInvalidDeadLineException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -60,6 +62,32 @@ public class Coupon extends Timestamped {
         .startAt(dto.getStartAt())
         .endAt(dto.getEndAt())
         .build();
+  }
+
+  public static void validateDate(String startAt, String endAt) {
+    if (startAt == null || endAt == null) {
+      return;
+    }
+
+    LocalDate start = LocalDate.parse(startAt);
+    LocalDate end = LocalDate.parse(endAt);
+
+    if (end.isBefore(start) || end.isEqual(start)) {
+      throw new CustomInvalidDeadLineException("마감일이 시작일보다 같거나 빠릅니다.");
+    }
+  }
+
+  public void updateCoupon(CouponUpdateDto dto) {
+
+    description = (dto.getDescription() == null) ? description : dto.getDescription();
+    couponType = (dto.getType() == null) ? couponType : dto.getType();
+    membershipType = (dto.getMembershipType() == null) ? membershipType : dto.getMembershipType();
+    count = (dto.getCount() == null) ? count : dto.getCount();
+    discount = (dto.getDiscount() == null) ? discount : dto.getDiscount();
+    startAt = (dto.getStartAt() == null) ? startAt : LocalDate.parse(dto.getStartAt());
+    endAt = (dto.getEndAt() == null) ? endAt : LocalDate.parse(dto.getEndAt());
+
+    validateDate(startAt.toString(), endAt.toString());
   }
 
 }
