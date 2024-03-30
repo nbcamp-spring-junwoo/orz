@@ -1,30 +1,41 @@
 package com.junwoo.ott.domain.coupon.dto.body;
 
+import com.junwoo.ott.domain.coupon.entity.Coupon;
 import com.junwoo.ott.global.customenum.CouponType;
 import com.junwoo.ott.global.customenum.MembershipType;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter
-@AllArgsConstructor
 public class CouponCreateDto {
 
-  private String description;
+  private final String description;
   @NotNull
-  private CouponType type;
+  private final CouponType type;
   @NotNull
-  private MembershipType membershipType;
+  private final MembershipType membershipType;
   @NotNull
-  private Integer discount;
+  private final Integer discount;
   @NotNull
-  private Integer count;
-  @NotNull
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
-  private String startAt;
+  private final Integer count;
   @NotNull
   @DateTimeFormat(pattern = "yyyy-MM-dd")
-  private String endAt;
+  private final String startAt;
+  @NotNull
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  private final String endAt;
+
+  public CouponCreateDto(String description, CouponType type, MembershipType membershipType,
+      Integer discount, Integer count, String startAt, String endAt) {
+    Coupon.validateDate(startAt, endAt);
+    this.description = description;
+    this.type = type;
+    this.membershipType = membershipType;
+    this.discount = discount;
+    this.count = count;
+    this.startAt = startAt;
+    this.endAt = endAt;
+  }
 
 }

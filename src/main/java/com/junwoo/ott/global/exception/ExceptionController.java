@@ -1,6 +1,7 @@
 package com.junwoo.ott.global.exception;
 
 import com.junwoo.ott.global.common.dto.ExceptionDto;
+import com.junwoo.ott.global.exception.custom.CustomInvalidDeadLineException;
 import com.junwoo.ott.global.exception.custom.CustomLockException;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.Objects;
@@ -36,6 +37,14 @@ public class ExceptionController {
   public ResponseEntity<ExceptionDto> entityNotFoundException(EntityNotFoundException e) {
     log.error("EntityNotFoundException: ", e);
     return createResponse(HttpStatus.BAD_REQUEST, "EntityNotFoundException: " + e.getMessage());
+  }
+
+  @ExceptionHandler(CustomInvalidDeadLineException.class)
+  public ResponseEntity<ExceptionDto> customInvalidDeadLineException(
+      CustomInvalidDeadLineException e) {
+    log.error("CustomInvalidDeadLineException: ", e);
+    return createResponse(HttpStatus.BAD_REQUEST,
+        "CustomInvalidDeadLineException: " + e.getMessage());
   }
 
   @ExceptionHandler(Exception.class)
