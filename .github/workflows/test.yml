@@ -14,9 +14,13 @@ on:
 
 jobs:
   test:
+    runs-on: ubuntu-22.04
+
     environment: test
 
-    runs-on: ubuntu-22.04
+    env:
+      SECRETS_CONTEXT: ${{ toJson(secrets) }}
+      VARS_CONTEXT: ${{ toJson(vars) }}
 
     services:
       redis:
@@ -25,6 +29,28 @@ jobs:
           - 6379:6379
 
     steps:
+      - name: Set env vars from vars context JSON
+        run: |
+          # Pipe the JSON string into jq
+          echo "$VARS_CONTEXT" |
+          # Convert JSON object into an array of key-value pairs
+          jq -r 'to_entries | 
+          # Map over each key-value pair
+          .[] | 
+          # Format each pair as "KEY=VALUE" and append it all to the environment file
+          "\(.key)=\(.value)"' >> $GITHUB_ENV
+
+      - name: Set env secrets from vars context JSON
+        run: |
+          # Pipe the JSON string into jq
+          echo "$SECRETS_CONTEXT" | 
+          # Convert JSON object into an array of key-value pairs
+          jq -r 'to_entries | 
+          # Map over each key-value pair
+          .[] | 
+          # Format each pair as "KEY=VALUE" and append it all to the environment file
+          "\(.key)=\(.value)"' >> $GITHUB_ENV
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -41,4 +67,4 @@ jobs:
         run: chmod +x gradlew
 
       - name: Test with Gradle Wrapper
-        run: ./gradlew build -i
+        run: ./gradlew test -i
