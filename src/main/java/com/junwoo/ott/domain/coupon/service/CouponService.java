@@ -2,9 +2,11 @@ package com.junwoo.ott.domain.coupon.service;
 
 import com.junwoo.ott.domain.coupon.dto.request.CouponCreateRequestDto;
 import com.junwoo.ott.domain.coupon.dto.request.CouponReadRequestDto;
+import com.junwoo.ott.domain.coupon.dto.request.CouponUpdateRequestDto;
 import com.junwoo.ott.domain.coupon.dto.response.CouponCreateResponseDto;
 import com.junwoo.ott.domain.coupon.dto.response.CouponIssuanceReadResponseDto;
 import com.junwoo.ott.domain.coupon.dto.response.CouponReadResponseDto;
+import com.junwoo.ott.domain.coupon.dto.response.CouponUpdateResponseDto;
 import com.junwoo.ott.domain.coupon.entity.Coupon;
 import com.junwoo.ott.domain.coupon.entity.CouponIssuance;
 import com.junwoo.ott.domain.coupon.repository.CouponIssuanceRepository;
@@ -55,11 +57,26 @@ public class CouponService {
   public void deleteCoupon(Long couponId) {
     // 관리자에 대한 검증
 
-    Coupon coupon = couponRepository.findById(couponId).orElseThrow(
-        () -> new EntityNotFoundException("해당 쿠폰이 존재하지 않습니다.")
-    );
+    Coupon coupon = existCouponById(couponId);
 
     couponRepository.delete(coupon);
+  }
+
+  public CouponUpdateResponseDto updateCoupon(CouponUpdateRequestDto couponUpdateRequestDto) {
+    // 관리자에 대한 검증
+
+    Coupon coupon = existCouponById(couponUpdateRequestDto.getCouponId());
+    coupon.updateCoupon(couponUpdateRequestDto.getDto());
+
+    return new CouponUpdateResponseDto(coupon);
+  }
+
+  @Transactional(readOnly = true)
+  protected Coupon existCouponById(Long couponId) {
+
+    return couponRepository.findById(couponId).orElseThrow(
+        () -> new EntityNotFoundException("해당 쿠폰이 존재하지 않습니다.")
+    );
   }
 
 }
