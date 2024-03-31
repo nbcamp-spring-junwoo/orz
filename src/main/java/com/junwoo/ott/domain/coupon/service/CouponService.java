@@ -26,18 +26,14 @@ public class CouponService {
   private final CouponIssuanceRepository couponIssuanceRepository;
 
   @Transactional(readOnly = true)
-  public Page<CouponReadResponseDto> getCoupon(CouponReadRequestDto dto) {
-    // 관리자에 대한 검증
-
+  public Page<CouponReadResponseDto> getCoupon(final CouponReadRequestDto dto) {
     Page<Coupon> couponList = couponRepository.getCoupons(dto.getPageable());
 
     return couponList.map(CouponReadResponseDto::new);
   }
 
   @Transactional(readOnly = true)
-  public Page<CouponIssuanceReadResponseDto> getCoupons(CouponReadRequestDto dto) {
-    // 회원에 대한 검증
-
+  public Page<CouponIssuanceReadResponseDto> getCoupons(final CouponReadRequestDto dto) {
     Page<CouponIssuance> couponIssuanceList = couponIssuanceRepository.getCouponIssuance(
         dto.getUserId(), dto.getPageable());
 
@@ -45,26 +41,20 @@ public class CouponService {
         coupon -> new CouponIssuanceReadResponseDto(coupon.getCoupon(), coupon));
   }
 
-  public CouponCreateResponseDto createCoupon(CouponCreateRequestDto createRequestDto) {
-    // 회원에 대한 검증
-
+  public CouponCreateResponseDto createCoupon(final CouponCreateRequestDto createRequestDto) {
     Coupon coupon = Coupon.of(createRequestDto);
     Coupon savedCoupon = couponRepository.save(coupon);
 
     return new CouponCreateResponseDto(savedCoupon);
   }
 
-  public void deleteCoupon(Long couponId) {
-    // 관리자에 대한 검증
-
+  public void deleteCoupon(final Long couponId) {
     Coupon coupon = existCouponById(couponId);
 
     couponRepository.delete(coupon);
   }
 
-  public CouponUpdateResponseDto updateCoupon(CouponUpdateRequestDto couponUpdateRequestDto) {
-    // 관리자에 대한 검증
-
+  public CouponUpdateResponseDto updateCoupon(final CouponUpdateRequestDto couponUpdateRequestDto) {
     Coupon coupon = existCouponById(couponUpdateRequestDto.getCouponId());
     coupon.updateCoupon(couponUpdateRequestDto.getDto());
 
@@ -72,7 +62,7 @@ public class CouponService {
   }
 
   @Transactional(readOnly = true)
-  protected Coupon existCouponById(Long couponId) {
+  protected Coupon existCouponById(final Long couponId) {
 
     return couponRepository.findById(couponId).orElseThrow(
         () -> new EntityNotFoundException("해당 쿠폰이 존재하지 않습니다.")
