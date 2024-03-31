@@ -7,6 +7,7 @@ import com.junwoo.ott.global.customenum.MembershipType;
 import com.junwoo.ott.global.jwt.JwtUtil;
 import com.junwoo.ott.global.jwt.RefreshTokenRepository;
 import com.junwoo.ott.global.jwt.TokenState;
+import com.junwoo.ott.global.jwt.UserDetailsImpl;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -58,13 +59,16 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
           if (refreshTokenRepository.existsByKey(info.getSubject())) {
             Long userId = info.get("userId", Long.class);
             String username = info.getSubject();
-            AuthorityType authorityType = info.get("authorityType", AuthorityType.class);
-            MembershipType membershipType = info.get("membershipType", MembershipType.class);
+            AuthorityType authorityType = AuthorityType.fromString(
+                (String) info.get("authorityType"));
+            MembershipType membershipType = MembershipType.fromString(
+                (String) info.get("membershipType"));
 
             String newToken = jwtUtil.regenerateAccessToken(userId, username, authorityType,
                 membershipType);
             res.addHeader(JwtUtil.AUTHORIZATION_HEADER, newToken);
             res.setStatus(HttpServletResponse.SC_OK);
+
             log.info("새로운 Acces Token이 발급되었습니다.");
           } else {
             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -78,8 +82,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         Claims info = jwtUtil.getUserInfoFromToken(tokenValue);
         Long userId = info.get("userId", Long.class);
         String username = info.getSubject();
-        AuthorityType authorityType = info.get("authorityType", AuthorityType.class);
-        MembershipType membershipType = info.get("membershipType", MembershipType.class);
+        AuthorityType authorityType = AuthorityType.fromString((String) info.get("authorityType"));
+        MembershipType membershipType = MembershipType.fromString(
+            (String) info.get("membershipType"));
 
         setAuthentication(userId, username, authorityType, membershipType);
       }
@@ -107,8 +112,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
       AuthorityType authorityType,
       MembershipType membershipType
   ) {
-    UserDetails userDetails = (UserDetails) new User(userId, username, authorityType,
-        membershipType);
+
+    User user = new User(userId, username, authorityType, membershipType);
+    UserDetails userDetails = new UserDetailsImpl(user);
+
     return new UsernamePasswordAuthenticationToken(userDetails, null, null);
   }
 
