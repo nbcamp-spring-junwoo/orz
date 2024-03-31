@@ -53,7 +53,7 @@ public class VideoController {
   }
 
   @GetMapping("/search")
-  public ResponseDto<Page<VideoReadResponseDto>> searchVideos(@RequestParam(required = false) String title, Pageable pageable) {
+  public ResponseDto<Page<VideoReadResponseDto>> searchVideos(@RequestParam String title, Pageable pageable) {
     VideoReadRequestDto dto = new VideoReadRequestDto(title, pageable);
     Page<VideoReadResponseDto> videosPage = videoService.getVideosByTitle(dto);
     return ResponseDto.ok(videosPage);

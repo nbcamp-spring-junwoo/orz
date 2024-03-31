@@ -107,7 +107,7 @@ class VideoServiceTest implements VideoTestValues {
     List<Video> videoList = Arrays.asList(baseVideo);
     Page<Video> videoPage = new PageImpl<>(videoList, pageable, videoList.size());
 
-    given(videoJpaRepository.getVideo(pageable)).willReturn(videoPage);
+    given(videoJpaRepository.getVideos(pageable)).willReturn(videoPage);
 
     // when
     Page<VideoReadResponseDto> result = videoService.getVideos(new VideoReadRequestDto(pageable));
