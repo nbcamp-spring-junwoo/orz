@@ -23,6 +23,8 @@ public class Chart {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long chartId;
+  private Double point;
+
   @OneToOne
   @JoinColumn(name = "video_id")
   private Video video;
