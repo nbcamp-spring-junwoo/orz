@@ -1,6 +1,7 @@
 package com.junwoo.ott.domain.video.entity;
 
 
+import com.junwoo.ott.domain.video.dto.request.VideoCreateRequestDto;
 import com.junwoo.ott.global.common.entity.Timestamped;
 import com.junwoo.ott.global.customenum.RatingType;
 import jakarta.persistence.Column;
@@ -20,7 +21,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 @Getter
-@Builder
+@Builder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @SQLDelete(sql = "update video set deleted_at = NOW() where video_id = ?")
@@ -39,5 +40,14 @@ public class Video extends Timestamped {
   @Enumerated(EnumType.ORDINAL)
   private RatingType ratingType;
   private LocalDateTime deletedAt;
+
+  public static Video of(VideoCreateRequestDto dto) {
+
+    return Video.builder()
+        .title(dto.getTitle())
+        .description(dto.getDescription())
+        .ratingType(dto.getRatingType())
+        .build();
+  }
 
 }
