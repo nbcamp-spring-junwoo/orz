@@ -5,6 +5,7 @@ import com.junwoo.ott.domain.coupon.dto.request.CouponCreateRequestDto;
 import com.junwoo.ott.global.common.entity.Timestamped;
 import com.junwoo.ott.global.customenum.CouponType;
 import com.junwoo.ott.global.customenum.MembershipType;
+import com.junwoo.ott.global.exception.custom.CustomCouponException;
 import com.junwoo.ott.global.exception.custom.CustomInvalidDeadLineException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -85,6 +86,14 @@ public class Coupon extends Timestamped {
     endAt = (dto.getEndAt() == null) ? endAt : LocalDate.parse(dto.getEndAt());
 
     validateDateRange(startAt.toString(), endAt.toString());
+  }
+
+  public void decreaseCount() {
+    if (count == 0) {
+      throw new CustomCouponException("쿠폰이 다 떨어졌습니다.");
+    }
+
+    count--;
   }
 
 }
