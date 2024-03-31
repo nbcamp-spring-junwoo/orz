@@ -1,18 +1,23 @@
 package com.junwoo.ott.domain.video.controller;
 
 import com.junwoo.ott.domain.video.dto.body.VideoCreateDto;
+import com.junwoo.ott.domain.video.dto.body.VideoUpdateDto;
 import com.junwoo.ott.domain.video.dto.request.VideoCreateRequestDto;
 import com.junwoo.ott.domain.video.dto.request.VideoReadRequestDto;
+import com.junwoo.ott.domain.video.dto.request.VideoUpdateRequestDto;
 import com.junwoo.ott.domain.video.dto.response.VideoReadResponseDto;
+import com.junwoo.ott.domain.video.dto.response.VideoUpdateResponseDto;
 import com.junwoo.ott.domain.video.service.VideoService;
 import com.junwoo.ott.global.common.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,6 +57,16 @@ public class VideoController {
     VideoReadRequestDto dto = new VideoReadRequestDto(title, pageable);
     Page<VideoReadResponseDto> videosPage = videoService.getVideosByTitle(dto);
     return ResponseDto.ok(videosPage);
+  }
+
+  @PutMapping("/{videoId}")
+  public ResponseDto<VideoUpdateResponseDto> updateVideo(
+      @PathVariable("videoId") Long videoId,
+      @Validated @RequestBody VideoUpdateDto dto
+  ) {
+    VideoUpdateRequestDto updateRequestDto = new VideoUpdateRequestDto(videoId, dto);
+    VideoUpdateResponseDto updatedVideo = videoService.updateVideo(updateRequestDto);
+    return ResponseDto.ok(updatedVideo);
   }
 
 }
