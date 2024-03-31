@@ -13,7 +13,9 @@ import com.junwoo.ott.domain.user.UserTestValues;
 import com.junwoo.ott.domain.user.dto.reponse.UserReadResponseDto;
 import com.junwoo.ott.domain.user.entity.User;
 import com.junwoo.ott.domain.user.repository.UserRepository;
+import com.junwoo.ott.global.exception.custom.PasswordNotEqualsException;
 import com.junwoo.ott.global.exception.custom.UserNotFoundException;
+import com.junwoo.ott.global.exception.custom.UserNotSameException;
 import com.junwoo.ott.global.exception.custom.UsernameAlreadyExistException;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
@@ -43,7 +45,7 @@ class UserServiceTest implements UserTestValues {
     void 회원가입_성공_테스트() {
 
       // given
-      given(passwordEncoder.encode(anyString())).willReturn(ENCRYPT_PASSWORD);
+      given(passwordEncoder.encode(anyString())).willReturn(TEST_ENCRYPT_PASSWORD);
 
       // when
       userService.createUser(TEST_AUTH_SIGNUP_REQUEST_DTO);
@@ -92,6 +94,59 @@ class UserServiceTest implements UserTestValues {
       assertThrows(UserNotFoundException.class,
           () -> userService.getUser(anyLong()));
     }
+  }
+
+  @Nested
+  @DisplayName("회원정보 수정 테스트")
+  class UserPutTest {
+
+    @Test
+    void 회원정보_수정_성공_테스트() {
+
+      // given
+      given(userRepository.findById(anyLong())).willReturn(Optional.of(TEST_USER));
+      given(passwordEncoder.matches(anyString(), anyString())).willReturn(true);
+
+      // when
+      userService.putUser(TEST_USER_PUT_REQUEST_DTO);
+
+      // then
+
+    }
+
+    @Test
+    void 회원정보_수정_실패_테스트_회원아이디_불일치() {
+      // given
+      // when, then
+      assertThrows(UserNotSameException.class,
+          () -> userService.putUser(TEST_USER_PUT_REQUEST_DTO_MISMATCH));
+
+    }
+
+
+    @Test
+    void 회원정보_수정_실패_테스트_회원없음() {
+
+      // given
+      given(userRepository.findById(anyLong())).willReturn(Optional.empty());
+
+      // when, then
+      assertThrows(UserNotFoundException.class,
+          () -> userService.putUser(TEST_USER_PUT_REQUEST_DTO));
+    }
+
+    @Test
+    void 회원정보_수정_실패_테스트_비밀번호_불일치() {
+
+      // given
+      given(userRepository.findById(anyLong())).willReturn(Optional.of(TEST_USER));
+      given(passwordEncoder.matches(anyString(), anyString())).willReturn(false);
+
+      // when, then
+      assertThrows(PasswordNotEqualsException.class,
+          () -> userService.putUser(TEST_USER_PUT_REQUEST_DTO));
+    }
+
   }
 
 }
