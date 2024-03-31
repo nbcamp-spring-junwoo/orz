@@ -4,10 +4,10 @@ import lombok.Getter;
 
 @Getter
 public enum MembershipType {
-  NORMAL("NORMAL"),
-  BRONZE("BRONZE"),
-  SILVER("SILVER"),
-  GOLD("GOLD"),
+  NORMAL("ROLE_NORMAL"),
+  BRONZE("ROLE_BRONZE"),
+  SILVER("ROLE_SILVER"),
+  GOLD("ROLE_GOLD"),
   ;
 
   private final String membership;
