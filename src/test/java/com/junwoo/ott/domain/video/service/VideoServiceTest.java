@@ -6,13 +6,19 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.junwoo.ott.domain.video.dto.body.VideoUpdateDto;
 import com.junwoo.ott.domain.video.dto.request.VideoReadRequestDto;
+import com.junwoo.ott.domain.video.dto.request.VideoUpdateRequestDto;
 import com.junwoo.ott.domain.video.dto.response.VideoReadResponseDto;
+import com.junwoo.ott.domain.video.dto.response.VideoUpdateResponseDto;
 import com.junwoo.ott.domain.video.test.VideoTestValues;
 import com.junwoo.ott.domain.video.dto.response.VideoCreateResponseDto;
 import com.junwoo.ott.domain.video.entity.Video;
 import com.junwoo.ott.domain.video.repository.VideoJpaRepository;
 import com.junwoo.ott.global.common.entity.Timestamped;
+
+import com.junwoo.ott.global.customenum.RatingType;
+import jakarta.persistence.EntityNotFoundException;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -147,13 +153,87 @@ class VideoServiceTest implements VideoTestValues {
     given(videoJpaRepository.findByTitle(TEST_TITLE, pageable)).willReturn(videoPage);
 
     // when
-    Page<VideoReadResponseDto> result = videoService.getVideosByTitle(new VideoReadRequestDto(TEST_TITLE, pageable));
+    Page<VideoReadResponseDto> result = videoService.getVideosByTitle(
+        new VideoReadRequestDto(TEST_TITLE, pageable));
 
     // then
     assertNotNull(result);
     assertEquals(1, result.getContent().size());
     assertEquals(TEST_TITLE, result.getContent().get(0).getTitle());
     assertEquals(TEST_VIDEO_CREATED_AT, result.getContent().get(0).getCreatedAt());
+  }
+
+  @Nested
+  @DisplayName("비디오 수정")
+  class UpdateVideo {
+
+    @Test
+    @DisplayName("비디오 수정 성공")
+    void 비디오수정성공() {
+      // given
+      Video originalVideo = Video.builder()
+          .videoId(TEST_VIDEO_ID)
+          .title(TEST_TITLE)
+          .description(TEST_DESCRIPTION)
+          .ratingType(TEST_RATING_TYPE)
+          .build();
+      setTimestamps(originalVideo, TEST_VIDEO_CREATED_AT, TEST_VIDEO_UPDATED_AT);
+
+      VideoUpdateDto updateDto = new VideoUpdateDto("수정된 제목", "수정된 내용", RatingType.RATE7);
+      VideoUpdateRequestDto updateRequestDto = new VideoUpdateRequestDto(TEST_VIDEO_ID, updateDto);
+
+      Video updatedVideo = originalVideo.toBuilder()
+          .title(updateDto.getTitle())
+          .description(updateDto.getDescription())
+          .ratingType(updateDto.getRatingType())
+          .build();
+      given(videoJpaRepository.save(any(Video.class))).willReturn(updatedVideo);
+      given(videoJpaRepository.findById(TEST_VIDEO_ID)).willReturn(Optional.of(originalVideo));
+
+      // when
+      VideoUpdateResponseDto result = videoService.updateVideo(updateRequestDto);
+
+      // then
+      assertEquals("수정된 제목", result.getVideo().getTitle());
+      assertEquals("수정된 내용", result.getVideo().getDescription());
+    }
+
+    @Test
+    @DisplayName("비디오id 없을시 예외 처리")
+    void 비디오수정실패() {
+      // given
+      given(videoJpaRepository.findById(TEST_VIDEO_ID)).willReturn(Optional.empty());
+      VideoUpdateDto dto = new VideoUpdateDto("수정된 제목", "수정된 내용", RatingType.RATE12);
+      VideoUpdateRequestDto updateRequestDto = new VideoUpdateRequestDto(TEST_VIDEO_ID, dto);
+
+      // when & then
+      assertThrows(EntityNotFoundException.class, () -> videoService.updateVideo(updateRequestDto));
+    }
+
+    @Test
+    @DisplayName("null일 경우 수정 실패")
+    void 비디오null값처리() {
+      // given
+      Video originalVideo = Video.builder()
+          .videoId(TEST_VIDEO_ID)
+          .title(TEST_TITLE)
+          .description(TEST_DESCRIPTION)
+          .ratingType(TEST_RATING_TYPE)
+          .build();
+      setTimestamps(originalVideo, TEST_VIDEO_CREATED_AT, TEST_VIDEO_UPDATED_AT);
+      given(videoJpaRepository.findById(TEST_VIDEO_ID)).willReturn(Optional.of(originalVideo));
+
+      VideoUpdateDto dto = new VideoUpdateDto(null, "수정된 내용", RatingType.RATE15);// 제목이 null인 경우 테스트
+      VideoUpdateRequestDto updateRequestDto = new VideoUpdateRequestDto(TEST_VIDEO_ID, dto);
+
+      // when
+      VideoUpdateResponseDto result = videoService.updateVideo(updateRequestDto);
+
+      // then
+      assertNotNull(result.getVideo().getTitle());
+      assertEquals(TEST_TITLE, result.getVideo().getTitle());
+      assertEquals("수정된 내용", result.getVideo().getDescription());
+    }
   }
 
   public void setTimestamps(Video video, LocalDateTime createdAt, LocalDateTime updatedAt) {
