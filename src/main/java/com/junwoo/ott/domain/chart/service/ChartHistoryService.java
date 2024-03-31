@@ -16,14 +16,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class ChartHistoryService {
 
-  private static final String VIDEO_POINT = "videoPoint";
-  private static final Integer TOP_N = 10;
+  public static final String VIDEO_POINT = "videoPoint";
+  public static final Integer TOP_N = 10;
 
   private final RedisTemplate<String, String> redisTemplate;
   private ZSetOperations<String, String> zSetOps;
 
   @PostConstruct
-  private void init() {
+  void init() {
     zSetOps = redisTemplate.opsForZSet();
   }
 
