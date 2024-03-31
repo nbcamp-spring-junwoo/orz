@@ -28,7 +28,7 @@ public class CouponCreateDto {
 
   public CouponCreateDto(String description, CouponType type, MembershipType membershipType,
       Integer discount, Integer count, String startAt, String endAt) {
-    Coupon.validateDate(startAt, endAt);
+    Coupon.validateDateRange(startAt, endAt);
     this.description = description;
     this.type = type;
     this.membershipType = membershipType;
