@@ -10,5 +10,5 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
 
   // 시작일을 기준으로 내림차순 정렬
   @Query("select c from Coupon c order by c.startAt desc")
-  Page<Coupon> getCoupons(Pageable pageable);
+  Page<Coupon> getCoupons(final Pageable pageable);
 }

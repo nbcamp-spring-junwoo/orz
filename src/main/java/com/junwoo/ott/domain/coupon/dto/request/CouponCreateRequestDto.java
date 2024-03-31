@@ -9,7 +9,6 @@ import lombok.Getter;
 @Getter
 public class CouponCreateRequestDto {
 
-  private final Long memberId;
   private final String description;
   private final CouponType type;
   private final MembershipType membershipType;
@@ -18,8 +17,7 @@ public class CouponCreateRequestDto {
   private final LocalDate startAt;
   private final LocalDate endAt;
 
-  public CouponCreateRequestDto(Long memberId, CouponCreateDto dto) {
-    this.memberId = memberId;
+  public CouponCreateRequestDto(final CouponCreateDto dto) {
     this.description = dto.getDescription();
     this.type = dto.getType();
     this.membershipType = dto.getMembershipType();

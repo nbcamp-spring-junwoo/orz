@@ -19,8 +19,9 @@ public class CouponUpdateDto {
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private final String endAt;
 
-  public CouponUpdateDto(String description, CouponType type, MembershipType membershipType,
-      Integer discount, Integer count, String startAt, String endAt) {
+  public CouponUpdateDto(final String description, final CouponType type,
+      final MembershipType membershipType,
+      final Integer discount, final Integer count, final String startAt, final String endAt) {
     validateDate(startAt, endAt);
     this.description = description;
     this.type = type;
@@ -31,7 +32,7 @@ public class CouponUpdateDto {
     this.endAt = endAt;
   }
 
-  public void validateDate(String startAt, String endAt) {
+  public void validateDate(final String startAt, final String endAt) {
     if (startAt == null || endAt == null) {
       return;
     }

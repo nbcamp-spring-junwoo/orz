@@ -20,7 +20,7 @@ public class CouponIssuanceReadResponseDto {
   private final LocalDate endAt;
   private final LocalDateTime issuedAt;
 
-  public CouponIssuanceReadResponseDto(Coupon coupon, CouponIssuance couponIssuance) {
+  public CouponIssuanceReadResponseDto(final Coupon coupon, final CouponIssuance couponIssuance) {
     this.couponId = coupon.getCouponId();
     this.couponType = coupon.getCouponType();
     this.membershipType = coupon.getMembershipType();

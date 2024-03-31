@@ -51,7 +51,7 @@ public class Coupon extends Timestamped {
   private LocalDate endAt;
   private LocalDateTime deletedAt;
 
-  public static Coupon of(CouponCreateRequestDto dto) {
+  public static Coupon of(final CouponCreateRequestDto dto) {
 
     return Coupon.builder()
         .description(dto.getDescription())
@@ -64,7 +64,7 @@ public class Coupon extends Timestamped {
         .build();
   }
 
-  public static void validateDateRange(String startAt, String endAt) {
+  public static void validateDateRange(final String startAt, final String endAt) {
     LocalDate start = LocalDate.parse(startAt);
     LocalDate end = LocalDate.parse(endAt);
 
@@ -74,7 +74,7 @@ public class Coupon extends Timestamped {
 
   }
 
-  public void updateCoupon(CouponUpdateDto dto) {
+  public void updateCoupon(final CouponUpdateDto dto) {
 
     description = (dto.getDescription() == null) ? description : dto.getDescription();
     couponType = (dto.getType() == null) ? couponType : dto.getType();
