@@ -12,6 +12,7 @@ import com.junwoo.ott.domain.chart.test.ChartTestValues;
 import com.junwoo.ott.domain.video.entity.Video;
 import com.junwoo.ott.domain.video.service.VideoService;
 import java.util.List;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -31,12 +32,13 @@ public class ChartServiceTest implements ChartTestValues {
   private ChartJpaRepository chartJpaRepository;
 
   @Test
+  @DisplayName("차트 업데이트 테스트")
   void 차트_업데이트() {
     // given
     List<VideoPointResponseDto> videoPointResponseDto = List.of(
-        new VideoPointResponseDto(1L, 100.0),
-        new VideoPointResponseDto(2L, 50.0),
-        new VideoPointResponseDto(3L, 10.0)
+        new VideoPointResponseDto(TEST_VIDEO_ID_V1, TEST_VIDEO_POINT_V1),
+        new VideoPointResponseDto(TEST_VIDEO_ID_V2, TEST_VIDEO_POINT_V2),
+        new VideoPointResponseDto(TEST_VIDEO_ID_V3, TEST_VIDEO_POINT_V3)
     );
     given(chartHistoryService.getTopVideos()).willReturn(videoPointResponseDto);
 
