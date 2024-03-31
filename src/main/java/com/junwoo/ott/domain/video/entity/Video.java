@@ -22,7 +22,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 @Getter
-@Builder(toBuilder = true)
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @SQLDelete(sql = "update video set deleted_at = NOW() where video_id = ?")
@@ -49,6 +49,15 @@ public class Video extends Timestamped {
         .description(dto.getDescription())
         .ratingType(dto.getRatingType())
         .build();
+  }
+
+  public VideoBuilder toBuilder() {
+    return Video.builder()
+        .videoId(this.videoId)
+        .title(this.title)
+        .description(this.description)
+        .ratingType(this.ratingType)
+        .deletedAt(this.deletedAt);
   }
 
   public Video update(VideoUpdateDto dto) {

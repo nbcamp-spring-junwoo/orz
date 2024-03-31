@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 @Getter
 @AllArgsConstructor
 public class VideoReadRequestDto {
+
     private Long videoId;
     private String title;
     private Pageable pageable;
