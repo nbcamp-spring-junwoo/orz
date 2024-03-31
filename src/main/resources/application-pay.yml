@@ -1,0 +1,4 @@
+tosspayments:
+  url: https://api.tosspayments.com
+  secret-key: ${tosspayments.secret-key}
+  client-key: ${tosspayments.client-key}
