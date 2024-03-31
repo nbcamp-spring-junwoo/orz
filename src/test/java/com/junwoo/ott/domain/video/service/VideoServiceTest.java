@@ -15,6 +15,7 @@ import com.junwoo.ott.domain.video.repository.VideoJpaRepository;
 import com.junwoo.ott.global.common.entity.Timestamped;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
@@ -87,20 +88,32 @@ class VideoServiceTest implements VideoTestValues {
   void 전체조회성공() {
     // given
     Pageable pageable = PageRequest.of(0, 10);
-    Video baseVideo = Video.of(TEST_VIDEO_CREATE_REQUEST_DTO);
+    Video baseVideo = Video.builder()
+        .videoId(TEST_VIDEO_ID)
+        .title(TEST_TITLE)
+        .description(TEST_DESCRIPTION)
+        .ratingType(TEST_RATING_TYPE)
+        .build();
+
+    // 타임스탬프 세팅
     setTimestamps(baseVideo, TEST_VIDEO_CREATED_AT, TEST_VIDEO_UPDATED_AT);
-    List<Video> videos = List.of(baseVideo);
-    Page<Video> videoPage = new PageImpl<>(videos, pageable, videos.size());
-    given(videoJpaRepository.findAll(pageable)).willReturn(videoPage);
+
+    List<Video> videoList = Arrays.asList(baseVideo);
+    Page<Video> videoPage = new PageImpl<>(videoList, pageable, videoList.size());
+
+    given(videoJpaRepository.getVideo(pageable)).willReturn(videoPage);
 
     // when
     Page<VideoReadResponseDto> result = videoService.getVideos(new VideoReadRequestDto(pageable));
 
     // then
     assertNotNull(result);
-    assertEquals(videos.size(), result.getContent().size());
-    assertEquals(TEST_TITLE, result.getContent().get(0).getTitle());
-    assertEquals(TEST_VIDEO_CREATED_AT, result.getContent().get(0).getCreatedAt());
+    assertEquals(1, result.getTotalElements());
+    VideoReadResponseDto firstResult = result.getContent().get(0);
+    assertEquals(TEST_TITLE, firstResult.getTitle());
+    assertEquals(TEST_DESCRIPTION, firstResult.getDescription());
+    assertEquals(TEST_RATING_TYPE, firstResult.getRatingType());
+    assertEquals(TEST_VIDEO_CREATED_AT, firstResult.getCreatedAt());
   }
 
   @Test
