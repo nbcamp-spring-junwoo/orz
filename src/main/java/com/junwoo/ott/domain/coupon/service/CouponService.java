@@ -90,7 +90,6 @@ public class CouponService {
     );
   }
 
-  @Transactional(readOnly = true)
   protected User createUser(UserReadResponseDto dto) {
 
     return User.builder()
