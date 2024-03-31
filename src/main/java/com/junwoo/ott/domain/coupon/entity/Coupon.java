@@ -64,17 +64,14 @@ public class Coupon extends Timestamped {
         .build();
   }
 
-  public static void validateDate(String startAt, String endAt) {
-    if (startAt == null || endAt == null) {
-      return;
-    }
-
+  public static void validateDateRange(String startAt, String endAt) {
     LocalDate start = LocalDate.parse(startAt);
     LocalDate end = LocalDate.parse(endAt);
 
     if (end.isBefore(start) || end.isEqual(start)) {
       throw new CustomInvalidDeadLineException("마감일이 시작일보다 같거나 빠릅니다.");
     }
+
   }
 
   public void updateCoupon(CouponUpdateDto dto) {
@@ -87,7 +84,7 @@ public class Coupon extends Timestamped {
     startAt = (dto.getStartAt() == null) ? startAt : LocalDate.parse(dto.getStartAt());
     endAt = (dto.getEndAt() == null) ? endAt : LocalDate.parse(dto.getEndAt());
 
-    validateDate(startAt.toString(), endAt.toString());
+    validateDateRange(startAt.toString(), endAt.toString());
   }
 
 }

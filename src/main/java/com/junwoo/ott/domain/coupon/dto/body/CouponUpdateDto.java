@@ -21,7 +21,7 @@ public class CouponUpdateDto {
 
   public CouponUpdateDto(String description, CouponType type, MembershipType membershipType,
       Integer discount, Integer count, String startAt, String endAt) {
-    Coupon.validateDate(startAt, endAt);
+    validateDate(startAt, endAt);
     this.description = description;
     this.type = type;
     this.membershipType = membershipType;
@@ -29,6 +29,15 @@ public class CouponUpdateDto {
     this.count = count;
     this.startAt = startAt;
     this.endAt = endAt;
+  }
+
+  public void validateDate(String startAt, String endAt) {
+    if (startAt == null || endAt == null) {
+      return;
+    }
+
+    Coupon.validateDateRange(startAt, endAt);
+
   }
 
 }
