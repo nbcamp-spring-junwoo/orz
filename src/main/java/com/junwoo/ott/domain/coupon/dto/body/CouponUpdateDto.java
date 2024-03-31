@@ -37,7 +37,6 @@ public class CouponUpdateDto {
     }
 
     Coupon.validateDateRange(startAt, endAt);
-
   }
 
 }
