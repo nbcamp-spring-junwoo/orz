@@ -9,6 +9,7 @@ import com.junwoo.ott.domain.coupon.dto.body.CouponCreateDto;
 import com.junwoo.ott.domain.coupon.dto.body.CouponUpdateDto;
 import com.junwoo.ott.domain.coupon.dto.request.CouponCreateRequestDto;
 import com.junwoo.ott.domain.coupon.dto.response.CouponCreateResponseDto;
+import com.junwoo.ott.domain.coupon.dto.response.CouponIssuanceCreateResponseDto;
 import com.junwoo.ott.domain.coupon.dto.response.CouponIssuanceReadResponseDto;
 import com.junwoo.ott.domain.coupon.dto.response.CouponReadResponseDto;
 import com.junwoo.ott.domain.coupon.dto.response.CouponUpdateResponseDto;
@@ -18,7 +19,9 @@ import com.junwoo.ott.domain.coupon.repository.CouponIssuanceRepository;
 import com.junwoo.ott.domain.coupon.repository.CouponRepository;
 import com.junwoo.ott.domain.coupon.test.CouponTestValues;
 import com.junwoo.ott.domain.coupon.test.CouponUserTestValues;
+import com.junwoo.ott.domain.user.service.UserService;
 import com.junwoo.ott.global.exception.custom.CustomInvalidDeadLineException;
+import com.junwoo.ott.global.exception.custom.UserNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +44,9 @@ class CouponServiceImplTest implements CouponTestValues, CouponUserTestValues {
 
   @Mock
   private CouponIssuanceRepository couponIssuanceRepository;
+
+  @Mock
+  private UserService userService;
 
   @InjectMocks
   private CouponService couponService;
@@ -198,6 +204,58 @@ class CouponServiceImplTest implements CouponTestValues, CouponUserTestValues {
               TEST_START_AT_V1,
               TEST_END_ERROR_AT
           ));
+    }
+
+  }
+
+  @Nested
+  @DisplayName("쿠폰 발급 테이블 생성")
+  class CreateCouponIssuance {
+
+    @Test
+    @DisplayName("쿠폰 발급 테이블 생성 성공")
+    void 쿠폰_발급_테이블_생성_성공() {
+      // given
+      Coupon coupon = TEST_COUPON_V1;
+      given(userService.getUser(TEST_COUPON_USER_ID)).willReturn(TEST_USER_READ_RESPONSE_DTO);
+      given(couponRepository.findById(TEST_COUPON_ID)).willReturn(
+          Optional.ofNullable(coupon));
+
+      // when
+      CouponIssuanceCreateResponseDto result = couponService.createCouponIssuance(
+          TEST_COUPON_ISSUANCE_CREATE_REQUEST_DTO);
+
+      // then
+      Assertions.assertEquals(result.getCoupon(), TEST_COUPON_ISSUANCE.getCoupon());
+      Assertions.assertEquals(result.getUser().getUserId(),
+          TEST_COUPON_ISSUANCE.getUser().getUserId());
+      Assertions.assertEquals(result.getUser().getEmail(),
+          TEST_COUPON_ISSUANCE.getUser().getEmail());
+      Assertions.assertEquals(coupon.getCount(), TEST_COUNT_V1 - 1);
+    }
+
+    @Test
+    @DisplayName("쿠폰 발급 테이블 생성 실패 없는 쿠폰")
+    void 쿠폰_발급_테이블_생성_실패_없는쿠폰() {
+      // given
+      given(couponRepository.findById(any())).willThrow(EntityNotFoundException.class);
+
+      // when, then
+      Assertions.assertThrows(EntityNotFoundException.class,
+          () -> couponService.createCouponIssuance(TEST_COUPON_ISSUANCE_CREATE_REQUEST_DTO));
+    }
+
+    @Test
+    @DisplayName("쿠폰 발급 테이블 생성 실패 ")
+    void 쿠폰_발급_테이블_생성_실패_존재하지않은_유저() {
+      // given
+      given(couponRepository.findById(TEST_COUPON_ID)).willReturn(
+          Optional.ofNullable(TEST_COUPON_V1));
+      given(userService.getUser(any())).willThrow(UserNotFoundException.class);
+
+      // when, then
+      Assertions.assertThrows(UserNotFoundException.class,
+          () -> couponService.createCouponIssuance(TEST_COUPON_ISSUANCE_CREATE_REQUEST_DTO));
     }
 
   }

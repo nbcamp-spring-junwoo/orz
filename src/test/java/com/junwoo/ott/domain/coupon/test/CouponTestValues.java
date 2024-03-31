@@ -1,11 +1,15 @@
 package com.junwoo.ott.domain.coupon.test;
 
+import static com.junwoo.ott.domain.coupon.test.CouponUserTestValues.TEST_USER;
+
 import com.junwoo.ott.domain.coupon.dto.body.CouponCreateDto;
 import com.junwoo.ott.domain.coupon.dto.body.CouponUpdateDto;
 import com.junwoo.ott.domain.coupon.dto.request.CouponCreateRequestDto;
+import com.junwoo.ott.domain.coupon.dto.request.CouponIssuanceCreateRequestDto;
 import com.junwoo.ott.domain.coupon.dto.request.CouponReadRequestDto;
 import com.junwoo.ott.domain.coupon.dto.request.CouponUpdateRequestDto;
 import com.junwoo.ott.domain.coupon.entity.Coupon;
+import com.junwoo.ott.domain.coupon.entity.CouponIssuance;
 import com.junwoo.ott.global.customenum.CouponType;
 import com.junwoo.ott.global.customenum.MembershipType;
 import java.time.LocalDate;
@@ -17,7 +21,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface CouponTestValues {
 
-  Long TEST_MEMBER_ID = 1L;
+  Long TEST_COUPON_USER_ID = 1L;
   Long TEST_COUPON_ID = 1L;
   Integer TEST_PAGE = 1;
   Integer TEST_SIZE = 3;
@@ -85,5 +89,10 @@ public interface CouponTestValues {
       .build();
 
   Page<Coupon> TEST_COUPONS = new PageImpl<>(List.of(Coupon.of(TEST_COUPON_CREATE_REQUEST_DTO)));
+
+  CouponIssuance TEST_COUPON_ISSUANCE = CouponIssuance.of(TEST_COUPON_V1, TEST_USER);
+
+  CouponIssuanceCreateRequestDto TEST_COUPON_ISSUANCE_CREATE_REQUEST_DTO =
+      new CouponIssuanceCreateRequestDto(TEST_COUPON_ID, TEST_COUPON_USER_ID);
 
 }
