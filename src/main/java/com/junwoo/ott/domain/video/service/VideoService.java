@@ -4,6 +4,7 @@ import com.junwoo.ott.domain.video.dto.request.VideoCreateRequestDto;
 import com.junwoo.ott.domain.video.dto.response.VideoCreateResponseDto;
 import com.junwoo.ott.domain.video.entity.Video;
 import com.junwoo.ott.domain.video.repository.VideoJpaRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,4 +28,7 @@ public class VideoService {
     return new VideoCreateResponseDto(video);
   }
 
+  public List<Video> getByVideoIdIn(List<Long> videoIds) {
+    return videoJpaRepository.getByVideoIdIn(videoIds);
+  }
 }
