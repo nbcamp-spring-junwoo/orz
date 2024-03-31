@@ -16,8 +16,6 @@ jobs:
   test:
     runs-on: ubuntu-22.04
 
-    environment: test
-
     env:
       SECRETS_CONTEXT: ${{ toJson(secrets) }}
       VARS_CONTEXT: ${{ toJson(vars) }}
