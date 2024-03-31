@@ -21,7 +21,7 @@ public class CouponReadResponseDto {
   private final LocalDateTime createdAt;
   private final LocalDateTime updatedAt;
 
-  public CouponReadResponseDto(Coupon coupon) {
+  public CouponReadResponseDto(final Coupon coupon) {
     this.couponId = coupon.getCouponId();
     this.couponType = coupon.getCouponType();
     this.membershipType = coupon.getMembershipType();

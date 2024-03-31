@@ -42,7 +42,7 @@ public class CouponIssuance {
   private LocalDateTime issuedAt;
   private LocalDateTime usedAt;
 
-  public static CouponIssuance of(Coupon coupon, User user) {
+  public static CouponIssuance of(final Coupon coupon, final User user) {
 
     return CouponIssuance.builder()
         .coupon(coupon)

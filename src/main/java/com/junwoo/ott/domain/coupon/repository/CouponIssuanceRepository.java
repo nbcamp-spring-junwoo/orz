@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 public interface CouponIssuanceRepository extends JpaRepository<CouponIssuance, Long> {
 
   @Query("select c from CouponIssuance c where c.usedAt is null and c.user.userId = :userId order by c.issuedAt desc")
-  Page<CouponIssuance> getCouponIssuance(Long userId, Pageable pageable);
+  Page<CouponIssuance> getCouponIssuance(final Long userId, final Pageable pageable);
 
 }

@@ -18,7 +18,7 @@ public class CouponCreateResponseDto {
   private final LocalDate startAt;
   private final LocalDate endAt;
 
-  public CouponCreateResponseDto(Coupon coupon) {
+  public CouponCreateResponseDto(final Coupon coupon) {
     this.couponId = coupon.getCouponId();
     this.description = coupon.getDescription();
     this.couponType = coupon.getCouponType();

@@ -26,8 +26,9 @@ public class CouponCreateDto {
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private final String endAt;
 
-  public CouponCreateDto(String description, CouponType type, MembershipType membershipType,
-      Integer discount, Integer count, String startAt, String endAt) {
+  public CouponCreateDto(final String description, final CouponType type,
+      final MembershipType membershipType, final Integer discount, final Integer count,
+      final String startAt, final String endAt) {
     Coupon.validateDateRange(startAt, endAt);
     this.description = description;
     this.type = type;
