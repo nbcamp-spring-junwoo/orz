@@ -61,7 +61,6 @@ public interface CouponTestValues {
   );
 
   CouponCreateRequestDto TEST_COUPON_CREATE_REQUEST_DTO = new CouponCreateRequestDto(
-      TEST_MEMBER_ID,
       TEST_COUPON_CREATE_DTO
   );
 

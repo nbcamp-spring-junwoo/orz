@@ -12,6 +12,7 @@ import com.junwoo.ott.global.common.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,8 +30,11 @@ public class CouponController {
 
   private final CouponService couponService;
 
+  @Secured(value = "ROLE_ADMIN")
   @GetMapping("/coupons")
-  public ResponseDto<Page<CouponReadResponseDto>> getCoupons(Pageable pageable) {
+  public ResponseDto<Page<CouponReadResponseDto>> getCoupons(
+      final Pageable pageable
+  ) {
     CouponReadRequestDto dto = new CouponReadRequestDto(pageable);
     Page<CouponReadResponseDto> result = couponService.getCoupon(dto);
 
@@ -39,8 +43,8 @@ public class CouponController {
 
   @GetMapping("users/{userId}/coupons")
   public ResponseDto<Page<CouponIssuanceReadResponseDto>> getCoupons(
-      @PathVariable("userId") Long userId,
-      Pageable pageable
+      final @PathVariable("userId") Long userId,
+      final Pageable pageable
   ) {
     CouponReadRequestDto dto = new CouponReadRequestDto(userId, pageable);
     Page<CouponIssuanceReadResponseDto> result = couponService.getCoupons(dto);
@@ -48,23 +52,26 @@ public class CouponController {
     return ResponseDto.ok(result);
   }
 
+  @Secured(value = "ROLE_ADMIN")
   @PostMapping("/coupons")
   public void postCoupon(
-      @Validated @RequestBody CouponCreateDto dto
+      final @Validated @RequestBody CouponCreateDto dto
   ) {
-    CouponCreateRequestDto createRequestDto = new CouponCreateRequestDto(1L, dto);
+    CouponCreateRequestDto createRequestDto = new CouponCreateRequestDto(dto);
     couponService.createCoupon(createRequestDto);
   }
 
+  @Secured(value = "ROLE_ADMIN")
   @PutMapping("/coupons/{couponId}")
   public void putCoupon(
-      @PathVariable("couponId") Long couponId,
-      @RequestBody CouponUpdateDto dto
+      final @PathVariable("couponId") Long couponId,
+      final @RequestBody CouponUpdateDto dto
   ) {
     CouponUpdateRequestDto couponUpdateRequestDto = new CouponUpdateRequestDto(couponId, dto);
     couponService.updateCoupon(couponUpdateRequestDto);
   }
 
+  @Secured(value = "ROLE_ADMIN")
   @DeleteMapping("/coupons/{couponId}")
   public void deleteCoupon(
       @PathVariable("couponId") Long couponId
