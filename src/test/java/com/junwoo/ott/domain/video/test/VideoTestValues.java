@@ -1,9 +1,6 @@
 package com.junwoo.ott.domain.video.test;
 
-import com.junwoo.ott.domain.video.dto.body.VideoCreateDto;
 import com.junwoo.ott.domain.video.dto.request.VideoCreateRequestDto;
-import com.junwoo.ott.domain.video.dto.request.VideoReadRequestDto;
-import com.junwoo.ott.domain.video.entity.Video;
 import com.junwoo.ott.global.customenum.RatingType;
 import java.time.LocalDateTime;
 import org.springframework.data.domain.PageRequest;
