@@ -47,11 +47,11 @@ public class User extends Timestamped implements OAuth2User {
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
   @Builder.Default
-  private AuthorityType authorityType = AuthorityType.USER;
+  private AuthorityType authorityType = AuthorityType.ROLE_USER;
   @Enumerated(EnumType.STRING)
   @Builder.Default
   @Column(nullable = false)
-  private MembershipType membershipType = MembershipType.NORMAL;
+  private MembershipType membershipType = MembershipType.ROLE_NORMAL;
   private LocalDateTime deletedAt;
 
   public User(
@@ -78,6 +78,18 @@ public class User extends Timestamped implements OAuth2User {
         .createdAt(this.getCreatedAt())
         .updatedAt(this.getUpdatedAt())
         .build();
+  }
+
+  public void updatePassword(String encodedNewPassword) {
+    this.password = encodedNewPassword;
+  }
+
+  public void updateEmail(String newEmail) {
+    this.email = newEmail;
+  }
+
+  public void updateBorn(LocalDate newDatedBorn) {
+    this.born = newDatedBorn;
   }
 
   @Override
