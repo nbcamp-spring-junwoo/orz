@@ -31,4 +31,5 @@ public class VideoService {
   public List<Video> getByVideoIdIn(List<Long> videoIds) {
     return videoJpaRepository.getByVideoIdIn(videoIds);
   }
+
 }

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ChartController {
 
-
   private final ChartService chartService;
 
   @GetMapping("/chart")
