@@ -56,6 +56,7 @@ class UserServiceTest implements UserTestValues {
 
     @Test
     void 중복유저네임_검증_테스트() {
+
       // given
       given(userRepository.existsByUsername(anyString())).willReturn(true);
 
@@ -116,7 +117,9 @@ class UserServiceTest implements UserTestValues {
 
     @Test
     void 회원정보_수정_실패_테스트_회원아이디_불일치() {
+
       // given
+
       // when, then
       assertThrows(UserNotSameException.class,
           () -> userService.putUser(TEST_USER_PUT_REQUEST_DTO_MISMATCH));
