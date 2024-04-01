@@ -73,8 +73,8 @@ public class VideoService {
 
   public void deleteVideo(Long videoId) {
     Video video = existVideoById(videoId);
-    video.Deleted();
-    videoJpaRepository.save(video);
+
+    videoJpaRepository.delete(video);
   }
 
   @Transactional(readOnly = true)
