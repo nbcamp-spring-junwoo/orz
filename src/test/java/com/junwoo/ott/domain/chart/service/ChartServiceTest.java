@@ -3,7 +3,7 @@ package com.junwoo.ott.domain.chart.service;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
+import static org.mockito.BDDMockito.then;
 
 import com.junwoo.ott.domain.chart.dto.response.VideoPointResponseDto;
 import com.junwoo.ott.domain.chart.entity.Chart;
@@ -60,10 +60,9 @@ public class ChartServiceTest implements ChartTestValues {
     chartService.updateChart();
 
     // then
-    verify(chartJpaRepository).saveAll(argThat((List<Chart> charts) ->
+    then(chartJpaRepository).should().saveAll(argThat((List<Chart> charts) ->
         charts.size() == videoPointMap.size() && charts.stream().allMatch(chart ->
-            videoPointMap.get(chart.getVideo().getVideoId())
-                .equals(chart.getPoint())
+            videoPointMap.get(chart.getVideo().getVideoId()).equals(chart.getPoint())
         )
     ));
   }

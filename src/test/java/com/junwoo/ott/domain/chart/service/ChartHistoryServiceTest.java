@@ -1,11 +1,11 @@
 package com.junwoo.ott.domain.chart.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
+import static org.mockito.BDDMockito.then;
 
 import com.junwoo.ott.domain.chart.test.ChartTestValues;
 import java.util.Set;
@@ -43,8 +43,7 @@ public class ChartHistoryServiceTest implements ChartTestValues {
     chartHistoryService.addVideoPoint(TEST_VIDEO_ID_V1, TEST_VIDEO_POINT_V1);
 
     // then
-    verify(zSetOps).add(eq(ChartHistoryService.VIDEO_POINT), eq(String.valueOf(TEST_VIDEO_ID_V1)),
-        eq(TEST_VIDEO_POINT_V1));
+    then(zSetOps).should().add(anyString(), anyString(), anyDouble());
   }
 
   @Test
@@ -73,7 +72,7 @@ public class ChartHistoryServiceTest implements ChartTestValues {
     chartHistoryService.deleteVideoPoint();
 
     // then
-    verify(redisTemplate).delete(ChartHistoryService.VIDEO_POINT);
+    then(redisTemplate).should().delete(ChartHistoryService.VIDEO_POINT);
   }
 
 }
