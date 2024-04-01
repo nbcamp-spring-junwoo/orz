@@ -36,7 +36,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     this.refreshTokenRepository = refreshTokenRepository;
   }
 
-
   @Override
   protected void doFilterInternal(
       HttpServletRequest req, HttpServletResponse res,
