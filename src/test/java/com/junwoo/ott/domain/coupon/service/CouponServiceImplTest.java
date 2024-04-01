@@ -97,7 +97,7 @@ class CouponServiceImplTest implements CouponTestValues, CouponUserTestValues {
     @DisplayName("쿠폰 테이블 조회 성공")
     void 쿠폰_테이블_조회_성공() {
       // given
-      given(couponRepository.getCoupons(any())).willReturn(TEST_COUPONS);
+      given(couponRepository.findAllByOrderByStartAtDesc(any())).willReturn(TEST_COUPONS);
 
       // when
       Page<CouponReadResponseDto> result = couponService.getCoupon(TEST_COUPON_READ_REQUEST_DTO);
