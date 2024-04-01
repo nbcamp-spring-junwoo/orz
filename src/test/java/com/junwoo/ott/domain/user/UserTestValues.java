@@ -35,7 +35,6 @@ public interface UserTestValues {
               TEST_BORN)
       );
 
-
   AuthLoginRequestDto TEST_AUTH_LOGIN_REQUEST_DTO = new AuthLoginRequestDto(
       TEST_USERNAME, TEST_PASSWORD
   );
