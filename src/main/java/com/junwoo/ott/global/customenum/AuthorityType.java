@@ -29,4 +29,5 @@ public enum AuthorityType {
     }
     throw new NotExistAuthorityTypeException("존재하지 않는 권한입니다.");
   }
+
 }
