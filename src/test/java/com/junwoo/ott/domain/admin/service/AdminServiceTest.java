@@ -17,6 +17,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ExtendWith(MockitoExtension.class)
 class AdminServiceTest implements AdminTestValues {
@@ -27,6 +28,8 @@ class AdminServiceTest implements AdminTestValues {
   @Mock
   private AdminRepository adminRepository;
 
+  @Mock
+  private PasswordEncoder passwordEncoder;
 
   @Nested
   @DisplayName("관리자 회원가입 테스트")
@@ -38,7 +41,7 @@ class AdminServiceTest implements AdminTestValues {
       // given
       AuthAdminSignupRequestDto authAdminSignupRequestDto = TEST_AUTH_ADMIN_SIGNUP_REQUEST_DTO;
       given(adminRepository.existsByUsername(anyString())).willReturn(false);
-
+      given(passwordEncoder.encode(anyString())).willReturn(TEST_ENCRYPT_PASSWORD);
       // when
       adminService.createAdmin(authAdminSignupRequestDto);
 
