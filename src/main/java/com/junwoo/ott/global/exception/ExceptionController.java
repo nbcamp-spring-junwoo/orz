@@ -1,6 +1,7 @@
 package com.junwoo.ott.global.exception;
 
 import com.junwoo.ott.global.common.dto.ExceptionDto;
+import com.junwoo.ott.global.exception.custom.CustomCouponException;
 import com.junwoo.ott.global.exception.custom.CustomInvalidDeadLineException;
 import com.junwoo.ott.global.exception.custom.CustomLockException;
 import jakarta.persistence.EntityNotFoundException;
@@ -45,6 +46,13 @@ public class ExceptionController {
     log.error("CustomInvalidDeadLineException: ", e);
     return createResponse(HttpStatus.BAD_REQUEST,
         "CustomInvalidDeadLineException: " + e.getMessage());
+  }
+
+  @ExceptionHandler(CustomCouponException.class)
+  public ResponseEntity<ExceptionDto> customCouponException(CustomCouponException e) {
+    log.error("CustomCouponException: ", e);
+    return createResponse(HttpStatus.BAD_REQUEST,
+        "CustomCouponException: " + e.getMessage());
   }
 
   @ExceptionHandler(Exception.class)

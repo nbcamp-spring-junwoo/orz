@@ -1,9 +1,11 @@
 package com.junwoo.ott.domain.coupon.test;
 
+import com.junwoo.ott.domain.user.dto.reponse.UserReadResponseDto;
 import com.junwoo.ott.domain.user.entity.User;
 import com.junwoo.ott.global.customenum.AuthorityType;
 import com.junwoo.ott.global.customenum.MembershipType;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public interface CouponUserTestValues {
 
@@ -15,6 +17,7 @@ public interface CouponUserTestValues {
   AuthorityType TEST_ADMIN_TYPE = AuthorityType.ADMIN;
   AuthorityType TEST_USER_TYPE = AuthorityType.USER;
   MembershipType TEST_MEMBERSHIP = MembershipType.SILVER;
+  LocalDateTime TEST_CREATED_AT = LocalDateTime.parse("2024-03-01T00:00:00");
 
   User TEST_USER = User.builder()
       .userId(TEST_USER_ID)
@@ -25,5 +28,16 @@ public interface CouponUserTestValues {
       .authorityType(TEST_ADMIN_TYPE)
       .membershipType(TEST_MEMBERSHIP)
       .build();
+
+  UserReadResponseDto TEST_USER_READ_RESPONSE_DTO = new UserReadResponseDto(
+      TEST_USER_ID,
+      TEST_USER_NAME,
+      TEST_EMAIL,
+      TEST_BORN,
+      TEST_USER_TYPE,
+      TEST_MEMBERSHIP,
+      TEST_CREATED_AT,
+      TEST_CREATED_AT
+  );
 
 }
