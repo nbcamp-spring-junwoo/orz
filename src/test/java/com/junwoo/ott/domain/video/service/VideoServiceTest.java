@@ -2,6 +2,7 @@ package com.junwoo.ott.domain.video.service;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -249,11 +250,71 @@ class VideoServiceTest implements VideoTestValues {
       VideoReadRequestDto requestDto = new VideoReadRequestDto("", TEST_PAGEABLE);
 
       // when
-      TitleNotFoundException thrown = assertThrows(TitleNotFoundException.class, () -> videoService.getVideosByTitle(requestDto));
+      TitleNotFoundException thrown = assertThrows(TitleNotFoundException.class,
+          () -> videoService.getVideosByTitle(requestDto));
 
       // then
       assertEquals("제목을 찾을 수 없습니다.", thrown.getMessage());
     }
+
+  }
+
+  @Nested
+  @DisplayName("소프트 삭제 확인")
+  class SoftDeletionProcess {
+
+    @Test
+    @DisplayName("비디오 삭제 성공")
+    void 비디오삭제() {
+      // given
+      Video videoToBeDeleted = Video.builder()
+          .videoId(TEST_VIDEO_ID)
+          .title(TEST_TITLE)
+          .description(TEST_DESCRIPTION)
+          .ratingType(RatingType.RATE12)
+          .build();
+
+      given(videoJpaRepository.findById(TEST_VIDEO_ID))
+          .willReturn(Optional.of(videoToBeDeleted));
+
+      // when
+      videoService.deleteVideo(TEST_VIDEO_ID);
+
+      // then
+      assertNotNull(videoToBeDeleted.getDeletedAt(), "비디오가 삭제 되었습니다.");
+    }
+
+  }
+
+  @Nested
+  @DisplayName("ID목록으로 조회")
+  class GetVideosByIds {
+
+    @Test
+    @DisplayName("ID목록으로 조회 성공")
+    void 리스트조회() {
+      // given
+      List<Long> videoIds = List.of(TEST_VIDEO_ID);
+      List<Video> expectedVideos = List.of(
+          Video.builder()
+              .videoId(TEST_VIDEO_ID)
+              .title(TEST_TITLE)
+              .description(TEST_DESCRIPTION)
+              .ratingType(TEST_RATING_TYPE)
+              .build()
+      );
+
+      given(videoJpaRepository.findAllById(videoIds)).willReturn(expectedVideos);
+
+      // when
+      List<Video> resultVideos = videoService.getByVideoIdIn(videoIds);
+
+      // then
+      assertNotNull(resultVideos, "결과가 null이면 안됩니다.");
+      assertEquals(expectedVideos.size(), resultVideos.size(), "리스트의 크기가 서로 다릅니다.");
+      assertTrue(resultVideos.containsAll(expectedVideos), "값이 올바르지 않습니다.");
+    }
+
   }
 
   public void setTimestamps(Video video, LocalDateTime createdAt, LocalDateTime updatedAt) {
