@@ -8,8 +8,8 @@ server:
 spring:
   data:
     redis:
-      port: ${redis.port}
-      host: ${redis.host}
+      port: ${spring.data.redis.port}
+      host: ${spring.data.redis.host}
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
