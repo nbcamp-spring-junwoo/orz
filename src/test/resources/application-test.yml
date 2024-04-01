@@ -24,3 +24,10 @@ spring:
 
     hibernate:
       ddl-auto: create-drop
+
+jwt:
+  secret:
+    key: 7JWI31WV7ZWY7IS47JqUIGp1bndvbyBjb2RpbmcgY29tcGFueeyeheuLiOuLpC4=
+admin:
+  key: admin_key
+  prefix: admin_
