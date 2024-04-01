@@ -90,7 +90,7 @@ public class CouponService {
     );
   }
 
-  protected User createUser(UserReadResponseDto dto) {
+  private User createUser(UserReadResponseDto dto) {
 
     return User.builder()
         .userId(dto.getUserId())
