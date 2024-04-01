@@ -1,22 +1,25 @@
 package com.junwoo.ott.domain.payment.api;
 
+import com.junwoo.ott.global.properties.TosspaymentsProperties;
 import com.nimbusds.common.contenttype.ContentType;
 import feign.Logger;
 import feign.RequestInterceptor;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 
+@RequiredArgsConstructor
 public class TosspaymentsFeignConfiguration {
 
-  @Value("${tosspayments.secret-key}")
-  private String secretKey;
+  private final TosspaymentsProperties properties;
 
   @Bean
   public RequestInterceptor requestInterceptor() {
     Base64.Encoder encoder = Base64.getEncoder();
-    byte[] encodedSecretKey = encoder.encode((secretKey + ":").getBytes(StandardCharsets.UTF_8));
+    byte[] encodedSecretKey = encoder.encode(
+        (properties.getSecretKey() + ":").getBytes(StandardCharsets.UTF_8)
+    );
     String authorizations = "Basic " + new String(encodedSecretKey);
 
     return template -> {
