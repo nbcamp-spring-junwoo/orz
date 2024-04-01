@@ -1,5 +1,6 @@
 package com.junwoo.ott.domain.chart.service;
 
+import com.junwoo.ott.domain.chart.dto.response.ChartResponseDto;
 import com.junwoo.ott.domain.chart.dto.response.VideoPointResponseDto;
 import com.junwoo.ott.domain.chart.entity.Chart;
 import com.junwoo.ott.domain.chart.repository.ChartJpaRepository;
@@ -23,8 +24,9 @@ public class ChartService {
 
   private final ChartJpaRepository chartJpaRepository;
 
-  public List<VideoPointResponseDto> getChart() {
-    return null;
+  public List<ChartResponseDto> getChart() {
+
+    return chartJpaRepository.getAllChartsWithVideoInfo();
   }
 
   public void updateChart() {
