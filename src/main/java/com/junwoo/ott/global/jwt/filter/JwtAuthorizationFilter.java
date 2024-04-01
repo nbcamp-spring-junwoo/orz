@@ -1,6 +1,5 @@
 package com.junwoo.ott.global.jwt.filter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.junwoo.ott.domain.user.entity.User;
 import com.junwoo.ott.global.customenum.AuthorityType;
 import com.junwoo.ott.global.customenum.MembershipType;
@@ -29,8 +28,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
   private final RefreshTokenRepository refreshTokenRepository;
   private final JwtUtil jwtUtil;
 
-  ObjectMapper objectMapper = new ObjectMapper();
-
   public JwtAuthorizationFilter(
       JwtUtil jwtUtil,
       RefreshTokenRepository refreshTokenRepository
@@ -38,6 +35,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     this.jwtUtil = jwtUtil;
     this.refreshTokenRepository = refreshTokenRepository;
   }
+
 
   @Override
   protected void doFilterInternal(
@@ -89,6 +87,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         setAuthentication(userId, username, authorityType, membershipType);
       }
     }
+
     filterChain.doFilter(req, res);
   }
 

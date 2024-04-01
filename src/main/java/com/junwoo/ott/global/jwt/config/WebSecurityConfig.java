@@ -2,7 +2,6 @@ package com.junwoo.ott.global.jwt.config;
 
 import com.junwoo.ott.global.jwt.JwtUtil;
 import com.junwoo.ott.global.jwt.RefreshTokenRepository;
-import com.junwoo.ott.global.jwt.filter.JwtAuthenticationFilter;
 import com.junwoo.ott.global.jwt.filter.JwtAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -23,24 +22,16 @@ public class WebSecurityConfig {
 
   private final RefreshTokenRepository refreshTokenRepository;
   private final JwtUtil jwtUtil;
-  private final AuthenticationConfiguration authenticationConfiguration;
+
+  @Bean
+  public JwtAuthorizationFilter jwtAuthorizationFilter() {
+    return new JwtAuthorizationFilter(jwtUtil, refreshTokenRepository);
+  }
 
   @Bean
   public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)
       throws Exception {
     return configuration.getAuthenticationManager();
-  }
-
-  @Bean
-  public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
-    JwtAuthenticationFilter filter = new JwtAuthenticationFilter(jwtUtil);
-    filter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
-    return filter;
-  }
-
-  @Bean
-  public JwtAuthorizationFilter jwtAuthorizationFilter() {
-    return new JwtAuthorizationFilter(jwtUtil, refreshTokenRepository);
   }
 
   @Bean
@@ -54,13 +45,15 @@ public class WebSecurityConfig {
     http.authorizeHttpRequests((authorizeHttpRequests) ->
         authorizeHttpRequests
             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-            .requestMatchers("/api/v1/signup/*", "/api/v1/login/*").permitAll()
+            .requestMatchers("/api/v1/signup", "/api/v1/login").permitAll()
+            .requestMatchers("/api/v1/signup/admin", "/api/v1/login/admin").permitAll()
             .requestMatchers("/v3/**", "/swagger-ui/**").permitAll()
             .anyRequest().authenticated()
     );
 
-    http.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
-    http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+    http.addFilterBefore(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+//    http.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
+//    http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
   }

@@ -4,6 +4,8 @@ import static com.junwoo.ott.global.jwt.TokenState.EXPIRED;
 import static com.junwoo.ott.global.jwt.TokenState.INVALID;
 import static com.junwoo.ott.global.jwt.TokenState.VALID;
 
+import com.junwoo.ott.domain.admin.entity.Admin;
+import com.junwoo.ott.domain.admin.repository.AdminRepository;
 import com.junwoo.ott.domain.user.entity.User;
 import com.junwoo.ott.domain.user.repository.UserRepository;
 import com.junwoo.ott.global.customenum.AuthorityType;
@@ -37,11 +39,14 @@ public class JwtUtil {
   public static final String BEARER_PREFIX = "Bearer ";
   private final long ACCESS_TOKEN_TIME = 60 * 60 * 1000L;
   private final long REFRESH_TOKEN_TIME = 7 * 24 * 60 * 60 * 1000L;
+  @Value("${admin.prefix}")
+  private String adminPrefix;
   @Value("${jwt.secret.key}")
   private String secretKey;
   private Key key;
   private final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
   private final UserRepository userRepository;
+  private final AdminRepository adminRepository;
   private final RefreshTokenRepository refreshTokenRepository;
 
   @PostConstruct
@@ -51,8 +56,17 @@ public class JwtUtil {
   }
 
   public String createAccessAndRefreshToken(String username) {
-    User user = userRepository.findByUsername(username)
-        .orElseThrow(() -> new UserNotFoundException("존재하지 않는 회원입니다."));
+
+    User user = null;
+    if (username.startsWith(adminPrefix)) {
+      Admin admin = adminRepository.findByUsername(username)
+          .orElseThrow(() -> new UserNotFoundException("존재하지 않는 관리자입니다."));
+      user = new User(admin);
+    } else {
+      user = userRepository.findByUsername(username)
+          .orElseThrow(() -> new UserNotFoundException("존재하지 않는 회원입니다."));
+
+    }
 
     String accessToken = createAccessToken(user);
     createRefreshToken(user);

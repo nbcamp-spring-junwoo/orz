@@ -3,9 +3,13 @@ package com.junwoo.ott.domain.admin.service;
 import com.junwoo.ott.domain.admin.entity.Admin;
 import com.junwoo.ott.domain.admin.repository.AdminRepository;
 import com.junwoo.ott.domain.auth.dto.request.AuthAdminSignupRequestDto;
+import com.junwoo.ott.domain.auth.dto.request.AuthLoginRequestDto;
 import com.junwoo.ott.global.exception.custom.UsernameAlreadyExistException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +22,7 @@ public class AdminService {
   private final AdminRepository adminRepository;
 
   private final PasswordEncoder passwordEncoder;
+  private final AuthenticationManager authenticationManager;
 
   @Value("${admin.prefix}")
   private String adminPreFix;
@@ -31,6 +36,13 @@ public class AdminService {
     Admin admin = authAdminSignupRequestDto.authAdminSignupRequestDtoToAdmin(reformedAdminName,
         encodedPassword);
     adminRepository.save(admin);
+  }
+
+  public Authentication login(AuthLoginRequestDto authLoginRequestDto) {
+    return authenticationManager.authenticate(
+        new UsernamePasswordAuthenticationToken(
+            authLoginRequestDto.getUsername(), authLoginRequestDto.getPassword())
+    );
   }
 
   @Transactional(readOnly = true)
