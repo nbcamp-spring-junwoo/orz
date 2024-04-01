@@ -1,4 +1,4 @@
-package com.junwoo.ott.domain.payment.api;
+package com.junwoo.ott.domain.payment.api.configuration;
 
 import com.junwoo.ott.global.properties.TosspaymentsProperties;
 import com.nimbusds.common.contenttype.ContentType;
@@ -8,7 +8,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
+@Component
 @RequiredArgsConstructor
 public class TosspaymentsFeignConfiguration {
 

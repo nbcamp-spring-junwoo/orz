@@ -1,4 +1,4 @@
-package com.junwoo.ott.domain.payment.dto.body.payment;
+package com.junwoo.ott.domain.payment.dto.remote.payment;
 
 import com.junwoo.ott.global.customenum.payment.cache.CacheReceiptType;
 import com.junwoo.ott.global.customenum.payment.cache.TransactionType;
