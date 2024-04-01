@@ -36,7 +36,7 @@ public class WebSecurityConfig {
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    // CSRF 설정
+
     http.csrf((csrf) -> csrf.disable());
 
     http.sessionManagement(sessionManagement ->
@@ -52,8 +52,6 @@ public class WebSecurityConfig {
     );
 
     http.addFilterBefore(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
-//    http.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
-//    http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
   }
