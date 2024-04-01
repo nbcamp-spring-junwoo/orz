@@ -1,9 +1,11 @@
 package com.junwoo.ott.domain.payment.api.configuration;
 
+import com.junwoo.ott.domain.payment.api.decoder.TosspaymentsErrorDecoder;
 import com.junwoo.ott.global.properties.TosspaymentsProperties;
 import com.nimbusds.common.contenttype.ContentType;
 import feign.Logger;
 import feign.RequestInterceptor;
+import feign.codec.ErrorDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +35,11 @@ public class TosspaymentsFeignConfiguration {
   @Bean
   Logger.Level feignLoggerLevel() {
     return Logger.Level.FULL;
+  }
+
+  @Bean
+  public ErrorDecoder errorDecoder() {
+    return new TosspaymentsErrorDecoder();
   }
 
 }

@@ -4,6 +4,7 @@ import com.junwoo.ott.global.common.dto.ExceptionDto;
 import com.junwoo.ott.global.exception.custom.CustomCouponException;
 import com.junwoo.ott.global.exception.custom.CustomInvalidDeadLineException;
 import com.junwoo.ott.global.exception.custom.CustomLockException;
+import com.junwoo.ott.global.exception.custom.CustomPaymentException;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
@@ -41,8 +42,7 @@ public class ExceptionController {
   }
 
   @ExceptionHandler(CustomInvalidDeadLineException.class)
-  public ResponseEntity<ExceptionDto> customInvalidDeadLineException(
-      CustomInvalidDeadLineException e) {
+  public ResponseEntity<ExceptionDto> customInvalidDeadLineException(CustomInvalidDeadLineException e) {
     log.error("CustomInvalidDeadLineException: ", e);
     return createResponse(HttpStatus.BAD_REQUEST,
         "CustomInvalidDeadLineException: " + e.getMessage());
@@ -53,6 +53,12 @@ public class ExceptionController {
     log.error("CustomCouponException: ", e);
     return createResponse(HttpStatus.BAD_REQUEST,
         "CustomCouponException: " + e.getMessage());
+  }
+
+  @ExceptionHandler(CustomPaymentException.class)
+  public ResponseEntity<ExceptionDto> customPaymentException(CustomPaymentException e) {
+    log.error("CustomPaymentException: ", e);
+    return createResponse(e.getHttpStatus(), "CustomPaymentException: " + e.getMessage());
   }
 
   @ExceptionHandler(Exception.class)
