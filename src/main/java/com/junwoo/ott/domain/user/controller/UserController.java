@@ -6,9 +6,9 @@ import com.junwoo.ott.domain.user.dto.request.UserPutRequestDto;
 import com.junwoo.ott.domain.user.service.UserService;
 import com.junwoo.ott.global.common.dto.ResponseDto;
 import com.junwoo.ott.global.jwt.UserDetailsImpl;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -31,7 +31,7 @@ public class UserController {
   @PutMapping("/{id}")
   public void putUser(
       @PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails,
-      @RequestBody @Valid UserPutDto userPutDto
+      @RequestBody @Validated UserPutDto userPutDto
   ) {
     UserPutRequestDto userPutRequestDto = new UserPutRequestDto(id, userDetails.getUserId(),
         userPutDto);
