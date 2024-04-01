@@ -14,9 +14,9 @@ public interface CouponUserTestValues {
   String TEST_USER_PASSWORD = "TEST_PASSWORD_123";
   String TEST_EMAIL = "Test123@naver.com";
   LocalDate TEST_BORN = LocalDate.of(1997, 3, 15);
-  AuthorityType TEST_ADMIN_TYPE = AuthorityType.ADMIN;
-  AuthorityType TEST_USER_TYPE = AuthorityType.USER;
-  MembershipType TEST_MEMBERSHIP = MembershipType.SILVER;
+  AuthorityType TEST_ADMIN_TYPE = AuthorityType.ROLE_ADMIN;
+  AuthorityType TEST_USER_TYPE = AuthorityType.ROLE_USER;
+  MembershipType TEST_MEMBERSHIP = MembershipType.ROLE_SILVER;
   LocalDateTime TEST_CREATED_AT = LocalDateTime.parse("2024-03-01T00:00:00");
 
   User TEST_USER = User.builder()

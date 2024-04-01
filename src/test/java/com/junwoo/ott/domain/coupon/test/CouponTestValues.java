@@ -30,8 +30,8 @@ public interface CouponTestValues {
   String TEST_DESCRIPTION_V2 = "테스트 수정 설명";
   CouponType TEST_COUPON_TYPE_V1 = CouponType.FIX;
   CouponType TEST_COUPON_TYPE_V2 = CouponType.RATIO;
-  MembershipType TEST_MEMBERSHIP_TYPE_V1 = MembershipType.SILVER;
-  MembershipType TEST_MEMBERSHIP_TYPE_V2 = MembershipType.GOLD;
+  MembershipType TEST_MEMBERSHIP_TYPE_V1 = MembershipType.ROLE_SILVER;
+  MembershipType TEST_MEMBERSHIP_TYPE_V2 = MembershipType.ROLE_GOLD;
   Integer TEST_DISCOUNT_V1 = 10;
   Integer TEST_DISCOUNT_V2 = 20;
   Integer TEST_COUNT_V1 = 100;
