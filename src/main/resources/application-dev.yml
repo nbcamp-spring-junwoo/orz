@@ -38,3 +38,14 @@ springdoc:
     display-request-duration: true
     operations-sorter: alpha
     tags-sorter: alpha
+
+admin:
+  key: ${admin.key}
+  prefix: ${admin.prefix}
+
+jwt:
+  secret:
+    key: ${jwt.secret.key}
+
+
+

@@ -1,5 +1,6 @@
 package com.junwoo.ott.domain.user.service;
 
+import com.junwoo.ott.domain.auth.dto.request.AuthLoginRequestDto;
 import com.junwoo.ott.domain.auth.dto.request.AuthSignupRequestDto;
 import com.junwoo.ott.domain.user.dto.reponse.UserReadResponseDto;
 import com.junwoo.ott.domain.user.dto.request.UserPutRequestDto;
@@ -11,6 +12,9 @@ import com.junwoo.ott.global.exception.custom.UserNotSameException;
 import com.junwoo.ott.global.exception.custom.UsernameAlreadyExistException;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +27,7 @@ public class UserService {
   private final UserRepository userRepository;
 
   private final PasswordEncoder passwordEncoder;
+  private final AuthenticationManager authenticationManager;
 
   public void createUser(AuthSignupRequestDto authSignupRequestDto) {
     String encodedPassword = passwordEncoder.encode(authSignupRequestDto.getPassword());
@@ -30,6 +35,13 @@ public class UserService {
     User user = authSignupRequestDto.authSignupRequestDtoToUser(encodedPassword, datedBorn);
 
     userRepository.save(user);
+  }
+
+  public Authentication login(AuthLoginRequestDto authLoginRequestDto) {
+    return authenticationManager.authenticate(
+        new UsernamePasswordAuthenticationToken(
+            authLoginRequestDto.getUsername(), authLoginRequestDto.getPassword())
+    );
   }
 
   @Transactional(readOnly = true)

@@ -1,5 +1,6 @@
 package com.junwoo.ott.domain.user.entity;
 
+import com.junwoo.ott.domain.admin.entity.Admin;
 import com.junwoo.ott.domain.user.dto.reponse.UserReadResponseDto;
 import com.junwoo.ott.global.common.entity.Timestamped;
 import com.junwoo.ott.global.customenum.AuthorityType;
@@ -66,6 +67,13 @@ public class User extends Timestamped implements OAuth2User {
     this.membershipType = membershipType;
   }
 
+  public User(Admin admin) {
+    this.userId = admin.getAdminId();
+    this.username = admin.getUsername();
+    this.password = admin.getPassword();
+    this.authorityType = admin.getAuthorityType();
+    this.membershipType = admin.getMembershipType();
+  }
 
   public UserReadResponseDto toReadResponseDto() {
     return UserReadResponseDto.builder()
