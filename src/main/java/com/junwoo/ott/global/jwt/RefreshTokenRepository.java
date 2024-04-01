@@ -11,23 +11,23 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class RefreshTokenRepository {
 
-  private static final String USER_TOKEN_PREFIX = "user_token_";
+  private static final String TOKEN_PREFIX = "token_";
   private final RedisTemplate<String, String> redisTemplate;
   @Resource(name = "redisTemplate")
   private ValueOperations<String, String> valueOperations;
 
   public void delete(String username) {
     redisTemplate.delete(
-        USER_TOKEN_PREFIX + username);
+        TOKEN_PREFIX + username);
   }
 
   public void save(String username, String refreshToken) {
-    valueOperations.set(USER_TOKEN_PREFIX + username, refreshToken);
-    redisTemplate.expire(USER_TOKEN_PREFIX + username, 7L, TimeUnit.DAYS);
+    valueOperations.set(TOKEN_PREFIX + username, refreshToken);
+    redisTemplate.expire(TOKEN_PREFIX + username, 7L, TimeUnit.DAYS);
   }
 
   public boolean existsByKey(String key) {
-    return Boolean.TRUE.equals(valueOperations.getOperations().hasKey(USER_TOKEN_PREFIX + key));
+    return Boolean.TRUE.equals(valueOperations.getOperations().hasKey(TOKEN_PREFIX + key));
   }
 
 }
