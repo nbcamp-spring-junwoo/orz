@@ -7,6 +7,7 @@ import com.junwoo.ott.global.common.entity.Timestamped;
 import com.junwoo.ott.global.customenum.RatingType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
@@ -76,6 +77,14 @@ public class Video extends Timestamped {
     }
 
     return builder.build();
+  }
+
+  public void Deleted() {
+    if (this.deletedAt == null) {
+      this.deletedAt = LocalDateTime.now();
+    } else {
+      throw new EntityNotFoundException("삭제할 비디오를 찾을 수 없습니다.");
+    }
   }
 
 }
