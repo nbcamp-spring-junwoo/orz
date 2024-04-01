@@ -9,6 +9,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
 
+import com.junwoo.ott.domain.auth.dto.request.AuthLoginRequestDto;
 import com.junwoo.ott.domain.user.UserTestValues;
 import com.junwoo.ott.domain.user.dto.reponse.UserReadResponseDto;
 import com.junwoo.ott.domain.user.entity.User;
@@ -25,6 +26,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,6 +38,8 @@ class UserServiceTest implements UserTestValues {
   private UserRepository userRepository;
   @Mock
   private PasswordEncoder passwordEncoder;
+  @Mock
+  private AuthenticationManager authenticationManager;
 
   @Nested
   @DisplayName("회원가입 테스트")
@@ -63,6 +67,25 @@ class UserServiceTest implements UserTestValues {
       // when, then
       assertThrows(UsernameAlreadyExistException.class,
           () -> userService.validateUserNotExist(anyString()));
+    }
+
+  }
+
+  @Nested
+  @DisplayName("회원 로그인 테스트")
+  class UserLoginTest {
+
+    @Test
+    void 회원_로그인_성공_테스트() {
+
+      // given
+      AuthLoginRequestDto authLoginRequestDto = TEST_AUTH_LOGIN_REQUEST_DTO;
+
+      // when
+      userService.login(authLoginRequestDto);
+
+      // then
+      then(authenticationManager).should(times(1)).authenticate(any());
     }
 
   }

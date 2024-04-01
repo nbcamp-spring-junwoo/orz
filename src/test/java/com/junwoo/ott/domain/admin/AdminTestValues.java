@@ -2,6 +2,7 @@ package com.junwoo.ott.domain.admin;
 
 import com.junwoo.ott.domain.admin.entity.Admin;
 import com.junwoo.ott.domain.auth.dto.request.AuthAdminSignupRequestDto;
+import com.junwoo.ott.domain.auth.dto.request.AuthLoginRequestDto;
 import com.junwoo.ott.global.customenum.AuthorityType;
 
 public interface AdminTestValues {
@@ -20,6 +21,9 @@ public interface AdminTestValues {
   AuthAdminSignupRequestDto TEST_AUTH_ADMIN_SIGNUP_REQUEST_DTO_ADMIN_KEY_INVALID =
       new AuthAdminSignupRequestDto(TEST_ADMIN_USERNAME, TEST_PASSWORD, TEST_INVALID_ADMIN_KEY);
 
+  AuthLoginRequestDto TEST_AUTH_LOGIN_REQUEST_DTO = new AuthLoginRequestDto(
+      TEST_ADMIN_USERNAME, TEST_PASSWORD
+  );
   Admin TEST_ADMIN = Admin.builder()
       .adminId(TEST_ADMIN_ID)
       .username(TEST_ADMIN_PREFIX + TEST_ADMIN_USERNAME)

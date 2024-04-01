@@ -1,6 +1,7 @@
 package com.junwoo.ott.domain.user;
 
 import com.junwoo.ott.domain.auth.dto.body.AuthSignupDto;
+import com.junwoo.ott.domain.auth.dto.request.AuthLoginRequestDto;
 import com.junwoo.ott.domain.auth.dto.request.AuthSignupRequestDto;
 import com.junwoo.ott.domain.user.dto.body.UserPutDto;
 import com.junwoo.ott.domain.user.dto.request.UserPutRequestDto;
@@ -33,6 +34,11 @@ public interface UserTestValues {
           new AuthSignupDto(TEST_USERNAME_STARTWITHS_ADMIN_PREFIX, TEST_PASSWORD, TEST_EMAIL,
               TEST_BORN)
       );
+
+
+  AuthLoginRequestDto TEST_AUTH_LOGIN_REQUEST_DTO = new AuthLoginRequestDto(
+      TEST_USERNAME, TEST_PASSWORD
+  );
 
 
   UserPutRequestDto TEST_USER_PUT_REQUEST_DTO = new UserPutRequestDto(
