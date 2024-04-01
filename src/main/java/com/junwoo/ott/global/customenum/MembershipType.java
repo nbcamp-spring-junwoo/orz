@@ -30,4 +30,5 @@ public enum MembershipType {
     }
     throw new NotExistMembershipTypeException("존재하지 않는 맴버십등급 입니다.");
   }
+
 }
