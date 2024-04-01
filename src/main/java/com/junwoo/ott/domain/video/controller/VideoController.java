@@ -31,9 +31,7 @@ public class VideoController {
   private final VideoService videoService;
 
   @PostMapping
-  public void postVideo(
-      @Validated @RequestBody VideoCreateDto dto
-  ) {
+  public void postVideo(@Validated @RequestBody VideoCreateDto dto) {
     VideoCreateRequestDto createDto = new VideoCreateRequestDto(dto);
     videoService.createVideo(createDto);
   }
@@ -53,7 +51,10 @@ public class VideoController {
   }
 
   @GetMapping("/search")
-  public ResponseDto<Page<VideoReadResponseDto>> searchVideos(@RequestParam String title, Pageable pageable) {
+  public ResponseDto<Page<VideoReadResponseDto>> searchVideos(
+      @RequestParam String title,
+      Pageable pageable
+  ) {
     VideoReadRequestDto dto = new VideoReadRequestDto(title, pageable);
     Page<VideoReadResponseDto> videosPage = videoService.getVideosByTitle(dto);
     return ResponseDto.ok(videosPage);
