@@ -18,6 +18,7 @@ import com.junwoo.ott.domain.video.repository.VideoJpaRepository;
 import com.junwoo.ott.global.common.entity.Timestamped;
 
 import com.junwoo.ott.global.customenum.RatingType;
+import com.junwoo.ott.global.exception.custom.TitleNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
@@ -233,6 +234,25 @@ class VideoServiceTest implements VideoTestValues {
       assertNotNull(result.getVideo().getTitle());
       assertEquals(TEST_TITLE, result.getVideo().getTitle());
       assertEquals("수정된 내용", result.getVideo().getDescription());
+    }
+
+  }
+
+  @Nested
+  @DisplayName("제목으로 비디오 조회 실패")
+  class GetVideosByTitleFailure {
+
+    @Test
+    @DisplayName("TitleNotFoundException 동작 확인")
+    void 제목조회실패() {
+      // given
+      VideoReadRequestDto requestDto = new VideoReadRequestDto("", TEST_PAGEABLE);
+
+      // when
+      TitleNotFoundException thrown = assertThrows(TitleNotFoundException.class, () -> videoService.getVideosByTitle(requestDto));
+
+      // then
+      assertEquals("제목을 찾을 수 없습니다.", thrown.getMessage());
     }
   }
 
