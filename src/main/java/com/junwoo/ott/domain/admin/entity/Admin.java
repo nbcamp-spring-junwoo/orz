@@ -2,7 +2,7 @@ package com.junwoo.ott.domain.admin.entity;
 
 import com.junwoo.ott.global.common.entity.Timestamped;
 import com.junwoo.ott.global.customenum.AuthorityType;
-import com.junwoo.ott.global.customenum.StateType;
+import com.junwoo.ott.global.customenum.MembershipType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -35,10 +35,12 @@ public class Admin extends Timestamped {
   private String password;
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
-  private AuthorityType authorityType;
+  @Builder.Default
+  private AuthorityType authorityType = AuthorityType.ROLE_ADMIN;
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
-  private StateType stateType;
+  @Builder.Default
+  private MembershipType membershipType = MembershipType.ROLE_GOLD;
   private LocalDateTime deletedAt;
 
 }
