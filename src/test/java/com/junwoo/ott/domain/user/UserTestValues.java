@@ -12,6 +12,8 @@ public interface UserTestValues {
   Long TEST_USER_ID = 1L;
   Long TEST_OTHER_USER_ID = 2L;
   String TEST_USERNAME = "test1";
+
+  String TEST_USERNAME_STARTWITHS_ADMIN_PREFIX = "admin_prefix_username";
   String TEST_PASSWORD = "password";
   String TEST_NEW_PASSWORD = "newpassword";
   String TEST_ENCRYPT_PASSWORD = "encryptPassword";
@@ -25,6 +27,13 @@ public interface UserTestValues {
   AuthSignupRequestDto TEST_AUTH_SIGNUP_REQUEST_DTO = new AuthSignupRequestDto(
       new AuthSignupDto(TEST_USERNAME, TEST_PASSWORD, TEST_EMAIL, TEST_BORN)
   );
+
+  AuthSignupRequestDto TEST_AUTH_SIGNUP_REQUEST_DTO_STARTWITHS_ADMIN_PREFIX =
+      new AuthSignupRequestDto(
+          new AuthSignupDto(TEST_USERNAME_STARTWITHS_ADMIN_PREFIX, TEST_PASSWORD, TEST_EMAIL,
+              TEST_BORN)
+      );
+
 
   UserPutRequestDto TEST_USER_PUT_REQUEST_DTO = new UserPutRequestDto(
       TEST_USER_ID, TEST_USER_ID,
