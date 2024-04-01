@@ -35,7 +35,7 @@ public class CouponService {
 
   @Transactional(readOnly = true)
   public Page<CouponReadResponseDto> getCoupon(final CouponReadRequestDto dto) {
-    Page<Coupon> couponList = couponRepository.getCoupons(dto.getPageable());
+    Page<Coupon> couponList = couponRepository.findAllByOrderByStartAtDesc(dto.getPageable());
 
     return couponList.map(CouponReadResponseDto::new);
   }
