@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 
 import com.junwoo.ott.domain.video.dto.body.VideoUpdateDto;
 import com.junwoo.ott.domain.video.dto.request.VideoReadRequestDto;
@@ -277,11 +279,17 @@ class VideoServiceTest implements VideoTestValues {
       given(videoJpaRepository.findById(TEST_VIDEO_ID))
           .willReturn(Optional.of(videoToBeDeleted));
 
+      // 삭제 프로세스가 성공적으로 진행
+      doNothing().when(videoJpaRepository).delete(any(Video.class));
+
       // when
       videoService.deleteVideo(TEST_VIDEO_ID);
 
       // then
-      assertNotNull(videoToBeDeleted.getDeletedAt(), "비디오가 삭제 되었습니다.");
+      verify(videoJpaRepository).delete(videoToBeDeleted);
+
+      given(videoJpaRepository.findById(TEST_VIDEO_ID)).willReturn(Optional.empty());
+      assertThrows(EntityNotFoundException.class, () -> videoService.existVideoById(TEST_VIDEO_ID));
     }
 
   }
