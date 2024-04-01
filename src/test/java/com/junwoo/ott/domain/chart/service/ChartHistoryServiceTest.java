@@ -37,12 +37,12 @@ public class ChartHistoryServiceTest implements ChartTestValues {
   }
 
   @Test
-  @DisplayName("VideoPoint 테스트")
+  @DisplayName("VideoPoint 추가 테스트")
   void addVideoPointTest() {
-    //when
+    // when
     chartHistoryService.addVideoPoint(TEST_VIDEO_ID_V1, TEST_VIDEO_POINT_V1);
 
-    //then
+    // then
     verify(zSetOps).add(eq(ChartHistoryService.VIDEO_POINT), eq(String.valueOf(TEST_VIDEO_ID_V1)),
         eq(TEST_VIDEO_POINT_V1));
   }
