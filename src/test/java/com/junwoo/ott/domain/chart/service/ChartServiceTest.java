@@ -12,6 +12,7 @@ import com.junwoo.ott.domain.chart.test.ChartTestValues;
 import com.junwoo.ott.domain.video.entity.Video;
 import com.junwoo.ott.domain.video.service.VideoService;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,17 +50,23 @@ public class ChartServiceTest implements ChartTestValues {
     );
     given(videoService.getByVideoIdIn(any())).willReturn(videos);
 
+    Map<Long, Double> videoPointMap = Map.of(
+        TEST_VIDEO_ID_V1, TEST_VIDEO_POINT_V1,
+        TEST_VIDEO_ID_V2, TEST_VIDEO_POINT_V2,
+        TEST_VIDEO_ID_V3, TEST_VIDEO_POINT_V3
+    );
+
     // when
     chartService.updateChart();
 
     // then
     verify(chartJpaRepository).saveAll(argThat((List<Chart> charts) ->
-        charts.size() == videos.size() && charts.stream().allMatch(chart ->
-            videoPointResponseDto.stream().anyMatch(video ->
-                video.getVideoId().equals(chart.getVideo().getVideoId()) &&
-                    video.getPoint().equals(chart.getPoint())
-            )
-        )));
+        charts.size() == videoPointMap.size() && charts.stream().allMatch(chart ->
+            videoPointMap.get(chart.getVideo().getVideoId())
+                .equals(chart.getPoint())
+        )
+    ));
   }
 
 }
+
