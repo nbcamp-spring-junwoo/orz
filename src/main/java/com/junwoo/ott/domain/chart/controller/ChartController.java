@@ -1,6 +1,6 @@
 package com.junwoo.ott.domain.chart.controller;
 
-import com.junwoo.ott.domain.chart.dto.response.VideoPointResponseDto;
+import com.junwoo.ott.domain.chart.dto.response.ChartResponseDto;
 import com.junwoo.ott.domain.chart.service.ChartService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ public class ChartController {
   private final ChartService chartService;
 
   @GetMapping("/chart")
-  public List<VideoPointResponseDto> getChart() {
+  public List<ChartResponseDto> getChart() {
     return chartService.getChart();
   }
 
