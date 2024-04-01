@@ -140,13 +140,12 @@ class UserServiceTest implements UserTestValues {
 
       // given
       given(userRepository.findById(anyLong())).willReturn(Optional.of(TEST_USER));
-      given(passwordEncoder.matches(anyString(), anyString())).willReturn(false);
+      given(passwordEncoder.matches(any(), any())).willReturn(false);
 
       // when, then
       assertThrows(PasswordNotEqualsException.class,
           () -> userService.putUser(TEST_USER_PUT_REQUEST_DTO));
     }
-
   }
 
 }
