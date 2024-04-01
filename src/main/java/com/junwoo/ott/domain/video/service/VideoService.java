@@ -67,7 +67,14 @@ public class VideoService {
     Video video = existVideoById(updateRequestDto.getVideoId());
     Video updatedVideo = video.update(updateRequestDto.getDto());
     videoJpaRepository.save(updatedVideo);
+
     return new VideoUpdateResponseDto(updatedVideo);
+  }
+
+  public void deleteVideo(Long videoId) {
+    Video video = existVideoById(videoId);
+    video.Deleted();
+    videoJpaRepository.save(video);
   }
 
   @Transactional(readOnly = true)
