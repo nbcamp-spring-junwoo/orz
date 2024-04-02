@@ -1,5 +1,6 @@
 package com.junwoo.ott.domain.payment.entity;
 
+import com.junwoo.ott.domain.payment.dto.response.CardResponseDto;
 import com.junwoo.ott.domain.user.entity.User;
 import com.junwoo.ott.global.common.entity.Timestamped;
 import jakarta.persistence.Column;
@@ -45,5 +46,16 @@ public class Card extends Timestamped {
   @JoinColumn(name = "user_id")
   @Setter
   private User user;
+
+  public CardResponseDto toResponseDto() {
+    return CardResponseDto.builder()
+        .id(id)
+        .cardNumber(cardNumber)
+        .cardExpirationYear(cardExpirationYear)
+        .cardExpirationMonth(cardExpirationMonth)
+        .customerIdentityNumber(customerIdentityNumber)
+        .customerName(customerName)
+        .build();
+  }
 
 }
