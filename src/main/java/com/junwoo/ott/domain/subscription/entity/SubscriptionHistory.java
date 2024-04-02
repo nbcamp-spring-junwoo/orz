@@ -1,6 +1,7 @@
 package com.junwoo.ott.domain.subscription.entity;
 
 
+import com.junwoo.ott.domain.subscription.dto.response.SubscriptionHistoryResponseDto;
 import com.junwoo.ott.domain.user.entity.User;
 import com.junwoo.ott.global.common.entity.Timestamped;
 import com.junwoo.ott.global.customenum.SubscriptionStatusType;
@@ -49,5 +50,21 @@ public class SubscriptionHistory extends Timestamped {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
   private User user;
+
+  public void setParents(final Subscription subscription, final User user) {
+    this.subscription = subscription;
+    this.user = user;
+  }
+
+  public SubscriptionHistoryResponseDto toResponseDto() {
+    return SubscriptionHistoryResponseDto.builder()
+        .createdAt(getCreatedAt())
+        .updatedAt(getUpdatedAt())
+        .subscriptionHistoryId(subscriptionHistoryId)
+        .expireAt(expireAt)
+        .status(status)
+        .cancelAt(cancelAt)
+        .build();
+  }
 
 }

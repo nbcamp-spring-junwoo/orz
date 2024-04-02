@@ -17,7 +17,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 
 @Getter
@@ -42,8 +41,11 @@ public class Card extends Timestamped {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
-  @Setter
   private User user;
+
+  public void setParents(final User user) {
+    this.user = user;
+  }
 
   public CardResponseDto toResponseDto() {
     return CardResponseDto.builder()
