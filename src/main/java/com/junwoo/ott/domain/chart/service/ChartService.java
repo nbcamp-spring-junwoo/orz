@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
@@ -36,7 +37,7 @@ public class ChartService {
             Collectors.toMap(VideoPointResponseDto::getVideoId, VideoPointResponseDto::getPoint));
 
     chartHistoryService.deleteVideoPoint();
-    chartJpaRepository.deleteAll();
+    deleteAllChart();
 
     List<Long> videoIds = new ArrayList<>(videoIdToPointMap.keySet());
     List<Video> videos = videoService.getByVideoIdIn(videoIds);
@@ -54,4 +55,9 @@ public class ChartService {
     chartJpaRepository.saveAll(charts);
   }
 
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
+  protected void deleteAllChart() {
+    chartJpaRepository.deleteAll();
+    chartJpaRepository.flush();
+  }
 }
