@@ -12,5 +12,6 @@ public class MemberShipResponseDto {
 
   private Long membershipId;
   private MembershipType membershipType;
+  private Long price;
 
 }
