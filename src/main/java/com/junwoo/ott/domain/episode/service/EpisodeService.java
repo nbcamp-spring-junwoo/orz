@@ -1,5 +1,6 @@
 package com.junwoo.ott.domain.episode.service;
 
+import com.junwoo.ott.domain.episode.dto.body.EpisodeUpdateDto;
 import com.junwoo.ott.domain.episode.dto.request.EpisodeCreateRequestDto;
 import com.junwoo.ott.domain.episode.dto.response.EpisodeCreateResponseDto;
 import com.junwoo.ott.domain.episode.dto.response.EpisodeReadResponseDto;
@@ -58,6 +59,14 @@ public class EpisodeService {
             .orElseThrow(() -> new EntityNotFoundException("에피소드 id를 찾을 수 없습니다."));
 
         return new EpisodeReadResponseDto(episode);
+    }
+
+    public void updateEpisode(Long videoId, Long episodeId, EpisodeUpdateDto dto) {
+        Episode episode = episodeRepository.findByVideoIdAndEpisodeId(videoId, episodeId)
+            .orElseThrow(() -> new EntityNotFoundException("에피소드 id 혹은 비디오 id를 찾을 수 없습니다."));
+
+        episode.update(dto);
+        episodeRepository.save(episode);
     }
 
 }

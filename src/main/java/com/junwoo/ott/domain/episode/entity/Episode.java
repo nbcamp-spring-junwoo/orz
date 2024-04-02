@@ -1,5 +1,6 @@
 package com.junwoo.ott.domain.episode.entity;
 
+import com.junwoo.ott.domain.episode.dto.body.EpisodeUpdateDto;
 import com.junwoo.ott.domain.video.entity.Video;
 import com.junwoo.ott.global.common.entity.Timestamped;
 import jakarta.persistence.Column;
@@ -40,5 +41,16 @@ public class Episode extends Timestamped {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "video_id")
   private Video video;
+
+  public void update(final EpisodeUpdateDto dto) {
+
+    if (dto.getTitle() != null) {
+      this.title = dto.getTitle();
+    }
+    if (dto.getReleasedAt() != null) {
+      this.releasedAt = dto.getReleasedAt();
+    }
+
+  }
 
 }
