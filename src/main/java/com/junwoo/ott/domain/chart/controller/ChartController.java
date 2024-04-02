@@ -5,6 +5,7 @@ import com.junwoo.ott.domain.chart.service.ChartService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,6 +19,12 @@ public class ChartController {
   @GetMapping("/chart")
   public List<ChartResponseDto> getChart() {
     return chartService.getChart();
+  }
+
+  // 테스트용
+  @PostMapping("/chart/update")
+  public void updateChart() {
+    chartService.updateChart();
   }
 
 }
