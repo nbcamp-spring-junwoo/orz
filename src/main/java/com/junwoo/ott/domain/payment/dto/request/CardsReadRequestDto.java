@@ -1,4 +1,4 @@
-package com.junwoo.ott.domain.payment.controller;
+package com.junwoo.ott.domain.payment.dto.request;
 
 import com.junwoo.ott.global.exception.custom.UserNotSameException;
 import java.util.Objects;
