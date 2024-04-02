@@ -1,5 +1,7 @@
 package com.junwoo.ott.global.customenum.payment.virtualaccount;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -13,6 +15,7 @@ public enum VirtualAccountType {
 
   private final String description;
 
+  @JsonCreator(mode = Mode.DELEGATING)
   public static VirtualAccountType of(final String description) {
     for (VirtualAccountType virtualAccountType : VirtualAccountType.values()) {
       if (virtualAccountType.getDescription().equals(description)) {

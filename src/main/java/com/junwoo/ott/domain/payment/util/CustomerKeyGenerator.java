@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = lombok.AccessLevel.PRIVATE)
 public class CustomerKeyGenerator {
 
-  public static String generateCustomerKey(final Long userId) {
-    return UUID.fromString(userId.toString()).toString() + '.' + UUID.randomUUID();
+  public static String generateCustomerKey() {
+    return UUID.randomUUID().toString() + '.' + UUID.randomUUID();
   }
 
 }

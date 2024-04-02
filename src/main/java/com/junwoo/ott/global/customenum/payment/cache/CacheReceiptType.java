@@ -1,6 +1,7 @@
 package com.junwoo.ott.global.customenum.payment.cache;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -14,7 +15,7 @@ public enum CacheReceiptType {
 
   private final String description;
 
-  @JsonCreator
+  @JsonCreator(mode = Mode.DELEGATING)
   public static CacheReceiptType of(final String description) {
     for (CacheReceiptType cacheReceiptType : CacheReceiptType.values()) {
       if (cacheReceiptType.getDescription().equals(description)) {
