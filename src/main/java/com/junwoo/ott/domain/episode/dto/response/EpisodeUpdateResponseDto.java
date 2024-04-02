@@ -8,6 +8,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class EpisodeUpdateResponseDto {
 
-    private final Episode episode;
+    private Episode episode;
 
 }

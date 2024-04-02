@@ -18,7 +18,7 @@ public class EpisodeCustomRepositoryImpl implements EpisodeCustomRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<Episode> findByEpisodeId(Long videoId, Pageable pageable) {
+    public Page<Episode> findByEpisodeId(final Long videoId, final Pageable pageable) {
         QEpisode qEpisode = QEpisode.episode;
         List<Episode> episodes = queryFactory.selectFrom(qEpisode)
                 .where(qEpisode.video.videoId.eq(videoId), qEpisode.deletedAt.isNull())
@@ -36,7 +36,7 @@ public class EpisodeCustomRepositoryImpl implements EpisodeCustomRepository {
     }
 
     @Override
-    public Optional<Episode> findByVideoIdAndEpisodeId(Long videoId, Long episodeId) {
+    public Optional<Episode> findByVideoIdAndEpisodeId(final Long videoId, final Long episodeId) {
         QEpisode qEpisode = QEpisode.episode;
         Episode episode = queryFactory.selectFrom(qEpisode)
             .where(qEpisode.video.videoId.eq(videoId),

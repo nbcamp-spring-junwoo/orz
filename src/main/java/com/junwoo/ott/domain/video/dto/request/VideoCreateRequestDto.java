@@ -9,11 +9,11 @@ import lombok.Getter;
 @AllArgsConstructor
 public class VideoCreateRequestDto {
 
-  private String title;
-  private String description;
-  private RatingType ratingType;
+  private final String title;
+  private final String description;
+  private final RatingType ratingType;
 
-  public VideoCreateRequestDto(VideoCreateDto dto) {
+  public VideoCreateRequestDto(final VideoCreateDto dto) {
     this.title = dto.getTitle();
     this.description = dto.getDescription();
     this.ratingType = dto.getRatingType();

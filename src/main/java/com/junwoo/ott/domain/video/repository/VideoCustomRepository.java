@@ -6,8 +6,8 @@ import org.springframework.data.domain.Pageable;
 
 public interface VideoCustomRepository {
 
-    Page<Video> findByTitle(String title, Pageable pageable);
+    Page<Video> findByTitle(final String title, final Pageable pageable);
 
-    Page<Video> getVideos(Pageable pageable);
+    Page<Video> getVideos(final Pageable pageable);
 
 }

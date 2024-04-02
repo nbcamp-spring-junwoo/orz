@@ -11,10 +11,10 @@ import lombok.Getter;
 public class VideoCreateDto {
 
   @NotNull
-  private String title;
+  private final String title;
   @NotNull
-  private String description;
+  private final String description;
   @NotNull
-  private RatingType ratingType;
+  private final RatingType ratingType;
 
 }

@@ -42,7 +42,7 @@ public class Video extends Timestamped {
   private RatingType ratingType;
   private LocalDateTime deletedAt;
 
-  public static Video of(VideoCreateRequestDto dto) {
+  public static Video of(final VideoCreateRequestDto dto) {
 
     return Video.builder()
         .title(dto.getTitle())
@@ -60,7 +60,7 @@ public class Video extends Timestamped {
         .deletedAt(this.deletedAt);
   }
 
-  public Video update(VideoUpdateDto dto) {
+  public Video update(final VideoUpdateDto dto) {
     VideoBuilder builder = this.toBuilder();
 
     if (dto.getTitle() != null) {

@@ -9,13 +9,13 @@ import lombok.Getter;
 @AllArgsConstructor
 public class EpisodeCreateResponseDto {
 
-    private Long episodeId;
-    private String title;
-    private LocalDateTime releasedAt;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private final Long episodeId;
+    private final String title;
+    private final LocalDateTime releasedAt;
+    private final LocalDateTime createdAt;
+    private final LocalDateTime updatedAt;
 
-    public EpisodeCreateResponseDto(Episode episode) {
+    public EpisodeCreateResponseDto(final Episode episode) {
         this.episodeId = episode.getEpisodeId();
         this.title = episode.getTitle();
         this.releasedAt = episode.getReleasedAt();

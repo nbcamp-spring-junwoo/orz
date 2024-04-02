@@ -9,8 +9,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public class EpisodeCreateRequestDto {
 
-    private String title;
-    private LocalDateTime releasedAt;
+    private final String title;
+    private final LocalDateTime releasedAt;
 
     public EpisodeCreateRequestDto(EpisodeCreateDto dto) {
         this.title = dto.getTitle();

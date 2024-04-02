@@ -7,8 +7,8 @@ import org.springframework.data.domain.Pageable;
 
 public interface EpisodeCustomRepository {
 
-    Page<Episode> findByEpisodeId(Long videoId, Pageable pageable);
+    Page<Episode> findByEpisodeId(final Long videoId, final Pageable pageable);
 
-    Optional<Episode> findByVideoIdAndEpisodeId(Long videoId, Long episodeId);
+    Optional<Episode> findByVideoIdAndEpisodeId(final Long videoId, final Long episodeId);
 
 }

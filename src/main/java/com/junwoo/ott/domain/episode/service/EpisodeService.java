@@ -25,8 +25,8 @@ public class EpisodeService {
     private final VideoService videoService;
 
     public EpisodeCreateResponseDto createEpisode(
-        Long videoId,
-        EpisodeCreateRequestDto dto
+        final Long videoId,
+        final EpisodeCreateRequestDto dto
     ) {
         Video video = videoService.getByVideoId(videoId);
 
@@ -42,8 +42,8 @@ public class EpisodeService {
     }
 
     public Page<EpisodeReadResponseDto> getEpisodesByVideo(
-        Long videoId,
-        Pageable pageable
+        final Long videoId,
+        final Pageable pageable
     ) {
         videoService.validateVideoExists(videoId);
         Page<Episode> episodesPage = episodeRepository.findByEpisodeId(videoId, pageable);
@@ -51,8 +51,8 @@ public class EpisodeService {
     }
 
     public EpisodeReadResponseDto getEpisodeByVideo(
-        Long videoId,
-        Long episodeId
+        final Long videoId,
+        final Long episodeId
     ) {
         videoService.validateVideoExists(videoId);
         Episode episode = episodeRepository.findByVideoIdAndEpisodeId(videoId, episodeId)
@@ -61,7 +61,11 @@ public class EpisodeService {
         return new EpisodeReadResponseDto(episode);
     }
 
-    public void updateEpisode(Long videoId, Long episodeId, EpisodeUpdateDto dto) {
+    public void updateEpisode(
+        final Long videoId,
+        final Long episodeId,
+        final EpisodeUpdateDto dto
+    ) {
         Episode episode = episodeRepository.findByVideoIdAndEpisodeId(videoId, episodeId)
             .orElseThrow(() -> new EntityNotFoundException("에피소드 id 혹은 비디오 id를 찾을 수 없습니다."));
 

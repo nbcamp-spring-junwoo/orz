@@ -27,8 +27,8 @@ public class EpisodeController {
 
     @PostMapping
     public void postEpisode(
-        @PathVariable Long videoId,
-        @Validated @RequestBody EpisodeCreateDto dto
+        final @PathVariable Long videoId,
+        final @Validated @RequestBody EpisodeCreateDto dto
     ) {
         EpisodeCreateRequestDto createDto = new EpisodeCreateRequestDto(dto.getTitle(), dto.getReleasedAt());
         episodeService.createEpisode(videoId, createDto);
@@ -36,8 +36,8 @@ public class EpisodeController {
 
     @GetMapping
     public ResponseDto<Page<EpisodeReadResponseDto>> getEpisodes(
-        @PathVariable Long videoId,
-        Pageable pageable
+        final @PathVariable Long videoId,
+        final Pageable pageable
     ) {
         Page<EpisodeReadResponseDto> episodesPage = episodeService.getEpisodesByVideo(videoId, pageable);
         return ResponseDto.ok(episodesPage);
@@ -45,8 +45,8 @@ public class EpisodeController {
 
     @GetMapping("/{episodeId}")
     public ResponseDto<EpisodeReadResponseDto> getEpisode(
-        @PathVariable Long videoId,
-        @PathVariable Long episodeId
+        final @PathVariable Long videoId,
+        final @PathVariable Long episodeId
     ) {
         EpisodeReadResponseDto episodeReadResponseDto = episodeService.getEpisodeByVideo(videoId, episodeId);
         return ResponseDto.ok(episodeReadResponseDto);
@@ -54,9 +54,9 @@ public class EpisodeController {
 
     @PutMapping("/{episodeId}")
     public void putEpisode(
-        @PathVariable Long videoId,
-        @PathVariable Long episodeId,
-        @RequestBody EpisodeUpdateDto dto
+        final @PathVariable Long videoId,
+        final @PathVariable Long episodeId,
+        final @RequestBody EpisodeUpdateDto dto
     ) {
 
         episodeService.updateEpisode(videoId, episodeId, dto);
