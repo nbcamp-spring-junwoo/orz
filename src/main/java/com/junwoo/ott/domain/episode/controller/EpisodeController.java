@@ -6,7 +6,6 @@ import com.junwoo.ott.domain.episode.dto.request.EpisodeCreateRequestDto;
 import com.junwoo.ott.domain.episode.dto.response.EpisodeReadResponseDto;
 import com.junwoo.ott.domain.episode.service.EpisodeService;
 import com.junwoo.ott.global.common.dto.ResponseDto;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -57,7 +56,7 @@ public class EpisodeController {
     public void putEpisode(
         @PathVariable Long videoId,
         @PathVariable Long episodeId,
-        @Valid @RequestBody EpisodeUpdateDto dto
+        @RequestBody EpisodeUpdateDto dto
     ) {
 
         episodeService.updateEpisode(videoId, episodeId, dto);
