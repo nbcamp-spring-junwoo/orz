@@ -28,7 +28,7 @@ public class ChartHistoryService {
   }
 
   public void addVideoPoint(Long videoId, double point) {
-    zSetOps.add(VIDEO_POINT, String.valueOf(videoId), point);
+    zSetOps.incrementScore(VIDEO_POINT, String.valueOf(videoId), point);
   }
 
   public List<VideoPointResponseDto> getTopVideos() {
