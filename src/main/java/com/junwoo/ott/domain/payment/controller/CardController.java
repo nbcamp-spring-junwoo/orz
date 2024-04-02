@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -27,7 +28,7 @@ public class CardController {
   @PostMapping("/api/v1/users/{userId}/cards")
   public void postCard(
       final @Positive @PathVariable Long userId,
-      final @Validated CardCreateDto dto,
+      final @Validated @RequestBody CardCreateDto dto,
       final @AuthenticationPrincipal UserDetailsImpl userDetails
   ) {
     CardCreateRequestDto requestDto = CardCreateRequestDto.of(dto, userId, userDetails.getUserId());

@@ -1,6 +1,5 @@
 package com.junwoo.ott.domain.subscription.dto.request;
 
-import com.junwoo.ott.global.customenum.MembershipType;
 import com.junwoo.ott.global.exception.custom.UserNotSameException;
 import com.junwoo.ott.global.jwt.UserDetailsImpl;
 import java.util.Objects;
@@ -15,13 +14,13 @@ public class SubscriptionRequestDto {
 
   private Long userId;
   private Long cardId;
-  private MembershipType membership;
+  private Long membershipId;
   private UserDetailsImpl userDetails;
 
   public static SubscriptionRequestDto of(
       final Long userId,
       final Long cardId,
-      final MembershipType membershipType,
+      final Long membershipId,
       final UserDetailsImpl userDetails
   ) {
     if (!Objects.equals(userId, userDetails.getUserId())) {
@@ -31,7 +30,7 @@ public class SubscriptionRequestDto {
     return SubscriptionRequestDto.builder()
         .userId(userId)
         .cardId(cardId)
-        .membership(membershipType)
+        .membershipId(membershipId)
         .userDetails(userDetails)
         .build();
   }

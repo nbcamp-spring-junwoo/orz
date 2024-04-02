@@ -6,6 +6,7 @@ import com.junwoo.ott.domain.payment.dto.response.CardReadRequestDto;
 import com.junwoo.ott.domain.payment.dto.response.CardResponseDto;
 import com.junwoo.ott.domain.payment.entity.Card;
 import com.junwoo.ott.domain.payment.repository.CardRepository;
+import com.junwoo.ott.domain.user.entity.User;
 import com.junwoo.ott.global.exception.custom.CustomCardException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,10 @@ public class CardService {
   public void createCard(final CardCreateRequestDto requestDto) {
     validateSameCardNotExists(requestDto.cardNumber());
 
-    cardRepository.save(requestDto.toEntity());
+    Card entity = requestDto.toEntity();
+    entity.setParents(User.builder().userId(requestDto.userId()).build());
+
+    cardRepository.save(entity);
   }
 
   public CardResponseDto getCard(final CardReadRequestDto requestDto) {

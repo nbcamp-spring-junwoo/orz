@@ -22,9 +22,9 @@ public class BillingKeyRequestDto {
   // 카드 소유자 생년월일입니다.
   private String customerIdentityNumber;
 
-  public static BillingKeyRequestDto of(final Long userId, final CardResponseDto card) {
+  public static BillingKeyRequestDto of(final CardResponseDto card) {
     return BillingKeyRequestDto.builder()
-        .customerKey(CustomerKeyGenerator.generateCustomerKey(userId))
+        .customerKey(CustomerKeyGenerator.generateCustomerKey())
         .cardNumber(card.getCardNumber())
         .cardExpirationYear(card.getCardExpirationYear())
         .cardExpirationMonth(card.getCardExpirationMonth())

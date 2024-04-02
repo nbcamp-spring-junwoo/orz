@@ -12,9 +12,11 @@ import com.junwoo.ott.domain.payment.dto.remote.payment.MobilePhoneDto;
 import com.junwoo.ott.domain.payment.dto.remote.payment.ReceiptDto;
 import com.junwoo.ott.domain.payment.dto.remote.payment.TransferDto;
 import com.junwoo.ott.domain.payment.dto.remote.payment.VirtualAccountDto;
+import com.junwoo.ott.domain.subscription.entity.SubscriptionHistory;
 import com.junwoo.ott.global.customenum.payment.PaymentStatusType;
 import com.junwoo.ott.global.customenum.payment.PaymentType;
 import com.junwoo.ott.global.customenum.payment.common.PaymentMethodType;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -102,5 +104,11 @@ public class PaymentDto {
   private List<CacheReceiptDto> cashReceipts;
   // 카드사의 즉시 할인 프로모션 정보입니다. 즉시 할인 프로모션이 적용됐을 때만 생성됩니다.
   private DiscountDto discount;
+
+  public SubscriptionHistory toSubscriptionHistory() {
+    return SubscriptionHistory.builder()
+        .expireAt(LocalDate.now().plusDays(30))
+        .build();
+  }
 
 }
