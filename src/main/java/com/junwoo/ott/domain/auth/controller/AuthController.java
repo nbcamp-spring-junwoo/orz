@@ -36,7 +36,7 @@ public class AuthController {
     authService.signup(new AuthSignupRequestDto(authSignupDto));
   }
 
-  @PostMapping("/signup/admin")
+  @PostMapping("/admin/signup")
   public void adminSignup(@RequestBody @Validated AuthAdminSignupDto authAdminSignupDto) {
     authService.adminSignup(new AuthAdminSignupRequestDto(authAdminSignupDto));
   }
@@ -52,7 +52,7 @@ public class AuthController {
     setAuthenticationResponse(authentication, response);
   }
 
-  @PostMapping("/login/admin")
+  @PostMapping("/admin/login")
   public void adminLogin(
       @RequestBody @Validated AuthLoginDto authLoginDto,
       HttpServletResponse response
