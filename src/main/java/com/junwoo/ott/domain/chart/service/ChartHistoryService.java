@@ -27,7 +27,7 @@ public class ChartHistoryService {
     zSetOps = redisTemplate.opsForZSet();
   }
 
-  public void addVideoPoint(Long videoId, double point) {
+  public void addVideoPoint(final Long videoId, final double point) {
     zSetOps.incrementScore(VIDEO_POINT, String.valueOf(videoId), point);
   }
 
