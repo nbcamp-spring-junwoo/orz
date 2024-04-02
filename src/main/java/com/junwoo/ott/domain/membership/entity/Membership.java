@@ -9,8 +9,10 @@ import jakarta.persistence.Id;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,11 +23,13 @@ public class Membership {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long membershipId;
   private MembershipType membershipType;
+  private Long price;
 
   public MemberShipResponseDto toResponseDto() {
     return MemberShipResponseDto.builder()
         .membershipId(membershipId)
         .membershipType(membershipType)
+        .price(price)
         .build();
   }
 
