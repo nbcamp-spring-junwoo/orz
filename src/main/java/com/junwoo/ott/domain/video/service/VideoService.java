@@ -94,4 +94,12 @@ public class VideoService {
 
   }
 
+  public void validateVideoExists(Long videoId) {
+    boolean exists = videoJpaRepository.existsById(videoId);
+    if (!exists) {
+      throw new EntityNotFoundException("비디오 id가 존재하지 않습니다.");
+    }
+
+  }
+
 }
