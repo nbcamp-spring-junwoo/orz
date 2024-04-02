@@ -49,4 +49,10 @@ public class Subscription extends Timestamped {
   @JoinColumn(name = "card_id")
   private Card card;
 
+  public void setParents(final User user, final Membership membership, final Card card) {
+    this.user = user;
+    this.membership = membership;
+    this.card = card;
+  }
+
 }

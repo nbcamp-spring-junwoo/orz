@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import java.time.format.DateTimeFormatter;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -50,6 +51,7 @@ public class Card extends Timestamped {
         .cardNumber(cardNumber)
         .cardExpirationYear(cardExpirationYear)
         .cardExpirationMonth(cardExpirationMonth)
+        .customerIdentityNumber(user.getBorn().format(DateTimeFormatter.ofPattern("yyMMdd")))
         .customerName(customerName)
         .build();
   }
