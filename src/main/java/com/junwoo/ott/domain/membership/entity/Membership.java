@@ -1,5 +1,6 @@
 package com.junwoo.ott.domain.membership.entity;
 
+import com.junwoo.ott.domain.membership.dto.response.MemberShipResponseDto;
 import com.junwoo.ott.global.customenum.MembershipType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,7 +19,14 @@ public class Membership {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long authorityId;
+  private Long membershipId;
   private MembershipType membershipType;
+
+  public MemberShipResponseDto toResponseDto() {
+    return MemberShipResponseDto.builder()
+        .membershipId(membershipId)
+        .membershipType(membershipType)
+        .build();
+  }
 
 }
