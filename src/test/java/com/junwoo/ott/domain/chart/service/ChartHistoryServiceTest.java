@@ -43,7 +43,7 @@ public class ChartHistoryServiceTest implements ChartTestValues {
     chartHistoryService.addVideoPoint(TEST_VIDEO_ID_V1, TEST_VIDEO_POINT_V1);
 
     // then
-    then(zSetOps).should().add(anyString(), anyString(), anyDouble());
+    then(zSetOps).should().incrementScore(anyString(), anyString(), anyDouble());
   }
 
   @Test

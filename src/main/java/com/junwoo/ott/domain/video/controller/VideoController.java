@@ -8,6 +8,7 @@ import com.junwoo.ott.domain.video.dto.request.VideoUpdateRequestDto;
 import com.junwoo.ott.domain.video.dto.response.VideoReadResponseDto;
 import com.junwoo.ott.domain.video.dto.response.VideoUpdateResponseDto;
 import com.junwoo.ott.domain.video.service.VideoService;
+import com.junwoo.ott.global.aop.VideoPoint;
 import com.junwoo.ott.global.common.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -44,6 +45,7 @@ public class VideoController {
     return ResponseDto.ok(videosPage);
   }
 
+  @VideoPoint(points = 1.0)
   @GetMapping("{videoId}")
   public ResponseDto<VideoReadResponseDto> getVideo(@PathVariable("videoId") Long videoId) {
     VideoReadResponseDto videoReadResponseDto = videoService.getVideo(videoId);
