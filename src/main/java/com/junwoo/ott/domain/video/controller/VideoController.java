@@ -32,13 +32,13 @@ public class VideoController {
   private final VideoService videoService;
 
   @PostMapping
-  public void postVideo(@Validated @RequestBody VideoCreateDto dto) {
+  public void postVideo(final @Validated @RequestBody VideoCreateDto dto) {
     VideoCreateRequestDto createDto = new VideoCreateRequestDto(dto);
     videoService.createVideo(createDto);
   }
 
   @GetMapping
-  public ResponseDto<Page<VideoReadResponseDto>> getVideos(Pageable pageable) {
+  public ResponseDto<Page<VideoReadResponseDto>> getVideos(final Pageable pageable) {
     VideoReadRequestDto dto = new VideoReadRequestDto(pageable);
     Page<VideoReadResponseDto> videosPage = videoService.getVideos(dto);
 
@@ -47,15 +47,15 @@ public class VideoController {
 
   @VideoPoint(points = 1.0)
   @GetMapping("{videoId}")
-  public ResponseDto<VideoReadResponseDto> getVideo(@PathVariable("videoId") Long videoId) {
+  public ResponseDto<VideoReadResponseDto> getVideo(final @PathVariable("videoId") Long videoId) {
     VideoReadResponseDto videoReadResponseDto = videoService.getVideo(videoId);
     return ResponseDto.ok(videoReadResponseDto);
   }
 
   @GetMapping("/search")
   public ResponseDto<Page<VideoReadResponseDto>> searchVideos(
-      @RequestParam String title,
-      Pageable pageable
+      final @RequestParam String title,
+      final Pageable pageable
   ) {
     VideoReadRequestDto dto = new VideoReadRequestDto(title, pageable);
     Page<VideoReadResponseDto> videosPage = videoService.getVideosByTitle(dto);
@@ -64,8 +64,8 @@ public class VideoController {
 
   @PutMapping("/{videoId}")
   public ResponseDto<VideoUpdateResponseDto> updateVideo(
-      @PathVariable("videoId") Long videoId,
-      @Validated @RequestBody VideoUpdateDto dto
+      final @PathVariable("videoId") Long videoId,
+      final @Validated @RequestBody VideoUpdateDto dto
   ) {
     VideoUpdateRequestDto updateRequestDto = new VideoUpdateRequestDto(videoId, dto);
     VideoUpdateResponseDto updatedVideo = videoService.updateVideo(updateRequestDto);
@@ -73,7 +73,7 @@ public class VideoController {
   }
 
   @DeleteMapping("/{videoId}")
-  public void deleteVideo(@PathVariable("videoId") Long videoId) {
+  public void deleteVideo(final @PathVariable("videoId") Long videoId) {
     videoService.deleteVideo(videoId);
   }
 

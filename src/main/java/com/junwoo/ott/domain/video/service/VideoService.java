@@ -37,13 +37,13 @@ public class VideoService {
   }
 
   @Transactional(readOnly = true)
-  public Page<VideoReadResponseDto> getVideos(VideoReadRequestDto dto) {
+  public Page<VideoReadResponseDto> getVideos(final VideoReadRequestDto dto) {
     Page<Video> videosPage = videoJpaRepository.getVideos(dto.getPageable());
     return videosPage.map(VideoReadResponseDto::new);
   }
 
   @Transactional(readOnly = true)
-  public VideoReadResponseDto getVideo(Long videoId) {
+  public VideoReadResponseDto getVideo(final Long videoId) {
     //회원 인증
     return videoJpaRepository.findById(videoId)
         .map(VideoReadResponseDto::new)
@@ -51,7 +51,7 @@ public class VideoService {
   }
 
   @Transactional(readOnly = true)
-  public Page<VideoReadResponseDto> getVideosByTitle(VideoReadRequestDto dto) {
+  public Page<VideoReadResponseDto> getVideosByTitle(final VideoReadRequestDto dto) {
     // 회원 인증
     if (dto.getTitle() != null && !dto.getTitle().isEmpty()) {
       Page<Video> videosPage = videoJpaRepository.findByTitle(dto.getTitle(),
@@ -63,7 +63,7 @@ public class VideoService {
 
   }
 
-  public VideoUpdateResponseDto updateVideo(VideoUpdateRequestDto updateRequestDto) {
+  public VideoUpdateResponseDto updateVideo(final VideoUpdateRequestDto updateRequestDto) {
     Video video = existVideoById(updateRequestDto.getVideoId());
     Video updatedVideo = video.update(updateRequestDto.getDto());
     videoJpaRepository.save(updatedVideo);
@@ -71,30 +71,30 @@ public class VideoService {
     return new VideoUpdateResponseDto(updatedVideo);
   }
 
-  public void deleteVideo(Long videoId) {
+  public void deleteVideo(final Long videoId) {
     Video video = existVideoById(videoId);
 
     videoJpaRepository.delete(video);
   }
 
   @Transactional(readOnly = true)
-  public Video existVideoById(Long videoId) {
+  public Video existVideoById(final Long videoId) {
     return videoJpaRepository.findById(videoId).orElseThrow(
         () -> new EntityNotFoundException("비디오 id가 존재하지 않습니다.")
     );
   }
 
-  public List<Video> getByVideoIdIn(List<Long> videoIds) {
+  public List<Video> getByVideoIdIn(final List<Long> videoIds) {
     return videoJpaRepository.findAllById(videoIds);
   }
 
-  public Video getByVideoId(Long videoId) {
+  public Video getByVideoId(final Long videoId) {
     return videoJpaRepository.findById(videoId)
         .orElseThrow(() -> new EntityNotFoundException("비디오 id가 존재하지 않습니다."));
 
   }
 
-  public void validateVideoExists(Long videoId) {
+  public void validateVideoExists(final Long videoId) {
     boolean exists = videoJpaRepository.existsById(videoId);
     if (!exists) {
       throw new EntityNotFoundException("비디오 id가 존재하지 않습니다.");

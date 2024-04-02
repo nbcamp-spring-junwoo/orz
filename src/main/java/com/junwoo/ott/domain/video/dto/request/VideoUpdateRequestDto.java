@@ -8,7 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class VideoUpdateRequestDto {
 
-  private Long videoId;
-  private VideoUpdateDto dto;
+  private final Long videoId;
+  private final VideoUpdateDto dto;
 
 }

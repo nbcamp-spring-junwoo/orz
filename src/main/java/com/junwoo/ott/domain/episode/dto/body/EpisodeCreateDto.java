@@ -10,9 +10,9 @@ import lombok.Getter;
 public class EpisodeCreateDto {
 
     @NotNull
-    private String title;
+    private final String title;
 
     @NotNull
-    private LocalDateTime releasedAt;
+    private final LocalDateTime releasedAt;
 
 }

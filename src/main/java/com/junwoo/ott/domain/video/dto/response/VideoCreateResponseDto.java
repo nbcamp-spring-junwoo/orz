@@ -10,14 +10,14 @@ import lombok.Getter;
 @AllArgsConstructor
 public class VideoCreateResponseDto {
 
-  private Long videoId;
-  private String title;
-  private String description;
-  private RatingType ratingType;
-  private LocalDateTime createdAt;
-  private LocalDateTime updatedAt;
+  private final Long videoId;
+  private final String title;
+  private final String description;
+  private final RatingType ratingType;
+  private final LocalDateTime createdAt;
+  private final LocalDateTime updatedAt;
 
-  public VideoCreateResponseDto(Video video) {
+  public VideoCreateResponseDto(final Video video) {
     this.videoId = video.getVideoId();
     this.title = video.getTitle();
     this.description = video.getDescription();

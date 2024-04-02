@@ -18,7 +18,7 @@ public class VideoCustomRepositoryImpl implements VideoCustomRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<Video> findByTitle(String title, Pageable pageable) {
+    public Page<Video> findByTitle(final String title, final Pageable pageable) {
         QVideo video = QVideo.video;
         List<Video> videos = queryFactory.selectFrom(video)
                 .where(titleEq(title), video.deletedAt.isNull())
@@ -36,7 +36,7 @@ public class VideoCustomRepositoryImpl implements VideoCustomRepository {
     }
 
     @Override
-    public Page<Video> getVideos(Pageable pageable) {
+    public Page<Video> getVideos(final Pageable pageable) {
         QVideo qVideo = QVideo.video;
         List<Video> videos = queryFactory.selectFrom(qVideo)
             .where(qVideo.deletedAt.isNull())
@@ -53,7 +53,7 @@ public class VideoCustomRepositoryImpl implements VideoCustomRepository {
         return new PageImpl<>(videos, pageable, total);
     }
 
-    private BooleanExpression titleEq(String title) {
+    private BooleanExpression titleEq(final String title) {
 
         if (title == null || title.isEmpty()) {
             return null;
