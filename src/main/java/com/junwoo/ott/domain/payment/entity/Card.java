@@ -11,7 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,15 +28,13 @@ public class Card extends Timestamped {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private Long cardId;
   @Column(nullable = false, length = 16)
   private String cardNumber;
   @Column(nullable = false, length = 2)
   private String cardExpirationYear;
   @Column(nullable = false, length = 2)
   private String cardExpirationMonth;
-  @Column(nullable = false, length = 6)
-  private LocalDate customerIdentityNumber;
   @Column(nullable = false, length = 2)
   private String cardPassword;
   private String customerName;
@@ -49,11 +46,10 @@ public class Card extends Timestamped {
 
   public CardResponseDto toResponseDto() {
     return CardResponseDto.builder()
-        .id(id)
+        .cardId(cardId)
         .cardNumber(cardNumber)
         .cardExpirationYear(cardExpirationYear)
         .cardExpirationMonth(cardExpirationMonth)
-        .customerIdentityNumber(customerIdentityNumber)
         .customerName(customerName)
         .build();
   }

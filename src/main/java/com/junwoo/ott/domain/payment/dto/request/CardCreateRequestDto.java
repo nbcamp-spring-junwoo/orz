@@ -42,7 +42,6 @@ public record CardCreateRequestDto(
         .cardNumber(cardNumber())
         .cardExpirationYear(cardExpirationYear())
         .cardExpirationMonth(cardExpirationMonth())
-        .customerIdentityNumber(customerIdentityNumber())
         .cardPassword(cardPassword())
         .customerName(customerName())
         .build();

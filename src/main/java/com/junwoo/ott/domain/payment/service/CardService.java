@@ -1,7 +1,7 @@
 package com.junwoo.ott.domain.payment.service;
 
-import com.junwoo.ott.domain.payment.controller.CardsReadRequestDto;
 import com.junwoo.ott.domain.payment.dto.request.CardCreateRequestDto;
+import com.junwoo.ott.domain.payment.dto.request.CardsReadRequestDto;
 import com.junwoo.ott.domain.payment.dto.response.CardReadRequestDto;
 import com.junwoo.ott.domain.payment.dto.response.CardResponseDto;
 import com.junwoo.ott.domain.payment.entity.Card;

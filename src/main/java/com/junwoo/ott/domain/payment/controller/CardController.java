@@ -2,6 +2,7 @@ package com.junwoo.ott.domain.payment.controller;
 
 import com.junwoo.ott.domain.payment.dto.body.CardCreateDto;
 import com.junwoo.ott.domain.payment.dto.request.CardCreateRequestDto;
+import com.junwoo.ott.domain.payment.dto.request.CardsReadRequestDto;
 import com.junwoo.ott.domain.payment.dto.response.CardReadRequestDto;
 import com.junwoo.ott.domain.payment.dto.response.CardResponseDto;
 import com.junwoo.ott.domain.payment.service.CardService;
@@ -34,7 +35,7 @@ public class CardController {
     cardService.createCard(requestDto);
   }
 
-  @GetMapping("/api/v1/users/{userId}/cards/{cardId}}")
+  @GetMapping("/api/v1/users/{userId}/cards/{cardId}")
   public ResponseDto<CardResponseDto> getCard(
       final @PathVariable Long userId,
       final @PathVariable Long cardId,

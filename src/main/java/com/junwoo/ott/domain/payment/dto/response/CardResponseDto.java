@@ -10,7 +10,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class CardResponseDto {
 
-  private Long id;
+  private Long cardId;
   private String cardNumber;
   private String cardExpirationYear;
   private String cardExpirationMonth;
