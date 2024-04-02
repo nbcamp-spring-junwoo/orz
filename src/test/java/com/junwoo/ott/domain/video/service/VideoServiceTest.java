@@ -296,7 +296,7 @@ class VideoServiceTest implements VideoTestValues {
   }
 
   @Nested
-  @DisplayName("ID목록으로 조회")
+  @DisplayName("ID 조회")
   class GetVideosByIds {
 
     @Test
@@ -324,6 +324,72 @@ class VideoServiceTest implements VideoTestValues {
       assertTrue(resultVideos.containsAll(expectedVideos), "값이 올바르지 않습니다.");
     }
 
+    @Test
+    @DisplayName("비디오 id로 조회 성공")
+    void id조회성공() {
+      // given
+      Long existingVideoId = TEST_VIDEO_ID;
+      Video expectedVideo = Video.builder()
+          .videoId(existingVideoId)
+          .title(TEST_TITLE)
+          .description(TEST_DESCRIPTION)
+          .ratingType(TEST_RATING_TYPE)
+          .build();
+      given(videoJpaRepository.findById(existingVideoId)).willReturn(Optional.of(expectedVideo));
+
+      // when
+      Video foundVideo = videoService.getByVideoId(existingVideoId);
+
+      // then
+      assertNotNull(foundVideo);
+      assertEquals(expectedVideo.getVideoId(), foundVideo.getVideoId());
+      assertEquals(expectedVideo.getTitle(), foundVideo.getTitle());
+    }
+
+    @Test
+    @DisplayName("비디오 id로 조회 실패")
+    void id조회실패() {
+      // given
+      Long nonExistingVideoId = TEST_VIDEO_ID;
+      given(videoJpaRepository.findById(nonExistingVideoId)).willReturn(Optional.empty());
+
+      // when & then
+      assertThrows(EntityNotFoundException.class,
+          () -> videoService.getByVideoId(nonExistingVideoId));
+    }
+
+  }
+
+  @Nested
+  @DisplayName("ID 확인")
+  class existsByIds {
+
+    @Test
+    @DisplayName("비디오 ID로 확인 실패")
+    void id확인성공() {
+      // given
+      Long existingVideoId = TEST_VIDEO_ID;
+      given(videoJpaRepository.existsById(existingVideoId)).willReturn(true);
+
+      // when
+      assertDoesNotThrow(() -> videoService.validateVideoExists(existingVideoId));
+
+      // then
+      verify(videoJpaRepository).existsById(existingVideoId);
+    }
+
+    @Test
+    @DisplayName("비디오 ID로 확인 성공")
+    void id확인실패() {
+      // given
+      Long nonExistingVideoId = TEST_VIDEO_ID;
+      given(videoJpaRepository.existsById(nonExistingVideoId)).willReturn(false);
+
+      // when & then
+      assertThrows(EntityNotFoundException.class,
+          () -> videoService.validateVideoExists(nonExistingVideoId));
+    }
+
   }
 
   public void setTimestamps(Video video, LocalDateTime createdAt, LocalDateTime updatedAt) {
@@ -338,38 +404,6 @@ class VideoServiceTest implements VideoTestValues {
       updatedAtField.set(video, updatedAt);
     } catch (NoSuchFieldException | IllegalAccessException e) {
       throw new RuntimeException("시간 설정에 실패했습니다.", e);
-    }
-
-  }
-
-  @Nested
-  @DisplayName("ID목록으로 조회")
-  class existsByIds {
-
-  @Test
-  @DisplayName("비디오 ID 확인")
-  void id확인성공() {
-    // given
-    Long existingVideoId = TEST_VIDEO_ID;
-    given(videoJpaRepository.existsById(existingVideoId)).willReturn(true);
-
-    // when
-    assertDoesNotThrow(() -> videoService.validateVideoExists(existingVideoId));
-
-    // then
-    verify(videoJpaRepository).existsById(existingVideoId);
-  }
-
-    @Test
-    @DisplayName("비디오 ID 예외 처리")
-    void id확인실패() {
-      // given
-      Long nonExistingVideoId = TEST_VIDEO_ID;
-      given(videoJpaRepository.existsById(nonExistingVideoId)).willReturn(false);
-
-      // when & then
-      assertThrows(EntityNotFoundException.class,
-          () -> videoService.validateVideoExists(nonExistingVideoId));
     }
 
   }
