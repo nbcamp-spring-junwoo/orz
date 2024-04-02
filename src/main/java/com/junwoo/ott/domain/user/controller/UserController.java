@@ -24,13 +24,13 @@ public class UserController {
   private final UserService userService;
 
   @GetMapping("/{id}")
-  public ResponseDto<UserReadResponseDto> getUser(@PathVariable("id") Long id) {
+  public ResponseDto<UserReadResponseDto> getUser(@PathVariable("id") final Long id) {
     return ResponseDto.ok(userService.getUser(id));
   }
 
   @PutMapping("/{id}")
   public void putUser(
-      @PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails,
+      @PathVariable final Long id, @AuthenticationPrincipal final UserDetailsImpl userDetails,
       @RequestBody @Validated UserPutDto userPutDto
   ) {
     UserPutRequestDto userPutRequestDto = new UserPutRequestDto(id, userDetails.getUserId(),

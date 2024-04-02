@@ -24,7 +24,7 @@ public class AuthService {
   @Value("${admin.prefix}")
   private String adminPrefix;
 
-  public void signup(AuthSignupRequestDto authSignupRequestDto) {
+  public void signup(final AuthSignupRequestDto authSignupRequestDto) {
 
     String username = authSignupRequestDto.getUsername();
     validateUsernameStartWith(username);
@@ -32,21 +32,21 @@ public class AuthService {
     userService.createUser(authSignupRequestDto);
   }
 
-  public void adminSignup(AuthAdminSignupRequestDto authAdminSignupRequestDto) {
+  public void adminSignup(final AuthAdminSignupRequestDto authAdminSignupRequestDto) {
 
     validateCorrectAdminKey(authAdminSignupRequestDto.getAdminKey());
     adminService.validateAdminNotExist(authAdminSignupRequestDto.getUsername());
     adminService.createAdmin(authAdminSignupRequestDto);
   }
 
-  private void validateCorrectAdminKey(String adminKey) {
+  private void validateCorrectAdminKey(final String adminKey) {
 
     if (!this.adminKey.equals(adminKey)) {
       throw new AdminKeyNotCorrectException("관리자 키가 일치하지 않습니다.");
     }
   }
 
-  private void validateUsernameStartWith(String username) {
+  private void validateUsernameStartWith(final String username) {
 
     if (username.startsWith(adminPrefix)) {
       throw new UsernameHasAdminPreFixException("username에 admin prefix 포함");

@@ -19,7 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   private final AdminRepository adminRepository;
 
   @Override
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+  public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
     User user = null;
 
     if (username.startsWith("admin_")) {

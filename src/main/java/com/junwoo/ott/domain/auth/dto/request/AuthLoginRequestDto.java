@@ -1,7 +1,6 @@
 package com.junwoo.ott.domain.auth.dto.request;
 
 import com.junwoo.ott.domain.auth.dto.body.AuthLoginDto;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +13,7 @@ public class AuthLoginRequestDto {
   private String username;
   private String password;
 
-  public AuthLoginRequestDto(@Valid AuthLoginDto authLoginDto) {
+  public AuthLoginRequestDto(final AuthLoginDto authLoginDto) {
     this.username = authLoginDto.getUsername();
     this.password = authLoginDto.getPassword();
   }

@@ -55,7 +55,7 @@ public class JwtUtil {
     key = Keys.hmacShaKeyFor(bytes);
   }
 
-  public String createAccessAndRefreshToken(String username) {
+  public String createAccessAndRefreshToken(final String username) {
 
     User user = null;
     if (username.startsWith(adminPrefix)) {
@@ -73,7 +73,7 @@ public class JwtUtil {
     return accessToken;
   }
 
-  private String createAccessToken(User user) {
+  private String createAccessToken(final User user) {
     Date date = new Date();
 
     return BEARER_PREFIX +
@@ -88,7 +88,7 @@ public class JwtUtil {
             .compact();
   }
 
-  private void createRefreshToken(User user) {
+  private void createRefreshToken(final User user) {
     Date date = new Date();
 
     String refreshToken = BEARER_PREFIX +
@@ -104,7 +104,7 @@ public class JwtUtil {
     refreshTokenRepository.save(user.getUsername(), refreshToken);
   }
 
-  public String getJwtFromHeader(HttpServletRequest request) {
+  public String getJwtFromHeader(final HttpServletRequest request) {
     String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
     if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
       return bearerToken.substring(BEARER_PREFIX.length());
@@ -112,7 +112,7 @@ public class JwtUtil {
     return null;
   }
 
-  public TokenState validateToken(String token) {
+  public TokenState validateToken(final String token) {
     try {
       Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
       return VALID;
@@ -129,7 +129,7 @@ public class JwtUtil {
     return INVALID;
   }
 
-  public Claims getExpiredTokenClaims(String token) {
+  public Claims getExpiredTokenClaims(final String token) {
     try {
       Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
       return null;
@@ -138,7 +138,7 @@ public class JwtUtil {
     }
   }
 
-  public Claims getUserInfoFromToken(String token) {
+  public Claims getUserInfoFromToken(final String token) {
     return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
   }
 

@@ -15,13 +15,16 @@ public class AuthAdminSignupRequestDto {
   private String password;
   private String adminKey;
 
-  public AuthAdminSignupRequestDto(AuthAdminSignupDto authAdminSignupDto) {
+  public AuthAdminSignupRequestDto(final AuthAdminSignupDto authAdminSignupDto) {
     this.username = authAdminSignupDto.getUsername();
     this.password = authAdminSignupDto.getPassword();
     this.adminKey = authAdminSignupDto.getAdminKey();
   }
 
-  public Admin authAdminSignupRequestDtoToAdmin(String reformedAdminName, String encodedPassword) {
+  public Admin authAdminSignupRequestDtoToAdmin(
+      final String reformedAdminName,
+      final String encodedPassword
+  ) {
     return Admin.builder()
         .username(reformedAdminName)
         .password(encodedPassword)

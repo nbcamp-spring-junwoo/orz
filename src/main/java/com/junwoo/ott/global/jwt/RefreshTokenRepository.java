@@ -16,17 +16,17 @@ public class RefreshTokenRepository {
   @Resource(name = "redisTemplate")
   private ValueOperations<String, String> valueOperations;
 
-  public void delete(String username) {
+  public void delete(final String username) {
     redisTemplate.delete(
         TOKEN_PREFIX + username);
   }
 
-  public void save(String username, String refreshToken) {
+  public void save(final String username, final String refreshToken) {
     valueOperations.set(TOKEN_PREFIX + username, refreshToken);
     redisTemplate.expire(TOKEN_PREFIX + username, 7L, TimeUnit.DAYS);
   }
 
-  public boolean existsByKey(String key) {
+  public boolean existsByKey(final String key) {
     return Boolean.TRUE.equals(valueOperations.getOperations().hasKey(TOKEN_PREFIX + key));
   }
 
