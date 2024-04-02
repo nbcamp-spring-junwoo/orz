@@ -1,5 +1,6 @@
 package com.junwoo.ott.domain.video.service;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -337,6 +338,38 @@ class VideoServiceTest implements VideoTestValues {
       updatedAtField.set(video, updatedAt);
     } catch (NoSuchFieldException | IllegalAccessException e) {
       throw new RuntimeException("시간 설정에 실패했습니다.", e);
+    }
+
+  }
+
+  @Nested
+  @DisplayName("ID목록으로 조회")
+  class existsByIds {
+
+  @Test
+  @DisplayName("비디오 ID 확인")
+  void id확인성공() {
+    // given
+    Long existingVideoId = TEST_VIDEO_ID;
+    given(videoJpaRepository.existsById(existingVideoId)).willReturn(true);
+
+    // when
+    assertDoesNotThrow(() -> videoService.validateVideoExists(existingVideoId));
+
+    // then
+    verify(videoJpaRepository).existsById(existingVideoId);
+  }
+
+    @Test
+    @DisplayName("비디오 ID 예외 처리")
+    void id확인실패() {
+      // given
+      Long nonExistingVideoId = TEST_VIDEO_ID;
+      given(videoJpaRepository.existsById(nonExistingVideoId)).willReturn(false);
+
+      // when & then
+      assertThrows(EntityNotFoundException.class,
+          () -> videoService.validateVideoExists(nonExistingVideoId));
     }
 
   }
