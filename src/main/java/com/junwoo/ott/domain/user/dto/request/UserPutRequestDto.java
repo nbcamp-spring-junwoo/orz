@@ -16,7 +16,7 @@ public class UserPutRequestDto {
   private String newBorn;
 
 
-  public UserPutRequestDto(Long requestId, Long userId, UserPutDto userPutDto) {
+  public UserPutRequestDto(final Long requestId, final Long userId, final UserPutDto userPutDto) {
     this.requestId = requestId;
     this.userId = userId;
     this.checkedPassword = userPutDto.getCheckedPassword();

@@ -13,14 +13,14 @@ public class AuthSignupRequestDto {
   private final String email;
   private final String born;
 
-  public AuthSignupRequestDto(AuthSignupDto authSignupDto) {
+  public AuthSignupRequestDto(final AuthSignupDto authSignupDto) {
     this.username = authSignupDto.getUsername();
     this.password = authSignupDto.getPassword();
     this.email = authSignupDto.getEmail();
     this.born = authSignupDto.getBorn();
   }
 
-  public User authSignupRequestDtoToUser(String encodedPassword, LocalDate datedBorn) {
+  public User authSignupRequestDtoToUser(final String encodedPassword, final LocalDate datedBorn) {
     return User.builder()
         .username(username)
         .password(encodedPassword)

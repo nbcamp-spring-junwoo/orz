@@ -27,7 +27,7 @@ public class AdminService {
   @Value("${admin.prefix}")
   private String adminPreFix;
 
-  public void createAdmin(AuthAdminSignupRequestDto authAdminSignupRequestDto) {
+  public void createAdmin(final AuthAdminSignupRequestDto authAdminSignupRequestDto) {
     String username = authAdminSignupRequestDto.getUsername();
     validateAdminNotExist(username);
     String reformedAdminName = adminPreFix + username;
@@ -38,7 +38,7 @@ public class AdminService {
     adminRepository.save(admin);
   }
 
-  public Authentication login(AuthLoginRequestDto authLoginRequestDto) {
+  public Authentication login(final AuthLoginRequestDto authLoginRequestDto) {
     return authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
             authLoginRequestDto.getUsername(), authLoginRequestDto.getPassword())
@@ -46,7 +46,7 @@ public class AdminService {
   }
 
   @Transactional(readOnly = true)
-  public void validateAdminNotExist(String username) {
+  public void validateAdminNotExist(final String username) {
     if (adminRepository.existsByUsername(username)) {
       throw new UsernameAlreadyExistException("이미 존재하는 username입니다.");
     }
