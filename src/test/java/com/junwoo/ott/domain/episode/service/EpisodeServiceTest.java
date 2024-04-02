@@ -6,7 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import com.junwoo.ott.domain.episode.dto.body.EpisodeUpdateDto;
 import com.junwoo.ott.domain.episode.dto.response.EpisodeCreateResponseDto;
 import com.junwoo.ott.domain.episode.dto.response.EpisodeReadResponseDto;
 import com.junwoo.ott.domain.episode.entity.Episode;
@@ -16,6 +19,7 @@ import com.junwoo.ott.domain.episode.test.EpisodeTestValues;
 import com.junwoo.ott.domain.video.entity.Video;
 import com.junwoo.ott.domain.video.service.VideoService;
 import jakarta.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +27,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -97,7 +102,7 @@ class EpisodeServiceTest implements EpisodeTestValues {
 
         @Test
         @DisplayName("전체 에피소드 조회 성공")
-        void 전체에피소드조회성공() {
+        void 전체조회성공() {
             // given
             Pageable pageable = PageRequest.of(0, 10);
             Episode episode = Episode.builder()
@@ -123,7 +128,7 @@ class EpisodeServiceTest implements EpisodeTestValues {
 
         @Test
         @DisplayName("단건 에피소드 조회 성공")
-        void 단건에피소드조회성공() {
+        void 단건조회성공() {
             // given
             Episode episode = Episode.builder()
                 .episodeId(TEST_EPISODE_ID)
@@ -140,6 +145,59 @@ class EpisodeServiceTest implements EpisodeTestValues {
             assertNotNull(result);
             assertEquals(TEST_EPISODE_TITLE, result.getTitle());
             assertEquals(TEST_RELEASED_AT, result.getReleasedAt());
+        }
+
+    }
+
+    @Nested
+    @DisplayName("에피소드 수정 성공")
+    class UpdateEpisode {
+
+        @Test
+        @DisplayName("수정 성공")
+        void 수정성공() {
+            // given
+            Long videoId = TEST_VIDEO_ID;
+            Long episodeId = TEST_EPISODE_ID;
+            EpisodeUpdateDto updateDto = new EpisodeUpdateDto("수정된 제목", LocalDateTime.now());
+
+            Episode existingEpisode = Episode.builder()
+                .episodeId(episodeId)
+                .title(TEST_EPISODE_TITLE)
+                .releasedAt(TEST_RELEASED_AT)
+                .build();
+
+            given(episodeRepository.findByVideoIdAndEpisodeId(videoId, episodeId)).willReturn(Optional.of(existingEpisode));
+            given(episodeRepository.save(any(Episode.class))).willReturn(existingEpisode);
+
+            // when
+            episodeService.updateEpisode(videoId, episodeId, updateDto);
+
+            // then
+            verify(episodeRepository).findByVideoIdAndEpisodeId(videoId, episodeId);
+            verify(episodeRepository).save(existingEpisode);
+            assertEquals("수정된 제목", existingEpisode.getTitle());
+        }
+    }
+
+    @Nested
+    @DisplayName("에피소드 수정 실패")
+    class UpdateEpisodeFailure {
+
+        @Test
+        @DisplayName("수정 실패")
+        void 수정실패() {
+            // given
+            Long videoId = TEST_VIDEO_ID;
+            Long invalidEpisodeId = TEST_EPISODE_ID;
+            EpisodeUpdateDto updateDto = new EpisodeUpdateDto("수정된 에피소드 제목", LocalDateTime.now());
+
+            when(episodeRepository.findByVideoIdAndEpisodeId(videoId, invalidEpisodeId)).thenReturn(Optional.empty());
+
+            // when & then
+            assertThrows(EntityNotFoundException.class,
+                () -> episodeService.updateEpisode(videoId, invalidEpisodeId, updateDto),
+                "에피소드 id 혹은 비디오 id를 찾을 수 없습니다.");
         }
 
     }
