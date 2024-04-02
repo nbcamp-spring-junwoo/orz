@@ -88,4 +88,10 @@ public class VideoService {
     return videoJpaRepository.findAllById(videoIds);
   }
 
+  public Video getByVideoId(Long videoId) {
+    return videoJpaRepository.findById(videoId)
+        .orElseThrow(() -> new EntityNotFoundException("비디오 id가 존재하지 않습니다."));
+
+  }
+
 }
