@@ -22,6 +22,7 @@ public class ChartQueryRepositoryImpl implements ChartQueryRepository {
             chart.video.title))
         .from(chart)
         .join(chart.video, video)
+        .orderBy(chart.point.desc())
         .fetch();
   }
 
