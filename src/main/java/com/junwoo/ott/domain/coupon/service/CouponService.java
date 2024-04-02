@@ -18,9 +18,11 @@ import com.junwoo.ott.domain.user.entity.User;
 import com.junwoo.ott.domain.user.service.UserService;
 import com.junwoo.ott.global.aop.Lockable;
 import jakarta.persistence.EntityNotFoundException;
+import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
@@ -56,7 +58,8 @@ public class CouponService {
     return new CouponCreateResponseDto(savedCoupon);
   }
 
-  @Lockable(value = "createCouponIssuance Lock", leaseTime = 7000)
+  @Lockable(value = "createCouponIssuance Lock", waitTime = 50, leaseTime = 50, timeUnit = TimeUnit.SECONDS)
+  @Transactional(isolation = Isolation.SERIALIZABLE)
   public CouponIssuanceCreateResponseDto createCouponIssuance(
       final CouponIssuanceCreateRequestDto createRequestDto) {
     Coupon coupon = existCouponById(createRequestDto.getCouponId());
@@ -65,6 +68,9 @@ public class CouponService {
     coupon.decreaseCount();
 
     CouponIssuance couponIssuance = CouponIssuance.of(coupon, user);
+
+    couponRepository.saveAndFlush(coupon);
+    couponIssuanceRepository.saveAndFlush(couponIssuance);
 
     return new CouponIssuanceCreateResponseDto(couponIssuance);
   }

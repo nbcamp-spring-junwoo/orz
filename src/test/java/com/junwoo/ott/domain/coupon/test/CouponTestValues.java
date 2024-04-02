@@ -41,6 +41,7 @@ public interface CouponTestValues {
   String TEST_END_ERROR_AT = "1997-03-15";
   String TEST_END_AT_V1 = "2024-04-30";
   String TEST_END_AT_V2 = "2024-05-30";
+  Integer TEST_COUNT_RANGE = 100;
 
   Pageable TEST_PAGEABLE = PageRequest.of(TEST_PAGE, TEST_SIZE);
 
