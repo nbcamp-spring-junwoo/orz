@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,15 +22,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ChartService {
 
+  private static final String CACHE_KEY = "chartPoint";
+
   private final ChartHistoryService chartHistoryService;
   private final VideoService videoService;
 
   private final ChartJpaRepository chartJpaRepository;
 
+  @Cacheable(value = CACHE_KEY, cacheManager = "cacheManager")
   public List<ChartResponseDto> getChart() {
     return chartJpaRepository.getAllChartsWithVideoInfo();
   }
 
+  @CacheEvict(value = CACHE_KEY, cacheManager = "cacheManager", allEntries = true)
   public void updateChart() {
     List<VideoPointResponseDto> topVideos = chartHistoryService.getTopVideos();
     Map<Long, Double> videoIdToPointMap = topVideos.stream()
@@ -59,4 +65,5 @@ public class ChartService {
     chartJpaRepository.deleteAll();
     chartJpaRepository.flush();
   }
+
 }
