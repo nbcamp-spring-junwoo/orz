@@ -1,5 +1,7 @@
 package com.junwoo.ott.global.customenum.payment.card;
 
+import static com.fasterxml.jackson.annotation.JsonCreator.Mode;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +17,7 @@ public enum CardType {
   ;
   private final String description;
 
-  @JsonCreator
+  @JsonCreator(mode = Mode.DELEGATING)
   public static CardType of(final String description) {
     for (CardType cardType : CardType.values()) {
       if (cardType.getDescription().equals(description)) {

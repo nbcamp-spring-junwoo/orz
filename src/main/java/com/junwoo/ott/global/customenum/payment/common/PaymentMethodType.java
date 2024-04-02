@@ -1,6 +1,7 @@
 package com.junwoo.ott.global.customenum.payment.common;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -19,7 +20,7 @@ public enum PaymentMethodType {
 
   private final String description;
 
-  @JsonCreator
+  @JsonCreator(mode = Mode.DELEGATING)
   public static PaymentMethodType of(final String description) {
     for (PaymentMethodType paymentMethodType : PaymentMethodType.values()) {
       if (paymentMethodType.getDescription().equals(description)) {
