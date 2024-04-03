@@ -6,6 +6,7 @@ import com.junwoo.ott.global.exception.custom.CustomCouponException;
 import com.junwoo.ott.global.exception.custom.CustomInvalidDeadLineException;
 import com.junwoo.ott.global.exception.custom.CustomLockException;
 import com.junwoo.ott.global.exception.custom.CustomPaymentException;
+import com.junwoo.ott.global.exception.custom.SubscriptionException;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
@@ -62,6 +63,12 @@ public class ExceptionController {
     return createResponse(HttpStatus.BAD_REQUEST, "CustomCardException: " + e.getMessage());
   }
 
+  @ExceptionHandler(SubscriptionException.class)
+  public ResponseEntity<ExceptionDto> subscriptionException(final SubscriptionException e) {
+    log.error("SubscriptionException: ", e);
+    return createResponse(HttpStatus.BAD_REQUEST, "SubscriptionException: " + e.getMessage());
+  }
+
   @ExceptionHandler(CustomPaymentException.class)
   public ResponseEntity<ExceptionDto> customPaymentException(final CustomPaymentException e) {
     log.error("CustomPaymentException: ", e);
@@ -74,7 +81,10 @@ public class ExceptionController {
     return createResponse(HttpStatus.I_AM_A_TEAPOT, "Unknown Error: " + e.getMessage());
   }
 
-  private ResponseEntity<ExceptionDto> createResponse(final HttpStatus status, final String message) {
+  private ResponseEntity<ExceptionDto> createResponse(
+      final HttpStatus status,
+      final String message
+  ) {
     return ResponseEntity.status(status.value())
         .body(new ExceptionDto(message));
   }
