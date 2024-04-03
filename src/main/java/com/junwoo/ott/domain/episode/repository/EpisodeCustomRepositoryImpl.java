@@ -11,8 +11,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-@Repository
 @RequiredArgsConstructor
+@Repository
 public class EpisodeCustomRepositoryImpl implements EpisodeCustomRepository {
 
     private final JPAQueryFactory queryFactory;
