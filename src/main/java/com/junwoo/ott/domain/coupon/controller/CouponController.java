@@ -12,6 +12,10 @@ import com.junwoo.ott.domain.coupon.service.CouponService;
 import com.junwoo.ott.global.common.dto.ResponseDto;
 import com.junwoo.ott.global.jwt.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobParametersBuilder;
+import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.annotation.Secured;
@@ -32,6 +36,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class CouponController {
 
   private final CouponService couponService;
+  private final JobLauncher jobLauncher;
+  private final ApplicationContext applicationContext;
 
   @Secured(value = "ROLE_ADMIN")
   @GetMapping("/coupons")
@@ -90,6 +96,15 @@ public class CouponController {
       @PathVariable("couponId") Long couponId
   ) {
     couponService.deleteCoupon(couponId);
+  }
+
+  @GetMapping("/launch")
+  public void launcher() throws Exception {
+    Job job = applicationContext.getBean("couponIssuanceJob", Job.class);
+
+    jobLauncher.run(job, new JobParametersBuilder()
+        .addString("couponIssuanceJob", String.valueOf(System.currentTimeMillis()))
+        .toJobParameters());
   }
 
 }
