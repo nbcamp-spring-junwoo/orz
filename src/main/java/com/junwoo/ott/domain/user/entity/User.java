@@ -56,10 +56,10 @@ public class User extends Timestamped implements OAuth2User {
   private LocalDateTime deletedAt;
 
   public User(
-      Long userId,
-      String username,
-      AuthorityType authorityType,
-      MembershipType membershipType
+      final Long userId,
+      final String username,
+      final AuthorityType authorityType,
+      final MembershipType membershipType
   ) {
     this.userId = userId;
     this.username = username;
@@ -67,7 +67,7 @@ public class User extends Timestamped implements OAuth2User {
     this.membershipType = membershipType;
   }
 
-  public User(Admin admin) {
+  public User(final Admin admin) {
     this.userId = admin.getAdminId();
     this.username = admin.getUsername();
     this.password = admin.getPassword();
@@ -88,16 +88,20 @@ public class User extends Timestamped implements OAuth2User {
         .build();
   }
 
-  public void updatePassword(String encodedNewPassword) {
+  public void updatePassword(final String encodedNewPassword) {
     this.password = encodedNewPassword;
   }
 
-  public void updateEmail(String newEmail) {
+  public void updateEmail(final String newEmail) {
     this.email = newEmail;
   }
 
-  public void updateBorn(LocalDate newDatedBorn) {
+  public void updateBorn(final LocalDate newDatedBorn) {
     this.born = newDatedBorn;
+  }
+
+  public void updateMembership(final MembershipType membership) {
+    this.membershipType = membership;
   }
 
   @Override
@@ -116,7 +120,7 @@ public class User extends Timestamped implements OAuth2User {
   }
 
   @Override
-  public <A> A getAttribute(String name) {
+  public <A> A getAttribute(final String name) {
     return OAuth2User.super.getAttribute(name);
   }
 

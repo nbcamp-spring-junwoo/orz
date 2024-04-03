@@ -6,6 +6,7 @@ import com.junwoo.ott.domain.user.dto.reponse.UserReadResponseDto;
 import com.junwoo.ott.domain.user.dto.request.UserPutRequestDto;
 import com.junwoo.ott.domain.user.entity.User;
 import com.junwoo.ott.domain.user.repository.UserRepository;
+import com.junwoo.ott.global.customenum.MembershipType;
 import com.junwoo.ott.global.exception.custom.PasswordNotEqualsException;
 import com.junwoo.ott.global.exception.custom.UserNotFoundException;
 import com.junwoo.ott.global.exception.custom.UserNotSameException;
@@ -100,6 +101,17 @@ public class UserService {
       LocalDate newDatedBorn = LocalDate.parse(userPutRequestDto.getNewBorn());
       user.updateBorn(newDatedBorn);
     }
+  }
+
+  public void updateUserMembership(
+      final Long userid,
+      final MembershipType membership
+  ) {
+    User user = userRepository.findById(userid).orElseThrow(
+        () -> new UserNotFoundException("존재하지 않는 회원입니다.")
+    );
+
+    user.updateMembership(membership);
   }
 
 }
