@@ -11,4 +11,6 @@ public interface EpisodeCustomRepository {
 
     Optional<Episode> findByVideoIdAndEpisodeId(final Long videoId, final Long episodeId);
 
+    void softDeleteEpisodeById(Long episodeId);
+
 }

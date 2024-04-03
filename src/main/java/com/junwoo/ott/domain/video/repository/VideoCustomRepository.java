@@ -10,4 +10,6 @@ public interface VideoCustomRepository {
 
     Page<Video> getVideos(final Pageable pageable);
 
+    void softDeleteVideoById(Long videoId);
+
 }

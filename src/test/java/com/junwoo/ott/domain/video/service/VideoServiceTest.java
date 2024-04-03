@@ -270,27 +270,14 @@ class VideoServiceTest implements VideoTestValues {
     @DisplayName("비디오 삭제 성공")
     void 비디오삭제() {
       // given
-      Video videoToBeDeleted = Video.builder()
-          .videoId(TEST_VIDEO_ID)
-          .title(TEST_TITLE)
-          .description(TEST_DESCRIPTION)
-          .ratingType(RatingType.RATE12)
-          .build();
-
-      given(videoJpaRepository.findById(TEST_VIDEO_ID))
-          .willReturn(Optional.of(videoToBeDeleted));
-
-      // 삭제 프로세스가 성공적으로 진행
-      doNothing().when(videoJpaRepository).delete(any(Video.class));
+      given(videoJpaRepository.existsById(TEST_VIDEO_ID)).willReturn(true);
+      doNothing().when(videoJpaRepository).softDeleteVideoById(TEST_VIDEO_ID);
 
       // when
       videoService.deleteVideo(TEST_VIDEO_ID);
 
       // then
-      verify(videoJpaRepository).delete(videoToBeDeleted);
-
-      given(videoJpaRepository.findById(TEST_VIDEO_ID)).willReturn(Optional.empty());
-      assertThrows(EntityNotFoundException.class, () -> videoService.existVideoById(TEST_VIDEO_ID));
+      verify(videoJpaRepository).softDeleteVideoById(TEST_VIDEO_ID);
     }
 
   }
