@@ -13,7 +13,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -38,7 +37,8 @@ public class Subscription extends Timestamped {
   @Column(nullable = false)
   private LocalDateTime authenticatedAt;
 
-  @OneToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id")
   private User user;
 
   @ManyToOne(fetch = FetchType.LAZY)
