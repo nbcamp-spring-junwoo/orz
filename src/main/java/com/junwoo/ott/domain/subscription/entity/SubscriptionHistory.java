@@ -1,6 +1,5 @@
 package com.junwoo.ott.domain.subscription.entity;
 
-
 import com.junwoo.ott.domain.subscription.dto.response.SubscriptionHistoryResponseDto;
 import com.junwoo.ott.domain.user.entity.User;
 import com.junwoo.ott.global.common.entity.Timestamped;
@@ -41,7 +40,6 @@ public class SubscriptionHistory extends Timestamped {
   @Enumerated(value = EnumType.STRING)
   private SubscriptionStatusType status = SubscriptionStatusType.ACTIVE;
   private LocalDateTime cancelAt;
-
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "subscription_id")
