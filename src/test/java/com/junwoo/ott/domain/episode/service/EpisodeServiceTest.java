@@ -1,11 +1,13 @@
 package com.junwoo.ott.domain.episode.service;
 
 import static com.junwoo.ott.domain.video.test.VideoTestValues.TEST_VIDEO_ID;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import com.junwoo.ott.domain.episode.dto.body.EpisodeUpdateDto;
@@ -199,13 +201,45 @@ class EpisodeServiceTest implements EpisodeTestValues {
             EpisodeUpdateDto updateDto = new EpisodeUpdateDto("수정된 에피소드 제목", LocalDateTime.now());
             EpisodeUpdateRequestDto updateRequestDto = new EpisodeUpdateRequestDto(TEST_VIDEO_ID, invalidEpisodeId, updateDto);
 
-            // Assuming the episode does not exist for the given ID
             given(episodeRepository.findById(invalidEpisodeId)).willReturn(Optional.empty());
 
             // when & then
             assertThrows(EntityNotFoundException.class, () -> {
                 episodeService.updateEpisode(updateRequestDto);
             }, "에피소드 id를 찾을 수 없습니다.");
+        }
+
+    }
+
+    @Nested
+    @DisplayName("에피소드 삭제")
+    class DeleteEpisode {
+
+        @Test
+        @DisplayName("에피소드 삭제 성공")
+        void 삭제성공() {
+            // given
+            Long existingEpisodeId = 1L;
+            given(episodeRepository.existsById(existingEpisodeId)).willReturn(true);
+
+            // when
+            assertDoesNotThrow(() -> episodeService.deleteEpisode(existingEpisodeId));
+
+            // then
+            verify(episodeRepository).softDeleteEpisodeById(existingEpisodeId);
+        }
+
+        @Test
+        @DisplayName("에피소드 삭제 실패")
+        void 삭제실패() {
+            // given
+            Long nonExistentEpisodeId = 2L;
+            given(episodeRepository.existsById(nonExistentEpisodeId)).willReturn(false);
+
+            // when & then
+            assertThrows(EntityNotFoundException.class,
+                () -> episodeService.deleteEpisode(nonExistentEpisodeId));
+            verify(episodeRepository, never()).softDeleteEpisodeById(nonExistentEpisodeId);
         }
 
     }
