@@ -27,7 +27,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -70,7 +69,7 @@ class EpisodeServiceTest implements EpisodeTestValues {
             given(episodeRepository.save(any(Episode.class))).willReturn(episode);
 
             // when
-            EpisodeCreateResponseDto dto = episodeService.createEpisode(TEST_VIDEO_ID, TEST_EPISODE_CREATE_REQUEST_DTO);
+            EpisodeCreateResponseDto dto = episodeService.createEpisode(TEST_EPISODE_CREATE_REQUEST_DTO);
 
             // then
             assertEquals(TEST_EPISODE_TITLE, dto.getTitle());
@@ -91,7 +90,7 @@ class EpisodeServiceTest implements EpisodeTestValues {
 
             // when & then
             assertThrows(EntityNotFoundException.class,
-                () -> episodeService.createEpisode(TEST_VIDEO_ID, TEST_EPISODE_CREATE_REQUEST_DTO), "비디오 id를 찾을 수 없습니다.");
+                () -> episodeService.createEpisode(TEST_EPISODE_CREATE_REQUEST_DTO), "비디오 id를 찾을 수 없습니다.");
         }
 
     }

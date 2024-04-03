@@ -30,8 +30,8 @@ public class EpisodeController {
         final @PathVariable Long videoId,
         final @Validated @RequestBody EpisodeCreateDto dto
     ) {
-        EpisodeCreateRequestDto createDto = new EpisodeCreateRequestDto(dto.getTitle(), dto.getReleasedAt());
-        episodeService.createEpisode(videoId, createDto);
+        EpisodeCreateRequestDto createDto = new EpisodeCreateRequestDto(videoId, dto.getTitle(), dto.getReleasedAt());
+        episodeService.createEpisode(createDto);
     }
 
     @GetMapping
@@ -58,7 +58,6 @@ public class EpisodeController {
         final @PathVariable Long episodeId,
         final @RequestBody EpisodeUpdateDto dto
     ) {
-
         episodeService.updateEpisode(videoId, episodeId, dto);
     }
 

@@ -10,8 +10,9 @@ import lombok.Getter;
 public class EpisodeCreateDto {
 
     @NotNull
+    private final Long videoId;
+    @NotNull
     private final String title;
-
     @NotNull
     private final LocalDateTime releasedAt;
 
