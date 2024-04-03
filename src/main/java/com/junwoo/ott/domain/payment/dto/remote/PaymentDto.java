@@ -44,7 +44,7 @@ public class PaymentDto {
   // 상점아이디(MID)입니다. 토스페이먼츠에서 발급합니다. 최대 길이는 14자입니다.
   private String mId;
   // 결제할 때 사용한 통화입니다.
-  private PaymentMethodType currency;
+  private String currency;
   // 결제수단입니다. 카드, 가상계좌, 간편결제, 휴대폰, 계좌이체, 문화상품권, 도서문화상품권, 게임문화상품권 중 하나입니다.
   private PaymentMethodType method;
   // 총 결제 금액입니다. 결제가 취소되는 등 결제 상태가 변해도 최초에 결제된 결제 금액으로 유지됩니다.
