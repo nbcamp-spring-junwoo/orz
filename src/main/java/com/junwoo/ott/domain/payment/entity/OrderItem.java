@@ -13,12 +13,12 @@ import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Builder.Default;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -30,12 +30,27 @@ public class OrderItem {
   @Column(nullable = false)
   private String itemCode;
   @Column(nullable = false)
-  private Long totalPrice;
-  @Default
+  private Integer basePrice;
   @Column(nullable = false)
-  private Long discountingPrice = 0L;
-  @Default
-  private Long discountedPrice = totalPrice - discountingPrice;
+  private Integer discountingPrice = 0;
+  @Column(nullable = false)
+  private Integer discountedPrice;
+
+  @Builder
+  public OrderItem(
+      final String itemCode,
+      final Integer basePrice,
+      final Integer discountingPrice,
+      final Order order,
+      final CouponIssuance couponIssuance
+  ) {
+    this.itemCode = itemCode;
+    this.basePrice = basePrice;
+    this.discountingPrice = discountingPrice;
+    this.order = order;
+    this.couponIssuance = couponIssuance;
+    this.discountedPrice = basePrice - discountingPrice;
+  }
 
 
   @ManyToOne(optional = false)
@@ -55,7 +70,7 @@ public class OrderItem {
     return OrderItemResponseDto.builder()
         .orderItemId(orderItemId)
         .itemCode(itemCode)
-        .totalPrice(totalPrice)
+        .totalPrice(basePrice)
         .discountingPrice(discountingPrice)
         .discountedPrice(discountedPrice)
         .build();

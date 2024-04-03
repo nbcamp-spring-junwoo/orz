@@ -13,7 +13,7 @@ public class MemberShipResponseDto {
 
   private Long membershipId;
   private MembershipType membershipType;
-  private Long price;
+  private Integer price;
 
   public Membership toEntity() {
     return Membership.builder()

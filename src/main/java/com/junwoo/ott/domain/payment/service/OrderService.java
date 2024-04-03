@@ -32,14 +32,14 @@ public class OrderService {
 
     Order order = new Order();
 
-    Long totalPrice = subscription.getMembership().getPrice();
+    Integer totalPrice = subscription.getMembership().getPrice();
     boolean isCouponUsable = (couponIssuanceId != null) && (couponIssuance != null);
     OrderItem orderItem = OrderItem.builder()
         .itemCode(OrderType.SUBSCRIPTION.getCode() + subscription.getMembership().getMembershipId())
-        .totalPrice(totalPrice)
+        .basePrice(totalPrice)
         .discountingPrice(isCouponUsable
             ? calculateDiscountingPrice(totalPrice, couponIssuance)
-            : 0L)
+            : 0)
         .build();
     orderItem.setParents(order);
 
@@ -51,8 +51,8 @@ public class OrderService {
     return savedOrder.toResponseDto();
   }
 
-  private Long calculateDiscountingPrice(
-      final Long totalPrice, final CouponIssuanceReadResponseDto couponIssuance
+  private Integer calculateDiscountingPrice(
+      final Integer totalPrice, final CouponIssuanceReadResponseDto couponIssuance
   ) {
     return switch (couponIssuance.getCouponType()) {
       case FIX -> Math.min(couponIssuance.getDiscount(), totalPrice);
