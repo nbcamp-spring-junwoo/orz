@@ -8,17 +8,19 @@ import org.springframework.data.domain.Pageable;
 @AllArgsConstructor
 public class EpisodeReadRequestDto {
 
+    private Long videoId;
     private Long episodeId;
     private String title;
     private Pageable pageable;
 
-    public EpisodeReadRequestDto(Pageable pageable) {
+    public EpisodeReadRequestDto(Long videoId, Pageable pageable) {
+        this.videoId = videoId;
         this.pageable = pageable;
     }
 
-    public EpisodeReadRequestDto(String title, Pageable pageable) {
-        this.title = title;
-        this.pageable = pageable;
-    }
+    public EpisodeReadRequestDto(Long videoId, Long episodeId) {
+        this.videoId = videoId;
+        this.episodeId = episodeId;
 
+    }
 }

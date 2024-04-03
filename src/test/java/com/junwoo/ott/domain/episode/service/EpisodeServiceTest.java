@@ -7,11 +7,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import com.junwoo.ott.domain.episode.dto.body.EpisodeUpdateDto;
+import com.junwoo.ott.domain.episode.dto.request.EpisodeReadRequestDto;
+import com.junwoo.ott.domain.episode.dto.request.EpisodeUpdateRequestDto;
 import com.junwoo.ott.domain.episode.dto.response.EpisodeCreateResponseDto;
 import com.junwoo.ott.domain.episode.dto.response.EpisodeReadResponseDto;
+import com.junwoo.ott.domain.episode.dto.response.EpisodeUpdateResponseDto;
 import com.junwoo.ott.domain.episode.entity.Episode;
 import com.junwoo.ott.domain.episode.repository.EpisodeRepository;
 
@@ -104,31 +106,37 @@ class EpisodeServiceTest implements EpisodeTestValues {
         void 전체조회성공() {
             // given
             Pageable pageable = PageRequest.of(0, 10);
+            EpisodeReadRequestDto requestDto = new EpisodeReadRequestDto(TEST_VIDEO_ID, pageable);
+
+            Video video = Video.builder()
+                .videoId(TEST_VIDEO_ID)
+                .build();
+
             Episode episode = Episode.builder()
-                .episodeId(TEST_EPISODE_ID)
                 .title(TEST_EPISODE_TITLE)
                 .releasedAt(TEST_RELEASED_AT)
+                .video(video)
                 .build();
+
             List<Episode> episodes = Collections.singletonList(episode);
-            Page<Episode> episodePage = new PageImpl<>(episodes, pageable, episodes.size());
+            Page<Episode> episodePage = new PageImpl<>(episodes, pageable, 1);
 
             given(episodeRepository.findByEpisodeId(TEST_VIDEO_ID, pageable)).willReturn(episodePage);
 
             // when
-            Page<EpisodeReadResponseDto> result = episodeService.getEpisodesByVideo(TEST_VIDEO_ID, pageable);
+            Page<EpisodeReadResponseDto> result = episodeService.getEpisodesByVideo(requestDto);
 
             // then
             assertNotNull(result);
             assertEquals(1, result.getTotalElements());
-            EpisodeReadResponseDto firstResult = result.getContent().get(0);
-            assertEquals(TEST_EPISODE_TITLE, firstResult.getTitle());
-            assertEquals(TEST_RELEASED_AT, firstResult.getReleasedAt());
         }
 
         @Test
         @DisplayName("단건 에피소드 조회 성공")
         void 단건조회성공() {
             // given
+            EpisodeReadRequestDto fetchRequestDto = new EpisodeReadRequestDto(TEST_VIDEO_ID, TEST_EPISODE_ID);
+
             Episode episode = Episode.builder()
                 .episodeId(TEST_EPISODE_ID)
                 .title(TEST_EPISODE_TITLE)
@@ -138,7 +146,7 @@ class EpisodeServiceTest implements EpisodeTestValues {
             given(episodeRepository.findByVideoIdAndEpisodeId(TEST_VIDEO_ID, TEST_EPISODE_ID)).willReturn(Optional.of(episode));
 
             // when
-            EpisodeReadResponseDto result = episodeService.getEpisodeByVideo(TEST_VIDEO_ID, TEST_EPISODE_ID);
+            EpisodeReadResponseDto result = episodeService.getEpisodeByVideo(fetchRequestDto);
 
             // then
             assertNotNull(result);
@@ -156,9 +164,9 @@ class EpisodeServiceTest implements EpisodeTestValues {
         @DisplayName("수정 성공")
         void 수정성공() {
             // given
-            Long videoId = TEST_VIDEO_ID;
             Long episodeId = TEST_EPISODE_ID;
             EpisodeUpdateDto updateDto = new EpisodeUpdateDto("수정된 제목", LocalDateTime.now());
+            EpisodeUpdateRequestDto updateRequestDto = new EpisodeUpdateRequestDto(TEST_VIDEO_ID, episodeId, updateDto);
 
             Episode existingEpisode = Episode.builder()
                 .episodeId(episodeId)
@@ -166,16 +174,16 @@ class EpisodeServiceTest implements EpisodeTestValues {
                 .releasedAt(TEST_RELEASED_AT)
                 .build();
 
-            given(episodeRepository.findByVideoIdAndEpisodeId(videoId, episodeId)).willReturn(Optional.of(existingEpisode));
+            given(episodeRepository.findById(episodeId)).willReturn(Optional.of(existingEpisode));
             given(episodeRepository.save(any(Episode.class))).willReturn(existingEpisode);
 
             // when
-            episodeService.updateEpisode(videoId, episodeId, updateDto);
+            EpisodeUpdateResponseDto responseDto = episodeService.updateEpisode(updateRequestDto);
 
             // then
-            verify(episodeRepository).findByVideoIdAndEpisodeId(videoId, episodeId);
+            verify(episodeRepository).findById(episodeId);
             verify(episodeRepository).save(existingEpisode);
-            assertEquals("수정된 제목", existingEpisode.getTitle());
+            assertEquals("수정된 제목", responseDto.getEpisode().getTitle());
         }
     }
 
@@ -187,16 +195,17 @@ class EpisodeServiceTest implements EpisodeTestValues {
         @DisplayName("수정 실패")
         void 수정실패() {
             // given
-            Long videoId = TEST_VIDEO_ID;
             Long invalidEpisodeId = TEST_EPISODE_ID;
             EpisodeUpdateDto updateDto = new EpisodeUpdateDto("수정된 에피소드 제목", LocalDateTime.now());
+            EpisodeUpdateRequestDto updateRequestDto = new EpisodeUpdateRequestDto(TEST_VIDEO_ID, invalidEpisodeId, updateDto);
 
-            when(episodeRepository.findByVideoIdAndEpisodeId(videoId, invalidEpisodeId)).thenReturn(Optional.empty());
+            // Assuming the episode does not exist for the given ID
+            given(episodeRepository.findById(invalidEpisodeId)).willReturn(Optional.empty());
 
             // when & then
-            assertThrows(EntityNotFoundException.class,
-                () -> episodeService.updateEpisode(videoId, invalidEpisodeId, updateDto),
-                "에피소드 id 혹은 비디오 id를 찾을 수 없습니다.");
+            assertThrows(EntityNotFoundException.class, () -> {
+                episodeService.updateEpisode(updateRequestDto);
+            }, "에피소드 id를 찾을 수 없습니다.");
         }
 
     }

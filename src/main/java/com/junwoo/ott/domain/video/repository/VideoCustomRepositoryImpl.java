@@ -4,6 +4,7 @@ import com.junwoo.ott.domain.video.entity.QVideo;
 import com.junwoo.ott.domain.video.entity.Video;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -51,6 +52,16 @@ public class VideoCustomRepositoryImpl implements VideoCustomRepository {
             .size();
 
         return new PageImpl<>(videos, pageable, total);
+    }
+
+    @Override
+    public void softDeleteVideoById(Long videoId) {
+        QVideo qVideo = QVideo.video;
+
+        queryFactory.update(qVideo)
+            .set(qVideo.deletedAt, LocalDateTime.now())
+            .where(qVideo.videoId.eq(videoId))
+            .execute();
     }
 
     private BooleanExpression titleEq(final String title) {

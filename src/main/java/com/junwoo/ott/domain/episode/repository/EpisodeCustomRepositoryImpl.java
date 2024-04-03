@@ -3,6 +3,7 @@ package com.junwoo.ott.domain.episode.repository;
 import com.junwoo.ott.domain.episode.entity.Episode;
 import com.junwoo.ott.domain.episode.entity.QEpisode;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +46,16 @@ public class EpisodeCustomRepositoryImpl implements EpisodeCustomRepository {
             .fetchOne();
 
         return Optional.ofNullable(episode);
+    }
+
+    @Override
+    public void softDeleteEpisodeById(Long episodeId) {
+        QEpisode qEpisode = QEpisode.episode;
+
+        queryFactory.update(qEpisode)
+            .set(qEpisode.deletedAt, LocalDateTime.now())
+            .where(qEpisode.episodeId.eq(episodeId))
+            .execute();
     }
 
 }
