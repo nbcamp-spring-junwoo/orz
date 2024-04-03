@@ -60,7 +60,7 @@ public class EpisodeService {
             .orElseThrow(() -> new EntityNotFoundException("에피소드 id가 존재하지 않습니다."));
 
         episode.update(updateRequestDto.getDto());
-        episode = episodeRepository.save(episode);
+        episodeRepository.save(episode);
 
         return new EpisodeUpdateResponseDto(episode);
     }

@@ -16,18 +16,19 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/videos/{videoId}/episodes")
+@RequestMapping("/api/v1/videos")
 @RestController
 public class EpisodeController {
 
     private final EpisodeService episodeService;
 
-    @PostMapping
+    @PostMapping("{videoId}/episodes")
     public void postEpisode(
         final @PathVariable Long videoId,
         final @Validated @RequestBody EpisodeCreateDto dto
@@ -36,7 +37,7 @@ public class EpisodeController {
         episodeService.createEpisode(createDto);
     }
 
-    @GetMapping
+    @GetMapping("{videoId}/episodes")
     public ResponseDto<Page<EpisodeReadResponseDto>> getEpisodes(
         @PathVariable Long videoId, Pageable pageable
     ) {
@@ -45,7 +46,7 @@ public class EpisodeController {
         return ResponseDto.ok(episodesPages);
     }
 
-    @GetMapping("/{episodeId}")
+    @GetMapping("{videoId}/episodes/{episodeId}")
     public ResponseDto<EpisodeReadResponseDto> getEpisode(
         final @PathVariable Long videoId,
         final @PathVariable Long episodeId
@@ -55,17 +56,18 @@ public class EpisodeController {
         return ResponseDto.ok(episodePage);
     }
 
+    @PutMapping("{videoId}/episodes/{episodeId}")
     public void putEpisode(
-        final @PathVariable Long videoId,
-        final @PathVariable Long episodeId,
-        final @RequestBody EpisodeUpdateDto dto
+        @PathVariable Long videoId,
+        @PathVariable Long episodeId,
+        @Validated @RequestBody EpisodeUpdateDto dto
     ) {
         EpisodeUpdateRequestDto updateRequestDto = new EpisodeUpdateRequestDto(videoId, episodeId, dto);
         episodeService.updateEpisode(updateRequestDto);
     }
 
-    @DeleteMapping("/episodeId}")
-    public void deleteEpisode(final @PathVariable("episodeId") Long episodeId) {
+    @DeleteMapping("{videoId}/episodes/{episodeId}")
+    public void deleteEpisode(@PathVariable("episodeId") Long episodeId) {
         episodeService.deleteEpisode(episodeId);
     }
 
