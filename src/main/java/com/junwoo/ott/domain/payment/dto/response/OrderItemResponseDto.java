@@ -11,8 +11,8 @@ public class OrderItemResponseDto {
 
   private Long orderItemId;
   private String itemCode;
-  private Long totalPrice;
-  private Long discountingPrice;
-  private Long discountedPrice;
+  private Integer totalPrice;
+  private Integer discountingPrice;
+  private Integer discountedPrice;
 
 }

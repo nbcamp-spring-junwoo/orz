@@ -23,7 +23,7 @@ public class Membership {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long membershipId;
   private MembershipType membershipType;
-  private Long price;
+  private Integer price;
 
   public MemberShipResponseDto toResponseDto() {
     return MemberShipResponseDto.builder()
