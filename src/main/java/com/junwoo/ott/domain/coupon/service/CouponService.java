@@ -43,6 +43,14 @@ public class CouponService {
   }
 
   @Transactional(readOnly = true)
+  public CouponIssuanceReadResponseDto getCouponIssuance(final Long couponIssuanceId) {
+    CouponIssuance couponIssuance = couponIssuanceRepository.findById(couponIssuanceId)
+        .orElseThrow(() -> new EntityNotFoundException("해당 쿠폰이 존재하지 않습니다."));
+
+    return new CouponIssuanceReadResponseDto(couponIssuance.getCoupon(), couponIssuance);
+  }
+
+  @Transactional(readOnly = true)
   public Page<CouponIssuanceReadResponseDto> getCoupons(final CouponReadRequestDto dto) {
     Page<CouponIssuance> couponIssuanceList = couponIssuanceRepository.getCouponIssuance(
         dto.getUserId(), dto.getPageable());
@@ -61,7 +69,8 @@ public class CouponService {
   @Lockable(value = "createCouponIssuance Lock", waitTime = 50, leaseTime = 50, timeUnit = TimeUnit.SECONDS)
   @Transactional(isolation = Isolation.SERIALIZABLE)
   public CouponIssuanceCreateResponseDto createCouponIssuance(
-      final CouponIssuanceCreateRequestDto createRequestDto) {
+      final CouponIssuanceCreateRequestDto createRequestDto
+  ) {
     Coupon coupon = existCouponById(createRequestDto.getCouponId());
     UserReadResponseDto dto = userService.getUser(createRequestDto.getUserId());
     User user = createUser(dto);
@@ -96,7 +105,7 @@ public class CouponService {
     );
   }
 
-  private User createUser(UserReadResponseDto dto) {
+  private User createUser(final UserReadResponseDto dto) {
 
     return User.builder()
         .userId(dto.getUserId())
