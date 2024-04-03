@@ -1,6 +1,6 @@
 package com.junwoo.ott.domain.subscription.service;
 
-import com.junwoo.ott.domain.membership.repository.MembershipRepository;
+import com.junwoo.ott.domain.membership.service.MembershipService;
 import com.junwoo.ott.domain.payment.api.TosspaymentsClient;
 import com.junwoo.ott.domain.payment.dto.remote.PaymentDto;
 import com.junwoo.ott.domain.payment.dto.request.BillingConfirmRequestDto;
@@ -30,11 +30,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class SubscriptionService {
 
   private final CardService cardService;
-  private final OrderService orderService;
   private final UserService userService;
+  private final OrderService orderService;
+  private final MembershipService membershipService;
   private final SubscriptionCreateService subscriptionCreateService;
 
-  private final MembershipRepository membershipRepository;
   private final SubscriptionRepository subscriptionRepository;
   private final SubscriptionHistoryRepository subscriptionHistoryRepository;
   private final TosspaymentsClient tosspaymentsClient;
@@ -76,8 +76,8 @@ public class SubscriptionService {
       final SubscriptionRequestDto dto
   ) {
     MembershipType fromMembershipType = dto.getUserDetails().getMembershipType();
-    MembershipType toMembershipType = membershipRepository.findById(dto.getMembershipId())
-        .orElseThrow(() -> new SubscriptionException("Membership not found"))
+    MembershipType toMembershipType = membershipService.getMembership(dto.getMembershipId())
+        .toEntity()
         .getMembershipType();
 
     if (fromMembershipType == toMembershipType) {
