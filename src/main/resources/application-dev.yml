@@ -6,6 +6,13 @@ server:
       force: true
 
 spring:
+  batch:
+    jdbc:
+      initialize-schema: always
+
+    job:
+      enabled: true
+
   data:
     redis:
       port: ${spring.data.redis.port}
@@ -28,6 +35,11 @@ spring:
 
     hibernate:
       ddl-auto: update
+
+  sql:
+    init:
+      mode: embedded
+      schema-locations: classpath:schema-mysql.sql
 
 springdoc:
   default-consumes-media-type: application/json
