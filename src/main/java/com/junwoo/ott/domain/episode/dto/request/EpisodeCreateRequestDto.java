@@ -9,10 +9,12 @@ import lombok.Getter;
 @AllArgsConstructor
 public class EpisodeCreateRequestDto {
 
+    private final long videoId;
     private final String title;
     private final LocalDateTime releasedAt;
 
     public EpisodeCreateRequestDto(EpisodeCreateDto dto) {
+        this.videoId = dto.getVideoId();
         this.title = dto.getTitle();
         this.releasedAt = dto.getReleasedAt();
     }

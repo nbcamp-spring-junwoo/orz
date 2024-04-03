@@ -25,10 +25,9 @@ public class EpisodeService {
     private final VideoService videoService;
 
     public EpisodeCreateResponseDto createEpisode(
-        final Long videoId,
         final EpisodeCreateRequestDto dto
     ) {
-        Video video = videoService.getByVideoId(videoId);
+        Video video = videoService.getByVideoId(dto.getVideoId());
 
         Episode episode = Episode.builder()
             .title(dto.getTitle())

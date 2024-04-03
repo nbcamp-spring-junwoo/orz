@@ -11,6 +11,7 @@ public interface EpisodeTestValues {
     LocalDateTime TEST_EPISODE_UPDATED_AT = LocalDateTime.now();
     
     EpisodeCreateRequestDto TEST_EPISODE_CREATE_REQUEST_DTO = new EpisodeCreateRequestDto(
+        TEST_EPISODE_ID,
         TEST_EPISODE_TITLE,
         TEST_RELEASED_AT
     );
