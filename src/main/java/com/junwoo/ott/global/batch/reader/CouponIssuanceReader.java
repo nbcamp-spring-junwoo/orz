@@ -20,6 +20,7 @@ public class CouponIssuanceReader implements ItemReader<CouponIssuance> {
   @Override
   public CouponIssuance read()
       throws Exception {
+    // TODO: 실 서비스 적용시 간격을 하루 차이로 -> LocalDate 타입으로 변경
     if (localDate.isBefore(LocalDateTime.now().minusMinutes(2))) {
       currentIndex = 0;
       localDate = LocalDateTime.now();
