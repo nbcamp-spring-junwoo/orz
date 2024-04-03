@@ -15,12 +15,14 @@ public class SubscriptionRequestDto {
   private Long userId;
   private Long cardId;
   private Long membershipId;
+  private Long couponIssuanceId;
   private UserDetailsImpl userDetails;
 
   public static SubscriptionRequestDto of(
       final Long userId,
       final Long cardId,
       final Long membershipId,
+      final Long couponIssuanceId,
       final UserDetailsImpl userDetails
   ) {
     if (!Objects.equals(userId, userDetails.getUserId())) {
@@ -31,6 +33,7 @@ public class SubscriptionRequestDto {
         .userId(userId)
         .cardId(cardId)
         .membershipId(membershipId)
+        .couponIssuanceId(couponIssuanceId)
         .userDetails(userDetails)
         .build();
   }

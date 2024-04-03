@@ -1,7 +1,7 @@
 package com.junwoo.ott.domain.payment.dto.request;
 
 import com.junwoo.ott.domain.payment.dto.response.CardResponseDto;
-import com.junwoo.ott.domain.payment.util.CustomerKeyGenerator;
+import com.junwoo.ott.domain.payment.util.PaymentDataGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,7 +24,7 @@ public class BillingKeyRequestDto {
 
   public static BillingKeyRequestDto of(final CardResponseDto card) {
     return BillingKeyRequestDto.builder()
-        .customerKey(CustomerKeyGenerator.generateCustomerKey())
+        .customerKey(PaymentDataGenerator.generateCustomerKey())
         .cardNumber(card.getCardNumber())
         .cardExpirationYear(card.getCardExpirationYear())
         .cardExpirationMonth(card.getCardExpirationMonth())
