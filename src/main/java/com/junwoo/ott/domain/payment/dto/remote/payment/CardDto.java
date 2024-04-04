@@ -5,12 +5,16 @@ import com.junwoo.ott.global.customenum.payment.card.CardOwnerType;
 import com.junwoo.ott.global.customenum.payment.card.CardType;
 import com.junwoo.ott.global.customenum.payment.card.InterestPayerType;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * 카드로 결제하면 제공되는 카드 관련 정보입니다.
  */
 @Getter
+@Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class CardDto {
 

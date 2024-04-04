@@ -5,9 +5,13 @@ import com.junwoo.ott.domain.subscription.entity.Subscription;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class BillingDto {
 
