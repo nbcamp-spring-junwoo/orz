@@ -6,6 +6,7 @@ import org.springframework.batch.core.JobExecutionException;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -14,15 +15,16 @@ import org.springframework.stereotype.Component;
 public class ChartUpdateScheduler {
 
   private final JobLauncher jobLauncher;
-  private final Job updateChartJob;
+  private final ApplicationContext applicationContext;
 
   @Scheduled(cron = "0 0 * * * *")  // 정각마다 실행
   public void updateChartJobRun() throws JobExecutionException {
-    JobParameters parameters = new JobParametersBuilder()
-        .addString("updateChart", "exchangeJob" + System.currentTimeMillis())
+    Job job = applicationContext.getBean("updateChartJob", Job.class);
+    JobParameters jobParameters = new JobParametersBuilder()
+        .addLong("time", System.currentTimeMillis())
         .toJobParameters();
 
-    jobLauncher.run(updateChartJob, parameters);
+    jobLauncher.run(job, jobParameters);
   }
 
 }
