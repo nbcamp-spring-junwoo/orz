@@ -8,7 +8,7 @@ public interface MembershipServiceTestValues {
   Membership TEST_MEMBERSHIP = Membership.builder()
       .membershipId(1L)
       .membershipType(MembershipType.ROLE_NORMAL)
-      .price(10000L)
+      .price(10000)
       .build();
 
 }

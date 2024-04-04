@@ -19,13 +19,17 @@ import com.junwoo.ott.global.customenum.payment.common.PaymentMethodType;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * 결제 정보를 담고 있는 객체입니다. 결제 한 건의 결제 상태, 결제 취소 기록, 매출 전표, 현금영수증 정보 등을 자세히 알 수 있습니다. 결제가 승인됐을 때 응답은
  * Payment 객체로 항상 동일합니다. 객체의 구성은 결제수단(카드, 가상계좌, 간편결제 등)에 따라 조금씩 달라집니다.
  */
 @Getter
+@Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class PaymentDto {
 
