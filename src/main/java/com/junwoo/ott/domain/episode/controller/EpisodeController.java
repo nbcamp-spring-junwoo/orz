@@ -11,6 +11,7 @@ import com.junwoo.ott.global.common.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +29,7 @@ public class EpisodeController {
 
     private final EpisodeService episodeService;
 
+    @Secured(value = "ROLE_ADMIN")
     @PostMapping("{videoId}/episodes")
     public void postEpisode(
         final @PathVariable Long videoId,
@@ -56,6 +58,7 @@ public class EpisodeController {
         return ResponseDto.ok(episodePage);
     }
 
+    @Secured(value = "ROLE_ADMIN")
     @PutMapping("{videoId}/episodes/{episodeId}")
     public void putEpisode(
         @PathVariable Long videoId,
@@ -66,7 +69,8 @@ public class EpisodeController {
         episodeService.updateEpisode(updateRequestDto);
     }
 
-    @DeleteMapping("{videoId}/episodes/{episodeId}")
+    @Secured(value = "ROLE_ADMIN")
+    @DeleteMapping("/episodes/{episodeId}")
     public void deleteEpisode(@PathVariable("episodeId") Long episodeId) {
         episodeService.deleteEpisode(episodeId);
     }
