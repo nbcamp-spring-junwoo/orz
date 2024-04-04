@@ -81,7 +81,7 @@ public class SubscriptionService {
         .getMembershipType();
 
     if (fromMembershipType == toMembershipType) {
-      throw new SubscriptionException("User already has same subscription");
+      throw new SubscriptionException("User already has same subscription: " + fromMembershipType);
     }
   }
 
