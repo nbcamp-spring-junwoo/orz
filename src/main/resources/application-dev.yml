@@ -17,6 +17,8 @@ spring:
     redis:
       port: ${spring.data.redis.port}
       host: ${spring.data.redis.host}
+      repositories:
+        enabled: false
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
