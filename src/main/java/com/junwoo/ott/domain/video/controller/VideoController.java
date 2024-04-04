@@ -13,6 +13,7 @@ import com.junwoo.ott.global.common.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +32,7 @@ public class VideoController {
 
   private final VideoService videoService;
 
+  @Secured(value = "ROLE_ADMIN")
   @PostMapping
   public void postVideo(final @Validated @RequestBody VideoCreateDto dto) {
     VideoCreateRequestDto createDto = new VideoCreateRequestDto(dto);
@@ -62,6 +64,7 @@ public class VideoController {
     return ResponseDto.ok(videosPage);
   }
 
+  @Secured(value = "ROLE_ADMIN")
   @PutMapping("/{videoId}")
   public ResponseDto<VideoUpdateResponseDto> updateVideo(
       final @PathVariable("videoId") Long videoId,
@@ -72,6 +75,7 @@ public class VideoController {
     return ResponseDto.ok(updatedVideo);
   }
 
+  @Secured(value = "ROLE_ADMIN")
   @DeleteMapping("/{videoId}")
   public void deleteVideo(final @PathVariable("videoId") Long videoId) {
     videoService.deleteVideo(videoId);
