@@ -24,6 +24,7 @@ public interface SubscriptionServiceTestValues {
   Long TEST_CARD_ID = 1L;
   Long TEST_MEMBERSHIP_ID = 2L;
   String TEST_CARD_NUMBER = "1234567890123456";
+
   Membership TEST_MEMBERSHIP = Membership.builder()
       .membershipId(TEST_MEMBERSHIP_ID)
       .membershipType(MembershipType.ROLE_BRONZE)
@@ -52,35 +53,27 @@ public interface SubscriptionServiceTestValues {
       .user(TEST_USER)
       .card(TEST_CARD)
       .build();
-
   OrderItem TEST_ORDER_ITEM = OrderItem.builder()
       .itemCode("12")
       .basePrice(10000)
       .discountingPrice(0)
       .build();
-
   UserDetailsImpl TEST_USER_DETAILS = new UserDetailsImpl(TEST_USER);
+
   SubscriptionRequestDto TEST_SUBSCRIPTION_REQUEST_DTO = SubscriptionRequestDto.builder()
       .userId(TEST_USER_ID)
       .cardId(TEST_CARD_ID)
       .membershipId(2L)
       .userDetails(TEST_USER_DETAILS)
       .build();
-
   MemberShipResponseDto TEST_MEMBER_SHIP_RESPONSE_DTO = TEST_MEMBERSHIP.toResponseDto();
-
   CardResponseDto TEST_CARD_RESPONSE_DTO = TEST_CARD.toResponseDto();
-
   OrderItemResponseDto TEST_ORDER_ITEM_RESPONSE_DTO = TEST_ORDER_ITEM.toResponseDto();
-
   OrderResponseDto TEST_ORDER_RESPONSE_DTO = OrderResponseDto.builder()
       .orderId("orderId")
       .createdAt(LocalDateTime.now())
       .updatedAt(LocalDateTime.now())
       .build();
-
-  PaymentDto TEST_CONFIRM_RESULT = PaymentDto.builder()
-      .orderId("orderId")
-      .build();
+  PaymentDto TEST_CONFIRM_RESULT = PaymentDto.builder().orderId("orderId").build();
 
 }
