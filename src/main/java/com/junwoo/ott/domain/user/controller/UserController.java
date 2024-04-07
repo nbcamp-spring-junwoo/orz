@@ -23,6 +23,11 @@ public class UserController {
 
   private final UserService userService;
 
+  @GetMapping("/me")
+  public ResponseDto<UserReadResponseDto> getMe(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    return ResponseDto.ok(userService.getUser(userDetails.getUserId()));
+  }
+
   @GetMapping("/{id}")
   public ResponseDto<UserReadResponseDto> getUser(@PathVariable("id") final Long id) {
     return ResponseDto.ok(userService.getUser(id));
