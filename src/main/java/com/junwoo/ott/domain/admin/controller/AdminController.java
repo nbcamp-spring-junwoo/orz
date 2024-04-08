@@ -1,7 +1,7 @@
 package com.junwoo.ott.domain.admin.controller;
 
 import com.junwoo.ott.domain.membership.dto.body.CreateMembershipDto;
-import com.junwoo.ott.domain.membership.dto.request.CreateMembershipRequestDto;
+import com.junwoo.ott.domain.membership.dto.request.MembershipCreateRequestDto;
 import com.junwoo.ott.domain.membership.service.MembershipService;
 import com.junwoo.ott.global.jwt.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +23,10 @@ public class AdminController {
       @AuthenticationPrincipal UserDetailsImpl userDetails,
       @RequestBody CreateMembershipDto createMembershipDto
   ) {
-    CreateMembershipRequestDto createMembershipRequestDto = new CreateMembershipRequestDto
+    MembershipCreateRequestDto membershipCreateRequestDto = new MembershipCreateRequestDto
         (userDetails.getAuthorityType(), createMembershipDto);
 
-    membershipService.createMembership(createMembershipRequestDto);
+    membershipService.createMembership(membershipCreateRequestDto);
   }
 
 }
