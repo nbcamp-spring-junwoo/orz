@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateMembershipRequestDto {
+public class MembershipCreateRequestDto {
 
   private AuthorityType authority;
   private MembershipType membershipType;
   private Integer price;
 
-  public CreateMembershipRequestDto(
+  public MembershipCreateRequestDto(
       AuthorityType authorityType,
       CreateMembershipDto createMembershipDto
   ) {
