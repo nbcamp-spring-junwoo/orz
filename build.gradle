@@ -102,3 +102,9 @@ dependencyManagement {
 tasks.named('test') {
     useJUnitPlatform()
 }
+bootJar {
+    archiveBaseName.set('ottServer')
+}
+jar {
+    archiveBaseName.set('ottServer')
+}
