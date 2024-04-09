@@ -8,10 +8,12 @@ public class MembershipReadResponseDto {
 
   private final MembershipType membershipType;
   private final Integer price;
+  private final String detail;
 
-  public MembershipReadResponseDto(MembershipType membershipType, Integer price) {
+  public MembershipReadResponseDto(MembershipType membershipType, Integer price, String detail) {
     this.membershipType = membershipType;
     this.price = price;
+    this.detail = detail;
   }
 
 }
