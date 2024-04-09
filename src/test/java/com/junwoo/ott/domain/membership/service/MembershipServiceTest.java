@@ -1,5 +1,6 @@
 package com.junwoo.ott.domain.membership.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -9,9 +10,11 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.times;
 
 import com.junwoo.ott.domain.membership.dto.response.MemberShipResponseDto;
+import com.junwoo.ott.domain.membership.dto.response.MembershipReadResponseDto;
 import com.junwoo.ott.domain.membership.repository.MembershipRepository;
 import com.junwoo.ott.domain.membership.test.MembershipServiceTestValues;
 import com.junwoo.ott.global.exception.custom.NotExistMembershipTypeException;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -56,6 +59,27 @@ class MembershipServiceTest implements MembershipServiceTestValues {
       // when & then
       NotExistMembershipTypeException e = assertThrows(NotExistMembershipTypeException.class, () -> membershipService.getMembership(1L));
       assertTrue(e.getMessage().contains("Invalid membership id"));
+    }
+
+  }
+
+  @Nested
+  class GetsMembership {
+
+    @Test
+    void 맴버십_목록_조회_성공() {
+      // given
+      given(membershipRepository.findAll()).willReturn(List.of(
+          TEST_NORMAL_MEMBERSHIP_TYPE, TEST_BRONZE_MEMBERSHIP_TYPE,
+          TEST_SILVER_MEMBERSHIP_TYPE, TEST_GOLD_MEMBERSHIP_TYPE
+      ));
+
+      // when
+      List<MembershipReadResponseDto> memberships = membershipService.getMemberships();
+
+      // then
+      assertEquals(TEST_NORMAL_MEMBERSHIP_TYPE.getDetail(), memberships.get(0).getDetail());
+      assertEquals(TEST_BRONZE_MEMBERSHIP_TYPE.getDetail(), memberships.get(1).getDetail());
     }
 
   }
