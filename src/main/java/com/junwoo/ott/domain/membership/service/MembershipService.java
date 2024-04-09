@@ -1,12 +1,8 @@
 package com.junwoo.ott.domain.membership.service;
 
-import com.junwoo.ott.domain.membership.dto.request.MembershipCreateRequestDto;
 import com.junwoo.ott.domain.membership.dto.response.MemberShipResponseDto;
 import com.junwoo.ott.domain.membership.dto.response.MembershipReadResponseDto;
-import com.junwoo.ott.domain.membership.entity.Membership;
 import com.junwoo.ott.domain.membership.repository.MembershipRepository;
-import com.junwoo.ott.global.customenum.AuthorityType;
-import com.junwoo.ott.global.exception.custom.AuthorityErrorException;
 import com.junwoo.ott.global.exception.custom.NotExistMembershipTypeException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -32,15 +28,6 @@ public class MembershipService {
     return membershipRepository.findAll().stream().map(
         membership -> new MembershipReadResponseDto(membership.getMembershipType(),
             membership.getPrice())).toList();
-  }
-
-  public void createMembership(MembershipCreateRequestDto membershipCreateRequestDto) {
-    if (membershipCreateRequestDto.getAuthority() != AuthorityType.ROLE_ADMIN) {
-      throw new AuthorityErrorException("관리자 권한 필요");
-    }
-
-    membershipRepository.save(new Membership(membershipCreateRequestDto.getMembershipType(),
-        membershipCreateRequestDto.getPrice()));
   }
 
 }

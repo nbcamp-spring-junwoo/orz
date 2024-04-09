@@ -27,10 +27,12 @@ public class Membership {
   @Enumerated(EnumType.STRING)
   private MembershipType membershipType;
   private Integer price;
+  private String detail;
 
-  public Membership(MembershipType membershipType, Integer price) {
+  public Membership(MembershipType membershipType, Integer price, String detail) {
     this.membershipType = membershipType;
     this.price = price;
+    this.detail = detail;
   }
 
   public MemberShipResponseDto toResponseDto() {
