@@ -27,7 +27,7 @@ public class MembershipService {
   public List<MembershipReadResponseDto> getMemberships() {
     return membershipRepository.findAll().stream().map(
         membership -> new MembershipReadResponseDto(membership.getMembershipType(),
-            membership.getPrice())).toList();
+            membership.getPrice(), membership.getDetail())).toList();
   }
 
 }
