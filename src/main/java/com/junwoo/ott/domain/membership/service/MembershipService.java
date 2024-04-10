@@ -3,6 +3,7 @@ package com.junwoo.ott.domain.membership.service;
 import com.junwoo.ott.domain.membership.dto.response.MemberShipResponseDto;
 import com.junwoo.ott.domain.membership.dto.response.MembershipReadResponseDto;
 import com.junwoo.ott.domain.membership.repository.MembershipRepository;
+import com.junwoo.ott.global.customenum.MembershipType;
 import com.junwoo.ott.global.exception.custom.NotExistMembershipTypeException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,13 @@ public class MembershipService {
   @Transactional(readOnly = true)
   public MemberShipResponseDto getMembership(final Long membershipId) {
     return membershipRepository.findById(membershipId)
+        .orElseThrow(() -> new NotExistMembershipTypeException("Invalid membership id"))
+        .toResponseDto();
+  }
+
+  @Transactional(readOnly = true)
+  public MemberShipResponseDto getMembershipByMembershipType(final MembershipType membershipType) {
+    return membershipRepository.findByMembershipType(membershipType)
         .orElseThrow(() -> new NotExistMembershipTypeException("Invalid membership id"))
         .toResponseDto();
   }
