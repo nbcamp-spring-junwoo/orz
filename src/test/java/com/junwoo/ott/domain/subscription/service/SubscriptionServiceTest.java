@@ -5,17 +5,19 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
-import com.junwoo.ott.domain.membership.dto.response.MemberShipResponseDto;
 import com.junwoo.ott.domain.membership.service.MembershipService;
 import com.junwoo.ott.domain.payment.api.TosspaymentsClient;
 import com.junwoo.ott.domain.payment.service.CardService;
 import com.junwoo.ott.domain.payment.service.OrderService;
+import com.junwoo.ott.domain.subscription.dto.request.SubscriptionRequestDto;
 import com.junwoo.ott.domain.subscription.repository.SubscriptionHistoryRepository;
 import com.junwoo.ott.domain.subscription.repository.SubscriptionRepository;
 import com.junwoo.ott.domain.subscription.test.SubscriptionServiceTestValues;
+import com.junwoo.ott.domain.user.entity.User;
 import com.junwoo.ott.domain.user.service.UserService;
 import com.junwoo.ott.global.customenum.MembershipType;
 import com.junwoo.ott.global.exception.custom.SubscriptionException;
+import com.junwoo.ott.global.jwt.UserDetailsImpl;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -55,7 +57,7 @@ class SubscriptionServiceTest implements SubscriptionServiceTestValues {
     @Test
     void success_new_subscription() {
       // given
-      given(membershipService.getMembership(any())).willReturn(TEST_MEMBER_SHIP_RESPONSE_DTO);
+      given(membershipService.getMembershipByMembershipType(any())).willReturn(TEST_MEMBER_SHIP_RESPONSE_DTO);
       given(cardService.getCard(any())).willReturn(TEST_CARD_RESPONSE_DTO);
       given(orderService.createSubscriptionOrder(any(), any())).willReturn(TEST_ORDER_RESPONSE_DTO);
       given(subscriptionCreateService.createSubscription(any(), any(), any())).willReturn(TEST_SUBSCRIPTION);
@@ -73,10 +75,10 @@ class SubscriptionServiceTest implements SubscriptionServiceTestValues {
     @Test
     void success_already_existing_subscription() {
       // given
-      given(membershipService.getMembership(any())).willReturn(TEST_MEMBER_SHIP_RESPONSE_DTO);
+      given(membershipService.getMembershipByMembershipType(any())).willReturn(TEST_MEMBER_SHIP_RESPONSE_DTO);
       given(cardService.getCard(any())).willReturn(TEST_CARD_RESPONSE_DTO);
       given(orderService.createSubscriptionOrder(any(), any())).willReturn(TEST_ORDER_RESPONSE_DTO);
-      given(subscriptionRepository.findByUser_UserIdAndCard_CardIdAndMembership_MembershipId(any(), any(), any()))
+      given(subscriptionRepository.findByUser_UserIdAndCard_CardIdAndMembership_MembershipType(any(), any(), any()))
           .willReturn(Optional.of(TEST_SUBSCRIPTION));
       given(tosspaymentsClient.confirmBilling(any(), any())).willReturn(TEST_CONFIRM_RESULT);
       given(subscriptionHistoryRepository.save(any())).willReturn(TEST_CONFIRM_RESULT.toSubscriptionHistory());
@@ -92,29 +94,28 @@ class SubscriptionServiceTest implements SubscriptionServiceTestValues {
     @Test
     void fail_when_subscription_already_exists() {
       // given
-      MemberShipResponseDto memberShipResponseDto = MemberShipResponseDto.builder()
-          .membershipId(TEST_MEMBERSHIP_ID)
-          .membershipType(MembershipType.ROLE_NORMAL)
-          .price(30000)
+      SubscriptionRequestDto testSubscriptionRequestDto = SubscriptionRequestDto.builder()
+          .userDetails(new UserDetailsImpl(User.builder()
+              .membershipType(MembershipType.ROLE_GOLD)
+              .build()))
+          .membershipType(MembershipType.ROLE_GOLD)
           .build();
-
-      given(membershipService.getMembership(any())).willReturn(memberShipResponseDto);
 
       // when & then
       assertThrows(
           SubscriptionException.class,
-          () -> subscriptionService.requestSubscription(TEST_SUBSCRIPTION_REQUEST_DTO),
+          () -> subscriptionService.requestSubscription(testSubscriptionRequestDto),
           "User already has same subscription: " + TEST_USER_MEMBERSHIP
       );
     }
 
     @DisplayName("실패: 원격 서버 오류(결재 실패 등...)")
     @Test
-    void fail_() {
-      given(membershipService.getMembership(any())).willReturn(TEST_MEMBER_SHIP_RESPONSE_DTO);
+    void fail_remote_server_error() {
+      given(membershipService.getMembershipByMembershipType(any())).willReturn(TEST_MEMBER_SHIP_RESPONSE_DTO);
       given(cardService.getCard(any())).willReturn(TEST_CARD_RESPONSE_DTO);
       given(orderService.createSubscriptionOrder(any(), any())).willReturn(TEST_ORDER_RESPONSE_DTO);
-      given(subscriptionRepository.findByUser_UserIdAndCard_CardIdAndMembership_MembershipId(any(), any(), any()))
+      given(subscriptionRepository.findByUser_UserIdAndCard_CardIdAndMembership_MembershipType(any(), any(), any()))
           .willReturn(Optional.of(TEST_SUBSCRIPTION));
       given(tosspaymentsClient.confirmBilling(any(), any())).willThrow(SubscriptionException.class);
 

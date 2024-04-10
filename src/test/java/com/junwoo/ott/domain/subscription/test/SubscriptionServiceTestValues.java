@@ -63,7 +63,7 @@ public interface SubscriptionServiceTestValues {
   SubscriptionRequestDto TEST_SUBSCRIPTION_REQUEST_DTO = SubscriptionRequestDto.builder()
       .userId(TEST_USER_ID)
       .cardId(TEST_CARD_ID)
-      .membershipId(2L)
+      .membershipType(MembershipType.ROLE_GOLD)
       .userDetails(TEST_USER_DETAILS)
       .build();
   MemberShipResponseDto TEST_MEMBER_SHIP_RESPONSE_DTO = TEST_MEMBERSHIP.toResponseDto();
