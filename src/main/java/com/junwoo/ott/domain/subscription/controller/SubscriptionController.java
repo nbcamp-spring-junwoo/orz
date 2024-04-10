@@ -21,14 +21,14 @@ public class SubscriptionController {
   public void requestSubscription(
       @PathVariable @Positive final Long userId,
       @RequestParam("card") final Long cardId,
-      @RequestParam final Long membershipId,
+      @RequestParam("membership") final String membershipType,
       @RequestParam(value = "coupon", required = false) final Long couponIssuanceId,
       @AuthenticationPrincipal final UserDetailsImpl userDetails
   ) {
     SubscriptionRequestDto requestDto = SubscriptionRequestDto.of(
         userId,
         cardId,
-        membershipId,
+        membershipType,
         couponIssuanceId,
         userDetails
     );

@@ -46,7 +46,7 @@ public class SubscriptionService {
     Long cardId = dto.getCardId();
     CardResponseDto validCard = validateUserHasCard(userId, cardId);
 
-    Subscription subscription = getOrCreateSubscription(userId, dto.getMembershipId(), validCard);
+    Subscription subscription = getOrCreateSubscription(userId, dto.getMembershipType(), validCard);
 
     String billingKey = subscription.getBillingKey();
     OrderResponseDto order = orderService.createSubscriptionOrder(subscription, dto.getCouponIssuanceId());
@@ -64,10 +64,12 @@ public class SubscriptionService {
   }
 
   private Subscription getOrCreateSubscription(
-      final Long userId, final Long membershipId, final CardResponseDto card
+      final Long userId, final MembershipType membershipType, final CardResponseDto card
   ) {
     Optional<Subscription> existingSubscription =
-        subscriptionRepository.findByUser_UserIdAndCard_CardIdAndMembership_MembershipId(userId, card.getCardId(), membershipId);
+        subscriptionRepository.findByUser_UserIdAndCard_CardIdAndMembership_MembershipType(userId, card.getCardId(), membershipType);
+    Long membershipId = membershipService.getMembershipByMembershipType(membershipType)
+        .getMembershipId();
 
     return existingSubscription.orElseGet(() -> subscriptionCreateService.createSubscription(userId, membershipId, card));
   }
@@ -76,9 +78,7 @@ public class SubscriptionService {
       final SubscriptionRequestDto dto
   ) {
     MembershipType fromMembershipType = dto.getUserDetails().getMembershipType();
-    MembershipType toMembershipType = membershipService.getMembership(dto.getMembershipId())
-        .toEntity()
-        .getMembershipType();
+    MembershipType toMembershipType = dto.getMembershipType();
 
     if (fromMembershipType == toMembershipType) {
       throw new SubscriptionException("User already has same subscription: " + fromMembershipType);
