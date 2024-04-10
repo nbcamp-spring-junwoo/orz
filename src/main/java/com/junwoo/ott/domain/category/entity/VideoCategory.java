@@ -25,11 +25,16 @@ public class VideoCategory {
   private Long videoCategoryId;
 
   @ManyToOne
-  @JoinColumn(name = "category_id")
-  private Category category;
+  @JoinColumn(name = "video_id", nullable = false)
+  private Video video;
 
   @ManyToOne
-  @JoinColumn(name = "video_id")
-  private Video video;
+  @JoinColumn(name = "category_id", nullable = false)
+  private Category category;
+
+  public VideoCategory(Video video, Category category) {
+    this.video = video;
+    this.category = category;
+  }
 
 }
