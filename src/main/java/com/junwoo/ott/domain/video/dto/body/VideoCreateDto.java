@@ -1,8 +1,8 @@
 package com.junwoo.ott.domain.video.dto.body;
 
-
 import com.junwoo.ott.global.customenum.RatingType;
 import jakarta.validation.constraints.NotNull;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -16,5 +16,7 @@ public class VideoCreateDto {
   private final String description;
   @NotNull
   private final RatingType ratingType;
+  @NotNull
+  private final Set<Long> categoryIds;
 
 }

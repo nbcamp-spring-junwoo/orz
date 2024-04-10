@@ -1,6 +1,7 @@
 package com.junwoo.ott.domain.video.controller;
 
 import com.junwoo.ott.domain.video.dto.body.VideoCreateDto;
+import com.junwoo.ott.domain.video.dto.body.VideoSearchByCategoryDto;
 import com.junwoo.ott.domain.video.dto.body.VideoUpdateDto;
 import com.junwoo.ott.domain.video.dto.request.VideoCreateRequestDto;
 import com.junwoo.ott.domain.video.dto.request.VideoReadRequestDto;
@@ -61,6 +62,12 @@ public class VideoController {
   ) {
     VideoReadRequestDto dto = new VideoReadRequestDto(title, pageable);
     Page<VideoReadResponseDto> videosPage = videoService.getVideosByTitle(dto);
+    return ResponseDto.ok(videosPage);
+  }
+
+  @PostMapping("/search/category")
+  public ResponseDto<Page<VideoReadResponseDto>> searchVideosByCategory(@RequestBody VideoSearchByCategoryDto searchDto, Pageable pageable) {
+    Page<VideoReadResponseDto> videosPage = videoService.getVideosByCategory(searchDto, pageable);
     return ResponseDto.ok(videosPage);
   }
 

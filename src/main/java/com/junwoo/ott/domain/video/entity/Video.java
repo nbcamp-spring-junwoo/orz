@@ -1,10 +1,12 @@
 package com.junwoo.ott.domain.video.entity;
 
 
+import com.junwoo.ott.domain.category.entity.VideoCategory;
 import com.junwoo.ott.domain.video.dto.body.VideoUpdateDto;
 import com.junwoo.ott.domain.video.dto.request.VideoCreateRequestDto;
 import com.junwoo.ott.global.common.entity.Timestamped;
 import com.junwoo.ott.global.customenum.RatingType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -12,7 +14,10 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,6 +47,9 @@ public class Video extends Timestamped {
   private RatingType ratingType;
   private LocalDateTime deletedAt;
 
+  @OneToMany(mappedBy = "video", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Set<VideoCategory> videoCategories = new HashSet<>();
+
   public static Video of(final VideoCreateRequestDto dto) {
 
     return Video.builder()
@@ -60,22 +68,16 @@ public class Video extends Timestamped {
         .deletedAt(this.deletedAt);
   }
 
-  public Video update(final VideoUpdateDto dto) {
-    VideoBuilder builder = this.toBuilder();
-
-    if (dto.getTitle() != null) {
-      builder.title(dto.getTitle());
+  public void update(String title, String description, RatingType ratingType) {
+    if (title != null){
+      this.title = title;
     }
-
-    if (dto.getDescription() != null) {
-      builder.description(dto.getDescription());
+    if (description != null){
+      this.description = description;
     }
-
-    if (dto.getRatingType() != null) {
-      builder.ratingType(dto.getRatingType());
+    if (ratingType != null){
+      this.ratingType = ratingType;
     }
-
-    return builder.build();
   }
 
 }
