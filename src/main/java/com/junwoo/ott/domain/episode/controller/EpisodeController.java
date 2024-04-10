@@ -5,13 +5,20 @@ import com.junwoo.ott.domain.episode.dto.body.EpisodeUpdateDto;
 import com.junwoo.ott.domain.episode.dto.request.EpisodeCreateRequestDto;
 import com.junwoo.ott.domain.episode.dto.request.EpisodeReadRequestDto;
 import com.junwoo.ott.domain.episode.dto.request.EpisodeUpdateRequestDto;
+import com.junwoo.ott.domain.episode.dto.response.EpisodeCreateResponseDto;
 import com.junwoo.ott.domain.episode.dto.response.EpisodeReadResponseDto;
+import com.junwoo.ott.domain.episode.service.EpisodeAccessService;
 import com.junwoo.ott.domain.episode.service.EpisodeService;
 import com.junwoo.ott.global.common.dto.ResponseDto;
+import com.junwoo.ott.global.jwt.UserDetailsImpl;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,20 +35,23 @@ import org.springframework.web.bind.annotation.RestController;
 public class EpisodeController {
 
     private final EpisodeService episodeService;
+    private final EpisodeAccessService episodeAccessService;
 
     @Secured(value = "ROLE_ADMIN")
     @PostMapping("{videoId}/episodes")
-    public void postEpisode(
+    public EpisodeCreateResponseDto postEpisode(
         final @PathVariable Long videoId,
         final @Validated @RequestBody EpisodeCreateDto dto
     ) {
-        EpisodeCreateRequestDto createDto = new EpisodeCreateRequestDto(videoId, dto.getTitle(), dto.getReleasedAt());
-        episodeService.createEpisode(createDto);
+        // Pass videoId to the service method
+        EpisodeCreateRequestDto createDto = new EpisodeCreateRequestDto(dto, videoId);
+        return episodeService.createEpisode(createDto);
     }
 
     @GetMapping("{videoId}/episodes")
     public ResponseDto<Page<EpisodeReadResponseDto>> getEpisodes(
-        @PathVariable Long videoId, Pageable pageable
+        @PathVariable Long videoId,
+        Pageable pageable
     ) {
         EpisodeReadRequestDto requestDto = new EpisodeReadRequestDto(videoId, pageable);
         Page<EpisodeReadResponseDto> episodesPages = episodeService.getEpisodesByVideo(requestDto);
@@ -73,6 +83,24 @@ public class EpisodeController {
     @DeleteMapping("/episodes/{episodeId}")
     public void deleteEpisode(@PathVariable("episodeId") Long episodeId) {
         episodeService.deleteEpisode(episodeId);
+    }
+
+    @GetMapping("/{videoId}/episodes/{episodeId}/watch")
+    public ResponseEntity<Object> watchEpisode(
+        @PathVariable Long videoId,
+        @PathVariable Long episodeId,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        boolean canAccess = episodeAccessService.canUserAccessEpisode(userDetails, videoId, episodeId);
+
+        if (!canAccess) {
+            return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body("이 에피소드를 볼려면 맴버쉽 등급을 높이세요.");
+        }
+
+        String videoLink = episodeAccessService.getEpisodeById(episodeId).getVideoLink();
+        return ResponseEntity.ok().body(Map.of("videoLink", videoLink));
     }
 
 }

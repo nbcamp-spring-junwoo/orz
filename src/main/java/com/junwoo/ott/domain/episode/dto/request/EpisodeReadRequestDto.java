@@ -1,5 +1,6 @@
 package com.junwoo.ott.domain.episode.dto.request;
 
+import com.junwoo.ott.global.customenum.MembershipType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +13,7 @@ public class EpisodeReadRequestDto {
     private Long episodeId;
     private String title;
     private Pageable pageable;
+    private MembershipType membershipType;
 
     public EpisodeReadRequestDto(Long videoId, Pageable pageable) {
         this.videoId = videoId;
@@ -23,4 +25,5 @@ public class EpisodeReadRequestDto {
         this.episodeId = episodeId;
 
     }
+
 }
