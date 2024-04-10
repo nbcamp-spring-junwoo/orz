@@ -2,6 +2,8 @@ package com.junwoo.ott.domain.episode.repository;
 
 import com.junwoo.ott.domain.episode.entity.Episode;
 import com.junwoo.ott.domain.episode.entity.QEpisode;
+import com.junwoo.ott.global.customenum.MembershipType;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -42,6 +44,43 @@ public class EpisodeCustomRepositoryImpl implements EpisodeCustomRepository {
         Episode episode = queryFactory.selectFrom(qEpisode)
             .where(qEpisode.video.videoId.eq(videoId),
                 qEpisode.episodeId.eq(episodeId),
+                qEpisode.deletedAt.isNull())
+            .fetchOne();
+
+        return Optional.ofNullable(episode);
+    }
+
+    @Override
+    public Page<Episode> findByVideoIdAndMembershipType(Long videoId, MembershipType membershipType, Pageable pageable) {
+        QEpisode qEpisode = QEpisode.episode;
+
+        BooleanExpression predicate = qEpisode.video.videoId.eq(videoId)
+            .and(qEpisode.membershipType.eq(membershipType))
+            .and(qEpisode.deletedAt.isNull());
+
+        List<Episode> episodes = queryFactory.selectFrom(qEpisode)
+            .where(predicate)
+            .orderBy(qEpisode.releasedAt.desc())
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .fetch();
+
+        long total = queryFactory.selectFrom(qEpisode)
+            .where(predicate)
+            .fetch()
+            .size();
+
+        return new PageImpl<>(episodes, pageable, total);
+    }
+
+    @Override
+    public Optional<Episode> findByVideoIdAndEpisodeIdAndMembershipType(Long videoId, Long episodeId, MembershipType membershipType) {
+        QEpisode qEpisode = QEpisode.episode;
+
+        Episode episode = queryFactory.selectFrom(qEpisode)
+            .where(qEpisode.video.videoId.eq(videoId),
+                qEpisode.episodeId.eq(episodeId),
+                qEpisode.membershipType.eq(membershipType),
                 qEpisode.deletedAt.isNull())
             .fetchOne();
 

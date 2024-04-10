@@ -3,8 +3,11 @@ package com.junwoo.ott.domain.episode.entity;
 import com.junwoo.ott.domain.episode.dto.body.EpisodeUpdateDto;
 import com.junwoo.ott.domain.video.entity.Video;
 import com.junwoo.ott.global.common.entity.Timestamped;
+import com.junwoo.ott.global.customenum.MembershipType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -37,6 +40,11 @@ public class Episode extends Timestamped {
   @Column(nullable = false)
   private LocalDateTime releasedAt;
   private LocalDateTime deletedAt;
+  @Enumerated(EnumType.STRING)
+  @Column(name = "membership_type")
+  private MembershipType membershipType;
+  @Column
+  private String videoLink;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "video_id")
@@ -49,6 +57,12 @@ public class Episode extends Timestamped {
     }
     if (dto.getReleasedAt() != null) {
       this.releasedAt = dto.getReleasedAt();
+    }
+    if (dto.getMembershipType() != null) {
+      this.membershipType = dto.getMembershipType();
+    }
+    if (dto.getVideoLink() != null) { // Update videoLink if provided
+      this.videoLink = dto.getVideoLink();
     }
 
   }

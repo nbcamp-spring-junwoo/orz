@@ -25,14 +25,14 @@ public class EpisodeService {
 
     private final VideoService videoService;
 
-    public EpisodeCreateResponseDto createEpisode(
-        final EpisodeCreateRequestDto dto
-    ) {
+    public EpisodeCreateResponseDto createEpisode(final EpisodeCreateRequestDto dto) {
         Video video = videoService.getByVideoId(dto.getVideoId());
 
         Episode episode = Episode.builder()
             .title(dto.getTitle())
             .releasedAt(dto.getReleasedAt())
+            .membershipType(dto.getMembershipType())
+            .videoLink(dto.getVideoLink())
             .video(video)
             .build();
 
@@ -43,24 +43,31 @@ public class EpisodeService {
 
     public Page<EpisodeReadResponseDto> getEpisodesByVideo(final EpisodeReadRequestDto requestDto) {
         videoService.validateVideoExists(requestDto.getVideoId());
-        Page<Episode> episodesPage = episodeRepository.findByEpisodeId(requestDto.getVideoId(), requestDto.getPageable());
+        Page<Episode> episodesPage = episodeRepository.findByVideoIdAndMembershipType(
+            requestDto.getVideoId(),
+            requestDto.getMembershipType(),
+            requestDto.getPageable());
+
         return episodesPage.map(EpisodeReadResponseDto::new);
     }
 
     public EpisodeReadResponseDto getEpisodeByVideo(final EpisodeReadRequestDto dto) {
         videoService.validateVideoExists(dto.getVideoId());
-        Episode episode = episodeRepository.findByVideoIdAndEpisodeId(dto.getVideoId(), dto.getEpisodeId())
-            .orElseThrow(() -> new EntityNotFoundException("에피소드 id를 찾을 수 없습니다."));
+        Episode episode = episodeRepository.findByVideoIdAndEpisodeIdAndMembershipType(
+                dto.getVideoId(),
+                dto.getEpisodeId(),
+                dto.getMembershipType())
+            .orElseThrow(() -> new EntityNotFoundException("에피소드를 찾을 수 없습니다."));
 
         return new EpisodeReadResponseDto(episode);
     }
 
     public EpisodeUpdateResponseDto updateEpisode(final EpisodeUpdateRequestDto updateRequestDto) {
         Episode episode = episodeRepository.findById(updateRequestDto.getEpisodeId())
-            .orElseThrow(() -> new EntityNotFoundException("에피소드 id가 존재하지 않습니다."));
+            .orElseThrow(() -> new EntityNotFoundException("에피소드를 찾을 수 없습니다."));
 
         episode.update(updateRequestDto.getDto());
-        episodeRepository.save(episode);
+        episode = episodeRepository.save(episode);
 
         return new EpisodeUpdateResponseDto(episode);
     }

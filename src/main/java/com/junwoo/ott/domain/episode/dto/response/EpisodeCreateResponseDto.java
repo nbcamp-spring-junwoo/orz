@@ -1,6 +1,7 @@
 package com.junwoo.ott.domain.episode.dto.response;
 
 import com.junwoo.ott.domain.episode.entity.Episode;
+import com.junwoo.ott.global.customenum.MembershipType;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,6 +15,8 @@ public class EpisodeCreateResponseDto {
     private final LocalDateTime releasedAt;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
+    private final MembershipType membershipType;
+    private final String videoLink;
 
     public EpisodeCreateResponseDto(final Episode episode) {
         this.episodeId = episode.getEpisodeId();
@@ -21,6 +24,8 @@ public class EpisodeCreateResponseDto {
         this.releasedAt = episode.getReleasedAt();
         this.createdAt = episode.getCreatedAt();
         this.updatedAt = episode.getUpdatedAt();
+        this.membershipType = episode.getMembershipType();
+        this.videoLink = episode.getVideoLink();
     }
 
 }
