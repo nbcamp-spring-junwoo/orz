@@ -16,14 +16,14 @@ public class EpisodeAccessService {
 
     public Episode getEpisodeById(Long episodeId) {
         return episodeRepository.findById(episodeId)
-            .orElseThrow(() -> new EntityNotFoundException("Episode not found"));
+            .orElseThrow(() -> new EntityNotFoundException("에피소드를 찾을 수 없습니다."));
     }
 
     public boolean canUserAccessEpisode(UserDetailsImpl userDetails, Long videoId, Long episodeId) {
         Episode episode = getEpisodeById(episodeId);
 
         if (!episode.getVideo().getVideoId().equals(videoId)) {
-            throw new EntityNotFoundException("The episode does not belong to the specified video.");
+            throw new EntityNotFoundException("에피소드가 지정된 비디오에 없습니다.");
         }
 
         MembershipType userMembership = userDetails.getMembershipType();
