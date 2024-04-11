@@ -11,9 +11,11 @@ import static org.mockito.Mockito.times;
 
 import com.junwoo.ott.domain.auth.dto.request.AuthLoginRequestDto;
 import com.junwoo.ott.domain.user.UserTestValues;
+import com.junwoo.ott.domain.user.dto.reponse.UserGetKeyResponseDto;
 import com.junwoo.ott.domain.user.dto.reponse.UserReadResponseDto;
 import com.junwoo.ott.domain.user.entity.User;
 import com.junwoo.ott.domain.user.repository.UserRepository;
+import com.junwoo.ott.global.customenum.MembershipType;
 import com.junwoo.ott.global.exception.custom.PasswordNotEqualsException;
 import com.junwoo.ott.global.exception.custom.UserNotFoundException;
 import com.junwoo.ott.global.exception.custom.UserNotSameException;
@@ -172,6 +174,65 @@ class UserServiceTest implements UserTestValues {
       assertThrows(PasswordNotEqualsException.class,
           () -> userService.putUser(TEST_USER_PUT_REQUEST_DTO));
     }
+  }
+
+
+  @Nested
+  @DisplayName("회원 맴버십 등급 변경 테스트")
+  class UserMembershipUpdateTest {
+
+    @Test
+    void 회원_맴버십_변경_성공_테스트() {
+
+      // given
+      given(userRepository.findById(anyLong())).willReturn(Optional.of(TEST_USER));
+
+      // when
+      userService.updateUserMembership(TEST_USER_ID, MembershipType.ROLE_NORMAL);
+    }
+
+    @Test
+    void 회원_맴버십_변경_실패_테스트() {
+
+      // given
+      given(userRepository.findById(anyLong())).willReturn(Optional.empty());
+
+      // when, then
+      assertThrows(UserNotFoundException.class,
+          () -> userService.getKey(TEST_USER_GET_KEY_REQUEST_DTO));
+    }
+
+  }
+
+  @Nested
+  @DisplayName("회원 커스텀키 반환 테스트")
+  class UserGetKeyTest {
+
+    @Test
+    void 회원_커스텀키_반환_성공_테스트() {
+
+      // given
+      given(userRepository.findById(anyLong())).willReturn(Optional.of(TEST_USER));
+
+      // when
+      UserGetKeyResponseDto userGetKeyResponseDto = userService.getKey(
+          TEST_USER_GET_KEY_REQUEST_DTO);
+
+      // then
+      assertEquals(TEST_USER_CUSTOMER_KEY, userGetKeyResponseDto.getCustomerKey());
+    }
+
+    @Test
+    void 회원_커스텀키_반환_실패_테스트() {
+
+      // given
+      given(userRepository.findById(anyLong())).willReturn(Optional.empty());
+
+      // when, then
+      assertThrows(UserNotFoundException.class,
+          () -> userService.getKey(TEST_USER_GET_KEY_REQUEST_DTO));
+    }
+
   }
 
 }
