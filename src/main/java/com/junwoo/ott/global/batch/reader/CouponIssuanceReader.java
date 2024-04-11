@@ -2,6 +2,7 @@ package com.junwoo.ott.global.batch.reader;
 
 import com.junwoo.ott.domain.coupon.entity.CouponIssuance;
 import com.junwoo.ott.domain.coupon.repository.CouponIssuanceRepository;
+import com.junwoo.ott.global.batch.CouponIssuanceUpdateJob;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,10 @@ public class CouponIssuanceReader implements ItemReader<CouponIssuance> {
     if (localDate.isBefore(LocalDateTime.now().minusMinutes(2))) {
       currentIndex = 0;
       localDate = LocalDateTime.now();
+    }
+
+    if (currentIndex >= CouponIssuanceUpdateJob.CHUNK_SIZE) {
+      currentIndex = 0;
     }
 
     return (currentIndex < couponIssuanceRepository.getCouponIssuance(LocalDate.from(localDate))
