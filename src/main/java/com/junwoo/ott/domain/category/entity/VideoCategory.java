@@ -37,4 +37,8 @@ public class VideoCategory {
     this.category = category;
   }
 
+  public void setVideo(Video video) {
+    this.video = video;
+  }
+
 }
