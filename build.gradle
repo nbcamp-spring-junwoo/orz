@@ -90,6 +90,11 @@ dependencies {
 
     // fixture monkey
     testImplementation 'com.navercorp.fixturemonkey:fixture-monkey-starter:1.0.14'
+
+    // elasticsearch
+    implementation 'co.elastic.clients:elasticsearch-java'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 }
 
 dependencyManagement {
