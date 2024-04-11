@@ -47,6 +47,10 @@ public class WebSecurityConfig {
             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
             .requestMatchers("/api/v1/signup", "/api/v1/login").permitAll()
             .requestMatchers("/api/v1/admin/signup", "/api/v1/admin/login").permitAll()
+            .requestMatchers("/actuator/**").permitAll()
+            .requestMatchers("/localhost:3000/**").permitAll()
+            .requestMatchers("/localhost:9090/**").permitAll()
+            .requestMatchers("/localhost:9292/**").permitAll()
             .requestMatchers("/v3/**", "/swagger-ui/**").permitAll()
             .anyRequest().authenticated()
     );
