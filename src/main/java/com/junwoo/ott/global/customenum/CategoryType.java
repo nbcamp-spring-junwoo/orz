@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum CategoryType {
-  FILM("FILM"),
+  MOVIE("MOVIE"),
   DRAMA("DRAMA"),
   ANIME("ANIME"),
   ENTERTAINMENT("ENTERTAINMENT");
