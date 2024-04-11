@@ -23,7 +23,7 @@ public class CouponIssuanceUpdateJob extends DefaultBatchConfiguration {
   private final CouponIssuanceReader couponIssuanceReader;
   private final CouponIssuanceWriter couponIssuanceWriter;
 
-  private final int CHUNK_SIZE = 50;
+  public static final int CHUNK_SIZE = 50;
 
   @Bean
   public Job couponIssuanceJob(final JobRepository jobRepository, final Step couponIssuanceStep) {
