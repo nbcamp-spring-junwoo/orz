@@ -2,7 +2,9 @@ package com.junwoo.ott.domain.user.service;
 
 import com.junwoo.ott.domain.auth.dto.request.AuthLoginRequestDto;
 import com.junwoo.ott.domain.auth.dto.request.AuthSignupRequestDto;
+import com.junwoo.ott.domain.user.dto.reponse.UserGetKeyResponseDto;
 import com.junwoo.ott.domain.user.dto.reponse.UserReadResponseDto;
+import com.junwoo.ott.domain.user.dto.request.UserGetKeyRequestDto;
 import com.junwoo.ott.domain.user.dto.request.UserPutRequestDto;
 import com.junwoo.ott.domain.user.entity.User;
 import com.junwoo.ott.domain.user.repository.UserRepository;
@@ -112,6 +114,14 @@ public class UserService {
     );
 
     user.updateMembership(membership);
+  }
+
+  public UserGetKeyResponseDto getKey(UserGetKeyRequestDto userGetKeyRequestDto) {
+    User user = userRepository.findById(userGetKeyRequestDto.getUserId()).orElseThrow(
+        () -> new UserNotFoundException("존재하지 않는 회원입니다.")
+    );
+
+    return new UserGetKeyResponseDto(user.getCustomerKey());
   }
 
 }
