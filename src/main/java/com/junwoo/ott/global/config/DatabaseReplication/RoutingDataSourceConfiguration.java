@@ -12,7 +12,7 @@ import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 
 @Slf4j
 @Configuration
-public class RoutingDataSourceConfig {
+public class RoutingDataSourceConfiguration {
 
   private final String ROUTING_DATA_SOURCE = "routingDataSource";
   private final String MASTER_DATA_SOURCE = "masterDataSource";
@@ -42,33 +42,5 @@ public class RoutingDataSourceConfig {
       @Qualifier(ROUTING_DATA_SOURCE) DataSource routingDataSource) {
     return new LazyConnectionDataSourceProxy(routingDataSource);
   }
-
-//  @Bean("entityManagerFactory")
-//  public LocalContainerEntityManagerFactoryBean entityManagerFactory(
-//      @Qualifier(DATA_SOURCE) DataSource dataSource) {
-//    LocalContainerEntityManagerFactoryBean entityManagerFactory
-//        = new LocalContainerEntityManagerFactoryBean();
-//    entityManagerFactory.setDataSource(dataSource);
-//    entityManagerFactory.setPackagesToScan("com.junwoo.ott.*");
-//    entityManagerFactory.setJpaVendorAdapter(this.jpaVendorAdapter());
-//    entityManagerFactory.setPersistenceUnitName("entityManager");
-//    return entityManagerFactory;
-//  }
-//
-//  private JpaVendorAdapter jpaVendorAdapter() {
-//    HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
-//    hibernateJpaVendorAdapter.setGenerateDdl(true);
-//    hibernateJpaVendorAdapter.setShowSql(true);
-//    hibernateJpaVendorAdapter.setDatabasePlatform("org.hibernate.dialect.MySQLDialect");
-//    return hibernateJpaVendorAdapter;
-//  }
-//
-//  @Bean("transactionManager")
-//  public PlatformTransactionManager platformTransactionManager(
-//      @Qualifier("entityManagerFactory") LocalContainerEntityManagerFactoryBean entityManagerFactory) {
-//    JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
-//    jpaTransactionManager.setEntityManagerFactory(entityManagerFactory.getObject());
-//    return jpaTransactionManager;
-//  }
 
 }
