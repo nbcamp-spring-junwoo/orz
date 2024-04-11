@@ -3,7 +3,6 @@ package com.junwoo.ott.domain.payment.dto.request;
 import com.junwoo.ott.domain.payment.dto.body.CardCreateDto;
 import com.junwoo.ott.domain.payment.entity.Card;
 import java.time.LocalDate;
-import java.util.Objects;
 import lombok.Builder;
 
 @Builder
@@ -19,13 +18,8 @@ public record CardCreateRequestDto(
 
   public static CardCreateRequestDto of(
       final CardCreateDto dto,
-      final Long userId,
-      final Long userIdDetails
+      final Long userId
   ) {
-    if (!Objects.equals(userId, userIdDetails)) {
-      throw new IllegalArgumentException("User id not match");
-    }
-
     return CardCreateRequestDto.builder()
         .cardNumber(dto.cardNumber())
         .cardExpirationYear(dto.cardExpirationYear())

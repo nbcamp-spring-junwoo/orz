@@ -8,7 +8,6 @@ import com.junwoo.ott.domain.payment.dto.response.CardResponseDto;
 import com.junwoo.ott.domain.payment.service.CardService;
 import com.junwoo.ott.global.common.dto.ResponseDto;
 import com.junwoo.ott.global.jwt.UserDetailsImpl;
-import jakarta.validation.constraints.Positive;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,13 +24,12 @@ public class CardController {
 
   private final CardService cardService;
 
-  @PostMapping("/api/v1/users/{userId}/cards")
+  @PostMapping("/api/v1/users/me/cards")
   public void postCard(
-      final @Positive @PathVariable Long userId,
       final @Validated @RequestBody CardCreateDto dto,
       final @AuthenticationPrincipal UserDetailsImpl userDetails
   ) {
-    CardCreateRequestDto requestDto = CardCreateRequestDto.of(dto, userId, userDetails.getUserId());
+    CardCreateRequestDto requestDto = CardCreateRequestDto.of(dto, userDetails.getUserId());
 
     cardService.createCard(requestDto);
   }
@@ -48,12 +46,11 @@ public class CardController {
     return ResponseDto.ok(result);
   }
 
-  @GetMapping("/api/v1/users/{userId}/cards")
+  @GetMapping("/api/v1/users/me/cards")
   public ResponseDto<List<CardResponseDto>> getCards(
-      final @PathVariable Long userId,
       final @AuthenticationPrincipal UserDetailsImpl userDetails
   ) {
-    CardsReadRequestDto requestDto = CardsReadRequestDto.of(userId, userDetails.getUserId());
+    CardsReadRequestDto requestDto = CardsReadRequestDto.of(userDetails.getUserId());
     List<CardResponseDto> result = cardService.getCards(requestDto);
 
     return ResponseDto.ok(result);
