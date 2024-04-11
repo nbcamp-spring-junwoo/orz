@@ -1,7 +1,9 @@
 package com.junwoo.ott.domain.user.controller;
 
 import com.junwoo.ott.domain.user.dto.body.UserPutDto;
+import com.junwoo.ott.domain.user.dto.reponse.UserGetKeyResponseDto;
 import com.junwoo.ott.domain.user.dto.reponse.UserReadResponseDto;
+import com.junwoo.ott.domain.user.dto.request.UserGetKeyRequestDto;
 import com.junwoo.ott.domain.user.dto.request.UserPutRequestDto;
 import com.junwoo.ott.domain.user.service.UserService;
 import com.junwoo.ott.global.common.dto.ResponseDto;
@@ -41,6 +43,12 @@ public class UserController {
     UserPutRequestDto userPutRequestDto = new UserPutRequestDto(id, userDetails.getUserId(),
         userPutDto);
     userService.putUser(userPutRequestDto);
+  }
+
+  @GetMapping("/me/key")
+  public ResponseDto<UserGetKeyResponseDto> getKey(@AuthenticationPrincipal final UserDetailsImpl userDetails) {
+    UserGetKeyRequestDto userGetKeyRequestDto = new UserGetKeyRequestDto(userDetails.getUserId());
+    return ResponseDto.ok(userService.getKey(userGetKeyRequestDto));
   }
 
 }

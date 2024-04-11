@@ -12,10 +12,12 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
+import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,6 +46,9 @@ public class User extends Timestamped implements OAuth2User {
   private String password;
   @Column(nullable = false, unique = true)
   private String email;
+  @Column(nullable = false, unique = true)
+  private String customerKey;
+  @Column(nullable = false)
   private LocalDate born;
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
@@ -73,6 +78,11 @@ public class User extends Timestamped implements OAuth2User {
     this.password = admin.getPassword();
     this.authorityType = admin.getAuthorityType();
     this.membershipType = admin.getMembershipType();
+  }
+
+  @PrePersist
+  public void setCustomerKey() {
+    this.customerKey = UUID.randomUUID().toString();
   }
 
   public UserReadResponseDto toReadResponseDto() {
