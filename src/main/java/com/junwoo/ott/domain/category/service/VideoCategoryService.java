@@ -42,5 +42,4 @@ public class VideoCategoryService {
         videoCategoryRepository.deleteAllByVideo(video);
     }
 
-
 }
