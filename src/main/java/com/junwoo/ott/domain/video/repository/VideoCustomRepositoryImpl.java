@@ -2,7 +2,6 @@ package com.junwoo.ott.domain.video.repository;
 
 import com.junwoo.ott.domain.video.entity.QVideo;
 import com.junwoo.ott.domain.video.entity.Video;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,14 +21,14 @@ public class VideoCustomRepositoryImpl implements VideoCustomRepository {
     public Page<Video> findByTitle(final String title, final Pageable pageable) {
         QVideo video = QVideo.video;
         List<Video> videos = queryFactory.selectFrom(video)
-                .where(titleEq(title), video.deletedAt.isNull())
+                .where(video.title.contains(title), video.deletedAt.isNull())
                 .orderBy(video.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
         long total = queryFactory.selectFrom(video)
-                .where(titleEq(title), video.deletedAt.isNull())
+                .where(video.title.contains(title), video.deletedAt.isNull())
                 .fetch()
                 .size();
 
@@ -62,15 +61,6 @@ public class VideoCustomRepositoryImpl implements VideoCustomRepository {
             .set(qVideo.deletedAt, LocalDateTime.now())
             .where(qVideo.videoId.eq(videoId))
             .execute();
-    }
-
-    private BooleanExpression titleEq(final String title) {
-
-        if (title == null || title.isEmpty()) {
-            return null;
-        }
-
-        return QVideo.video.title.eq(title);
     }
 
 }

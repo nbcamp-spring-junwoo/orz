@@ -2,7 +2,6 @@ package com.junwoo.ott.domain.video.entity;
 
 
 import com.junwoo.ott.domain.category.entity.VideoCategory;
-import com.junwoo.ott.domain.video.dto.body.VideoUpdateDto;
 import com.junwoo.ott.domain.video.dto.request.VideoCreateRequestDto;
 import com.junwoo.ott.global.common.entity.Timestamped;
 import com.junwoo.ott.global.customenum.RatingType;
@@ -78,6 +77,19 @@ public class Video extends Timestamped {
     if (ratingType != null){
       this.ratingType = ratingType;
     }
+
+  }
+
+  public void addVideoCategory(VideoCategory videoCategory) {
+    if (this.videoCategories == null) {
+      this.videoCategories = new HashSet<>();
+    }
+    this.videoCategories.add(videoCategory);
+  }
+
+  public void removeVideoCategory(VideoCategory videoCategory) {
+    this.videoCategories.remove(videoCategory);
+    videoCategory.setVideo(null);
   }
 
 }
