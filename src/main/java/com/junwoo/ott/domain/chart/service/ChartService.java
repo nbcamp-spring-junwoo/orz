@@ -29,6 +29,7 @@ public class ChartService {
 
   private final ChartJpaRepository chartJpaRepository;
 
+  @Transactional(readOnly = true)
   @Cacheable(value = CACHE_KEY, cacheManager = "cacheManager")
   public List<ChartResponseDto> getChart() {
     return chartJpaRepository.getAllChartsWithVideoInfo();
