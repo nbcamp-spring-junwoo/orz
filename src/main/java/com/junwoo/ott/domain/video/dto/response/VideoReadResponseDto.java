@@ -5,6 +5,7 @@ import com.junwoo.ott.domain.video.entity.Video;
 import com.junwoo.ott.global.customenum.RatingType;
 import java.time.LocalDateTime;
 import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

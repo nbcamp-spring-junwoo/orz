@@ -63,11 +63,9 @@ public class VideoService {
   @Transactional(readOnly = true)
   public VideoReadResponseDto getVideo(final Long videoId) {
     Video video = videoJpaRepository.findById(videoId)
-        .orElseThrow(() -> new EntityNotFoundException("Video not found: " + videoId));
+        .orElseThrow(() -> new EntityNotFoundException("비디오를 찾을 수 없습니다."));
 
-    Set<CategoryInfoDto> categoryInfos = fetchCategoryInfosForVideo(video);
-
-    return new VideoReadResponseDto(video, categoryInfos);
+    return mapToVideoReadResponseDto(video);
   }
 
   @Transactional(readOnly = true)
