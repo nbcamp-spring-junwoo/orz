@@ -26,4 +26,16 @@ public class EpisodeReadRequestDto {
 
     }
 
+  public EpisodeReadRequestDto(Long videoId, Pageable pageable, MembershipType membershipType) {
+      this.videoId = videoId;
+      this.pageable = pageable;
+      this.membershipType = membershipType;
+  }
+
+    public EpisodeReadRequestDto(Long videoId, Long episodeId, MembershipType membershipType) {
+        this.videoId = videoId;
+        this.episodeId = episodeId;
+        this.membershipType = membershipType;
+    }
+
 }
