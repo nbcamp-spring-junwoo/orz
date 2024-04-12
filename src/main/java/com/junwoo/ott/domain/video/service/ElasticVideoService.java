@@ -3,8 +3,6 @@ package com.junwoo.ott.domain.video.service;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.ElasticsearchException;
 import co.elastic.clients.elasticsearch._types.SortOrder;
-import co.elastic.clients.elasticsearch._types.query_dsl.MatchPhrasePrefixQuery;
-import co.elastic.clients.elasticsearch._types.query_dsl.QueryBuilders;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
@@ -48,16 +46,15 @@ public class ElasticVideoService {
 
   private SearchRequest createSearchRequest(final String input, final int page) {
 
-    MatchPhrasePrefixQuery matchQuery = QueryBuilders.matchPhrasePrefix()
-        .field(FIELD_TYPE)
-        .query(input)
-        .build();
-
     return new SearchRequest.Builder()
         .index(INDEX)
         .from((page - 1) * SIZE)
         .size(SIZE)
-        .query(matchQuery._toQuery())
+        .query(
+            q -> q.matchPhrasePrefix(
+                m -> m.field(FIELD_TYPE).query(input)
+            )
+        )
         .sort(s -> s.field(
             f -> f.field(SORT_TYPE).order(SortOrder.Desc)))
         .build();
