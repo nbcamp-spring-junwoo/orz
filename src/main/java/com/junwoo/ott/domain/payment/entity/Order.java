@@ -15,6 +15,7 @@ import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,6 +27,7 @@ import lombok.NoArgsConstructor;
 public class Order extends Timestamped {
 
   @Id
+  @Default
   private String orderId = PaymentDataGenerator.generateOrderId(OrderType.PAYMENT);
 
   @ManyToOne(optional = false)
@@ -33,6 +35,7 @@ public class Order extends Timestamped {
   private User user;
 
   @OneToMany(mappedBy = "order")
+  @Default
   private List<OrderItem> orderItems = new ArrayList<>();
 
   public void setParents(final User user) {
