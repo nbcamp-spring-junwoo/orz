@@ -11,9 +11,6 @@ public class CardResponseDto {
 
   private Long cardId;
   private String cardNumber;
-  private String cardExpirationYear;
-  private String cardExpirationMonth;
-  private String customerIdentityNumber;
-  private String customerName;
+  private String cardNickname;
 
 }

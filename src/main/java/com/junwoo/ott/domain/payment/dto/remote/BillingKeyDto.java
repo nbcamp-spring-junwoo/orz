@@ -1,9 +1,7 @@
 package com.junwoo.ott.domain.payment.dto.remote;
 
 import com.junwoo.ott.domain.payment.dto.remote.payment.CardDto;
-import com.junwoo.ott.domain.subscription.entity.Subscription;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import com.junwoo.ott.domain.payment.entity.BillingKey;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BillingDto {
+public class BillingKeyDto {
 
   // 상점아이디(MID)입니다. 토스페이먼츠에서 발급합니다. 최대 길이는 14자입니다.
   private String mId;
@@ -28,11 +26,10 @@ public class BillingDto {
   // 발급된 빌링키와 연결된 카드 정보입니다.
   private CardDto card;
 
-  public Subscription toEntity() {
-    return Subscription.builder()
+  public BillingKey toEntity() {
+    return BillingKey.builder()
         .customerKey(customerKey)
-        .authenticatedAt(LocalDateTime.parse(authenticatedAt, DateTimeFormatter.ISO_OFFSET_DATE_TIME))
-        .billingKey(billingKey)
+        .key(billingKey)
         .build();
   }
 
