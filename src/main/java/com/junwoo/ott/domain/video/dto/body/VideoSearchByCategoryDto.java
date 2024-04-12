@@ -9,7 +9,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class VideoSearchByCategoryDto {
-    private final CategoryType categoryType;
-    private final Set<GenreType> genres;
+
+  private final CategoryType categoryType;
+  private final Set<GenreType> genres;
 
 }

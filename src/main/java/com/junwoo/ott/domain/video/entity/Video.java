@@ -51,7 +51,8 @@ public class Video extends Timestamped {
 
   public static Video of(final VideoCreateRequestDto dto) {
 
-    return Video.builder()
+    return Video
+        .builder()
         .title(dto.getTitle())
         .description(dto.getDescription())
         .ratingType(dto.getRatingType())
@@ -59,7 +60,8 @@ public class Video extends Timestamped {
   }
 
   public VideoBuilder toBuilder() {
-    return Video.builder()
+    return Video
+        .builder()
         .videoId(this.videoId)
         .title(this.title)
         .description(this.description)
@@ -68,13 +70,13 @@ public class Video extends Timestamped {
   }
 
   public void update(String title, String description, RatingType ratingType) {
-    if (title != null){
+    if (title != null) {
       this.title = title;
     }
-    if (description != null){
+    if (description != null) {
       this.description = description;
     }
-    if (ratingType != null){
+    if (ratingType != null) {
       this.ratingType = ratingType;
     }
 

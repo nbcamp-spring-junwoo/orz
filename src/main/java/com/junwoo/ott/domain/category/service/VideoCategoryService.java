@@ -28,10 +28,14 @@ public class VideoCategoryService {
         videoCategoryRepository.save(videoCategory);
     }
 
-    public Page<VideoCategory> findVideosByCategory(CategoryType categoryType, Set<GenreType> genres, Pageable pageable) {
-        Page<VideoCategory> allVideoCategories = videoCategoryRepository.findByCategoryType(categoryType, pageable);
+    public Page<VideoCategory> findVideosByCategory(
+        CategoryType categoryType, Set<GenreType> genres, Pageable pageable
+    ) {
+        Page<VideoCategory> allVideoCategories = videoCategoryRepository.findByCategoryType(
+            categoryType, pageable);
 
-        List<VideoCategory> filteredVideoCategories = allVideoCategories.stream()
+        List<VideoCategory> filteredVideoCategories = allVideoCategories
+            .stream()
             .filter(vc -> vc.getCategory().getGenres().stream().anyMatch(genres::contains))
             .collect(Collectors.toList());
 

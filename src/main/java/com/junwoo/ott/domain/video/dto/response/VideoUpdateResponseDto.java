@@ -9,6 +9,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class VideoUpdateResponseDto {
+
   private final Long videoId;
   private final String title;
   private final String description;
