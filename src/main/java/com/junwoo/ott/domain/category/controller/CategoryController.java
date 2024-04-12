@@ -55,7 +55,7 @@ public class CategoryController {
     }
 
     @Secured(value = "ROLE_ADMIN")
-    @DeleteMapping("/categories/{categoryId}")
+    @DeleteMapping("/{categoryId}")
     public void deleteCategory(@PathVariable("categoryId") Long categoryId) {
         categoryService.deleteCategory(categoryId);
     }
