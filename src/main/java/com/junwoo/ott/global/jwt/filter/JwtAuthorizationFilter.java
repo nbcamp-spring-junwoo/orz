@@ -29,8 +29,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
   private final JwtUtil jwtUtil;
 
   public JwtAuthorizationFilter(
-      JwtUtil jwtUtil,
-      RefreshTokenRepository refreshTokenRepository
+      final JwtUtil jwtUtil,
+      final RefreshTokenRepository refreshTokenRepository
   ) {
     this.jwtUtil = jwtUtil;
     this.refreshTokenRepository = refreshTokenRepository;
@@ -38,8 +38,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
   @Override
   protected void doFilterInternal(
-      HttpServletRequest req, HttpServletResponse res,
-      FilterChain filterChain
+      final HttpServletRequest req, final HttpServletResponse res,
+      final FilterChain filterChain
   ) throws ServletException, IOException {
 
     String tokenValue = jwtUtil.getJwtFromHeader(req);
@@ -91,10 +91,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
   }
 
   public void setAuthentication(
-      Long userId,
-      String username,
-      AuthorityType authorityType,
-      MembershipType membershipType
+      final Long userId,
+      final String username,
+      final AuthorityType authorityType,
+      final MembershipType membershipType
   ) {
     SecurityContext context = SecurityContextHolder.createEmptyContext();
     Authentication authentication = createAuthentication(userId, username, authorityType,
@@ -105,10 +105,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
   }
 
   private Authentication createAuthentication(
-      Long userId,
-      String username,
-      AuthorityType authorityType,
-      MembershipType membershipType
+      final Long userId,
+      final String username,
+      final AuthorityType authorityType,
+      final MembershipType membershipType
   ) {
 
     User user = new User(userId, username, authorityType, membershipType);

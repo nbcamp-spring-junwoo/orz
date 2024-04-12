@@ -7,7 +7,7 @@ public class UserGetKeyResponseDto {
 
   private final String customerKey;
 
-  public UserGetKeyResponseDto(String customerKey) {
+  public UserGetKeyResponseDto(final String customerKey) {
     this.customerKey = customerKey;
   }
 

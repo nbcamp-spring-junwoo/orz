@@ -16,7 +16,7 @@ public class EpisodeUpdateResponseDto {
   private final MembershipType membershipType;
   private final String videoLink;
 
-  public EpisodeUpdateResponseDto(Episode episode) {
+  public EpisodeUpdateResponseDto(final Episode episode) {
     this.episodeId = episode.getEpisodeId();
     this.title = episode.getTitle();
     this.releasedAt = episode.getReleasedAt();

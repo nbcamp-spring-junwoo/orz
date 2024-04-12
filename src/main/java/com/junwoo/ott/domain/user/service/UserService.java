@@ -116,7 +116,7 @@ public class UserService {
     user.updateMembership(membership);
   }
 
-  public UserGetKeyResponseDto getKey(UserGetKeyRequestDto userGetKeyRequestDto) {
+  public UserGetKeyResponseDto getKey(final UserGetKeyRequestDto userGetKeyRequestDto) {
     User user = userRepository.findById(userGetKeyRequestDto.getUserId()).orElseThrow(
         () -> new UserNotFoundException("존재하지 않는 회원입니다.")
     );

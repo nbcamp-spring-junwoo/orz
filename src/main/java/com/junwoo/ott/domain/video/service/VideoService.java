@@ -36,7 +36,7 @@ public class VideoService {
   private final CategoryService categoryService;
   private final VideoCategoryService videoCategoryService;
 
-  public VideoCreateResponseDto createVideo(VideoCreateRequestDto requestDto) {
+  public VideoCreateResponseDto createVideo(final VideoCreateRequestDto requestDto) {
     Video video = Video
         .builder()
         .title(requestDto.getTitle())
@@ -83,7 +83,7 @@ public class VideoService {
 
   @Transactional(readOnly = true)
   public Page<VideoReadResponseDto> getVideosByCategory(
-      final VideoSearchByCategoryDto searchDto, Pageable pageable
+      final VideoSearchByCategoryDto searchDto, final Pageable pageable
   ) {
     Page<VideoCategory> videoCategoriesPage = videoCategoryService.findVideosByCategory(
         searchDto.getCategoryType(), searchDto.getGenres(), pageable);
@@ -150,7 +150,7 @@ public class VideoService {
 
   }
 
-  private Set<CategoryInfoDto> fetchCategoryInfosForVideo(Video video) {
+  private Set<CategoryInfoDto> fetchCategoryInfosForVideo(final Video video) {
 
     return video
         .getVideoCategories()
@@ -160,7 +160,7 @@ public class VideoService {
         .collect(Collectors.toSet());
   }
 
-  private VideoReadResponseDto mapToVideoReadResponseDto(Video video) {
+  private VideoReadResponseDto mapToVideoReadResponseDto(final Video video) {
     Set<CategoryInfoDto> categoryInfos = fetchCategoryInfosForVideo(video);
     return new VideoReadResponseDto(video.getVideoId(), video.getTitle(), video.getDescription(),
         video.getRatingType(), video.getCreatedAt(), video.getUpdatedAt(), categoryInfos);

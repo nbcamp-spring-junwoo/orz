@@ -54,7 +54,7 @@ public class VideoCustomRepositoryImpl implements VideoCustomRepository {
   }
 
   @Override
-  public void softDeleteVideoById(Long videoId) {
+  public void softDeleteVideoById(final Long videoId) {
     QVideo qVideo = QVideo.video;
 
     queryFactory

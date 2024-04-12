@@ -9,7 +9,7 @@ public enum OauthType {
 
   private final String oauthType;
 
-  OauthType(String oauthType) {
+  OauthType(final String oauthType) {
     this.oauthType = oauthType;
   }
 }

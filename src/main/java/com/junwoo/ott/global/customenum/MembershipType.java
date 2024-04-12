@@ -13,7 +13,7 @@ public enum MembershipType {
 
   private final String membership;
 
-  MembershipType(String membership) {
+  MembershipType(final String membership) {
     this.membership = membership;
   }
 
@@ -22,7 +22,7 @@ public enum MembershipType {
     return membership;
   }
 
-  public static MembershipType fromString(String membershipType) {
+  public static MembershipType fromString(final String membershipType) {
     for (MembershipType type : MembershipType.values()) {
       if (type.membership.equals(membershipType)) {
         return type;

@@ -32,19 +32,19 @@ public class AuthController {
   private final JwtUtil jwtUtil;
 
   @PostMapping("/signup")
-  public void signup(@RequestBody @Validated AuthSignupDto authSignupDto) {
+  public void signup(@RequestBody @Validated final AuthSignupDto authSignupDto) {
     authService.signup(new AuthSignupRequestDto(authSignupDto));
   }
 
   @PostMapping("/admin/signup")
-  public void adminSignup(@RequestBody @Validated AuthAdminSignupDto authAdminSignupDto) {
+  public void adminSignup(@RequestBody @Validated final AuthAdminSignupDto authAdminSignupDto) {
     authService.adminSignup(new AuthAdminSignupRequestDto(authAdminSignupDto));
   }
 
   @PostMapping("/login")
   public void login(
-      @RequestBody @Validated AuthLoginDto authLoginDto,
-      HttpServletResponse response
+      @RequestBody @Validated final AuthLoginDto authLoginDto,
+      final HttpServletResponse response
   ) {
     AuthLoginRequestDto authLoginRequestDto = new AuthLoginRequestDto(authLoginDto);
     Authentication authentication = userService.login(authLoginRequestDto);
@@ -54,8 +54,8 @@ public class AuthController {
 
   @PostMapping("/admin/login")
   public void adminLogin(
-      @RequestBody @Validated AuthLoginDto authLoginDto,
-      HttpServletResponse response
+      @RequestBody @Validated final AuthLoginDto authLoginDto,
+      final HttpServletResponse response
   ) {
     AuthLoginRequestDto authLoginRequestDto = new AuthLoginRequestDto(authLoginDto);
     Authentication authentication = adminService.login(authLoginRequestDto);
@@ -64,8 +64,8 @@ public class AuthController {
   }
 
   private void setAuthenticationResponse(
-      Authentication authentication,
-      HttpServletResponse response
+      final Authentication authentication,
+      final HttpServletResponse response
   ) {
     String username = ((UserDetailsImpl) authentication.getPrincipal()).getUsername();
     String accessToken = jwtUtil.createAccessAndRefreshToken(username);

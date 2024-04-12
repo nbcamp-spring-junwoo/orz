@@ -32,12 +32,12 @@ public class VideoCategory {
   @JoinColumn(name = "category_id", nullable = false)
   private Category category;
 
-  public VideoCategory(Video video, Category category) {
+  public VideoCategory(final Video video, final Category category) {
     this.video = video;
     this.category = category;
   }
 
-  public void setVideo(Video video) {
+  public void setVideo(final Video video) {
     this.video = video;
   }
 

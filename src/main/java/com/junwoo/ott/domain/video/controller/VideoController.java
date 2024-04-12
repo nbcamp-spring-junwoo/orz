@@ -66,7 +66,7 @@ public class VideoController {
 
   @PostMapping("/search/category")
   public ResponseDto<Page<VideoReadResponseDto>> searchVideosByCategory(
-      @RequestBody VideoSearchByCategoryDto searchDto, Pageable pageable
+      @RequestBody final VideoSearchByCategoryDto searchDto, final Pageable pageable
   ) {
     Page<VideoReadResponseDto> videosPage = videoService.getVideosByCategory(searchDto, pageable);
     return ResponseDto.ok(videosPage);

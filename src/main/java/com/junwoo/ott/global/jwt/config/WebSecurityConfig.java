@@ -29,13 +29,13 @@ public class WebSecurityConfig {
   }
 
   @Bean
-  public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)
+  public AuthenticationManager authenticationManager(final AuthenticationConfiguration configuration)
       throws Exception {
     return configuration.getAuthenticationManager();
   }
 
   @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+  public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
 
     http.csrf((csrf) -> csrf.disable());
 

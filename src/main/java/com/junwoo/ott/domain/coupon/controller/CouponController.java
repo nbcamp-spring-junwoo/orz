@@ -93,7 +93,7 @@ public class CouponController {
   @Secured(value = "ROLE_ADMIN")
   @DeleteMapping("/coupons/{couponId}")
   public void deleteCoupon(
-      @PathVariable("couponId") Long couponId
+      @PathVariable("couponId") final Long couponId
   ) {
     couponService.deleteCoupon(couponId);
   }

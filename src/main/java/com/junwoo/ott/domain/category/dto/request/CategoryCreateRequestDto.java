@@ -14,7 +14,7 @@ public class CategoryCreateRequestDto {
   private final CategoryType type;
   private final Set<GenreType> genres;
 
-  public CategoryCreateRequestDto(CategoryCreateDto dto) {
+  public CategoryCreateRequestDto(final CategoryCreateDto dto) {
     this.type = dto.getType();
     this.genres = dto.getGenres();
   }

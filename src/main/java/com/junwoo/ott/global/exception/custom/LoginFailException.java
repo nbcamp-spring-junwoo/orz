@@ -2,7 +2,7 @@ package com.junwoo.ott.global.exception.custom;
 
 public class LoginFailException extends RuntimeException {
 
-  public LoginFailException(String message) {
+  public LoginFailException(final String message) {
     super(message);
   }
 

@@ -2,7 +2,7 @@ package com.junwoo.ott.global.exception.custom;
 
 public class AdminKeyNotCorrectException extends RuntimeException {
 
-  public AdminKeyNotCorrectException(String message) {
+  public AdminKeyNotCorrectException(final String message) {
     super(message);
   }
 

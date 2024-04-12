@@ -143,10 +143,10 @@ public class JwtUtil {
   }
 
   public String regenerateAccessToken(
-      Long userId,
-      String username,
-      AuthorityType authorityType,
-      MembershipType membershipType
+      final Long userId,
+      final String username,
+      final AuthorityType authorityType,
+      final MembershipType membershipType
   ) {
     User user = new User(userId, username, authorityType, membershipType);
     return createAccessToken(user);

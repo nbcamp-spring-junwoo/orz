@@ -14,7 +14,7 @@ public class CouponIssuanceWriter implements ItemWriter<CouponIssuance> {
   private final CouponIssuanceRepository couponIssuanceRepository;
 
   @Override
-  public void write(Chunk<? extends CouponIssuance> chunk) throws Exception {
+  public void write(final Chunk<? extends CouponIssuance> chunk) throws Exception {
     couponIssuanceRepository.deleteAll(chunk.getItems());
   }
 

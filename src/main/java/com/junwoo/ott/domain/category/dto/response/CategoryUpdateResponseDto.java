@@ -18,7 +18,7 @@ public class CategoryUpdateResponseDto {
     private final Set<GenreType> genres;
     private final LocalDateTime updatedAt;
 
-    public CategoryUpdateResponseDto(Category category) {
+    public CategoryUpdateResponseDto(final Category category) {
       this.categoryId = category.getCategoryId();
         this.type = category.getType();
         this.genres = new HashSet<>(category.getGenres());

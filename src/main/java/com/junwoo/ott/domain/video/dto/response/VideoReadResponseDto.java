@@ -20,7 +20,7 @@ public class VideoReadResponseDto {
   private final LocalDateTime updatedAt;
   private final Set<CategoryInfoDto> categories;
 
-  public VideoReadResponseDto(final Video video, Set<CategoryInfoDto> categories) {
+  public VideoReadResponseDto(final Video video, final Set<CategoryInfoDto> categories) {
     this.videoId = video.getVideoId();
     this.title = video.getTitle();
     this.description = video.getDescription();
