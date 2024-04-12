@@ -72,7 +72,7 @@ class SubscriptionServiceTest implements
     void shouldSubscribeSuccessfullyWhenUserHasNoActiveSubscription() {
       // given
       CardResponseDto cardResponseDto = fm.giveMeOne(CardResponseDto.class);
-      Subscription subscription = fm.giveMeOne(Subscription.class);
+      Subscription subscription = TEST_SUBSCRIPTION;
       OrderResponseDto orderResponseDto = fm.giveMeOne(OrderResponseDto.class);
       PaymentDto paymentDto = fm.giveMeOne(PaymentDto.class);
       MemberShipResponseDto memberShipResponseDto = fm.giveMeOne(MemberShipResponseDto.class);

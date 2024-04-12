@@ -1,20 +1,20 @@
 package com.junwoo.ott.domain.payment.service;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.times;
 
 import com.junwoo.ott.domain.coupon.dto.response.CouponIssuanceReadResponseDto;
 import com.junwoo.ott.domain.coupon.service.CouponService;
 import com.junwoo.ott.domain.coupon.test.CouponTestValues;
-import com.junwoo.ott.domain.membership.entity.Membership;
-import com.junwoo.ott.domain.payment.entity.Order;
+import com.junwoo.ott.domain.payment.dto.response.OrderResponseDto;
 import com.junwoo.ott.domain.payment.repository.OrderItemRepository;
 import com.junwoo.ott.domain.payment.repository.OrderRepository;
 import com.junwoo.ott.domain.subscription.entity.Subscription;
-import com.navercorp.fixturemonkey.FixtureMonkey;
-import com.navercorp.fixturemonkey.api.introspector.BuilderArbitraryIntrospector;
-import java.util.List;
+import com.junwoo.ott.domain.subscription.test.SubscriptionServiceTestValues;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -24,75 +24,68 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class OrderServiceTest implements OrderServiceTestValues, CouponTestValues {
+class OrderServiceTest implements
+    SubscriptionServiceTestValues, CouponTestValues {
 
-  @InjectMocks
-  private OrderService orderService;
   @Mock
   private CouponService couponService;
   @Mock
   private OrderRepository orderRepository;
   @Mock
   private OrderItemRepository orderItemRepository;
+  @InjectMocks
+  private OrderService orderService;
 
-  FixtureMonkey fx = FixtureMonkey.builder()
-      .objectIntrospector(BuilderArbitraryIntrospector.INSTANCE)
-      .build();
-
-
-  @DisplayName("createSubscriptionOrder")
   @Nested
   class createSubscriptionOrder {
 
-    @DisplayName("성공: 쿠폰 없음")
+    @DisplayName("성공: 쿠폰이 있는 경우")
     @Test
-    void success_without_coupon() {
+    void shouldCreateSubscriptionOrderSuccessfullyWithCoupon() {
       // given
-      Membership membership = fx.giveMeBuilder(Membership.class)
-          .setNotNull("*")
-          .sample();
-      Subscription subscription = fx.giveMeBuilder(Subscription.class)
-          .set("membership", membership)
-          .sample();
-      Long couponIssuanceId = 1L;
-      Order savedOrder = fx.giveMeBuilder(Order.class)
-          .set("orderItems", List.of(TEST_ORDER_ITEM))
-          .sample();
+      Subscription subscription = TEST_SUBSCRIPTION;
+      CouponIssuanceReadResponseDto couponIssuance = new CouponIssuanceReadResponseDto(TEST_COUPON_V1, TEST_COUPON_ISSUANCE);
 
-      given(orderRepository.save(any())).willReturn(savedOrder);
+      given(couponService.getCouponIssuance(any())).willReturn(couponIssuance);
+      given(orderRepository.save(any())).willAnswer((invocation) -> invocation.getArgument(0));
 
       // when
-      orderService.createSubscriptionOrder(subscription, couponIssuanceId);
+      OrderResponseDto result = orderService.createSubscriptionOrder(subscription, 1L);
 
       // then
-      then(orderRepository).should().save(any());
-      then(orderItemRepository).should().save(any());
+      assertNotNull(result);
+      then(orderRepository).should(times(1)).save(any());
+      then(orderItemRepository).should(times(1)).save(any());
     }
 
-    @DisplayName("성공: 쿠폰 있음")
+    @DisplayName("성공: 쿠폰이 없는 경우")
     @Test
-    void success_with_coupon() {
+    void shouldCreateSubscriptionOrderSuccessfullyWithoutCoupon() {
       // given
-      Membership membership = fx.giveMeBuilder(Membership.class)
-          .setNotNull("*")
-          .sample();
-      Subscription subscription = fx.giveMeBuilder(Subscription.class)
-          .set("membership", membership)
-          .sample();
-      Long couponIssuanceId = 1L;
-      Order savedOrder = fx.giveMeBuilder(Order.class)
-          .set("orderItems", List.of(TEST_ORDER_ITEM))
-          .sample();
+      Subscription subscription = TEST_SUBSCRIPTION;
 
-      given(orderRepository.save(any())).willReturn(savedOrder);
-      given(couponService.getCouponIssuance(couponIssuanceId)).willReturn(new CouponIssuanceReadResponseDto(TEST_COUPON_V1, TEST_COUPON_ISSUANCE));
+      given(orderRepository.save(any())).willAnswer((invocation) -> invocation.getArgument(0));
 
       // when
-      orderService.createSubscriptionOrder(subscription, couponIssuanceId);
+      OrderResponseDto result = orderService.createSubscriptionOrder(subscription, null);
 
       // then
-      then(orderRepository).should().save(any());
-      then(orderItemRepository).should().save(any());
+      assertNotNull(result);
+      then(orderRepository).should(times(1)).save(any());
+      then(orderItemRepository).should(times(1)).save(any());
+    }
+
+    @DisplayName("실패")
+    @Test
+    void shouldThrowExceptionWhenCouponIssuanceIdIsInvalid() {
+      // given
+      Subscription subscription = TEST_SUBSCRIPTION;
+      Long couponIssuanceId = 1L;
+
+      given(couponService.getCouponIssuance(couponIssuanceId)).willReturn(null);
+
+      // when & then
+      assertThrows(RuntimeException.class, () -> orderService.createSubscriptionOrder(subscription, couponIssuanceId));
     }
 
   }
