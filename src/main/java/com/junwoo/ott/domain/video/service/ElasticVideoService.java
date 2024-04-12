@@ -12,7 +12,7 @@ import co.elastic.clients.elasticsearch.core.search.TotalHits;
 import com.junwoo.ott.domain.video.dto.request.VideoSearchRequestDto;
 import com.junwoo.ott.domain.video.dto.response.VideoReadResponseDto;
 import com.junwoo.ott.domain.video.dto.response.VideoSearchResponseDto;
-import jakarta.persistence.EntityNotFoundException;
+import com.junwoo.ott.global.exception.custom.ElasticException;
 import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ public class ElasticVideoService {
     try {
       response = esClient.search(searchRequest, VideoReadResponseDto.class);
     } catch (ElasticsearchException | IOException e) {
-      throw new EntityNotFoundException("ElasticSearch에 문제가 발생했습니다.");
+      throw new ElasticException("ElasticSearch에 문제가 발생했습니다.");
     }
 
     TotalHits hits = response.hits().total();
