@@ -9,8 +9,8 @@ import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.core.search.TotalHits;
+import com.junwoo.ott.domain.video.dto.body.VideoSearchDto;
 import com.junwoo.ott.domain.video.dto.request.VideoSearchRequestDto;
-import com.junwoo.ott.domain.video.dto.response.VideoReadResponseDto;
 import com.junwoo.ott.domain.video.dto.response.VideoSearchResponseDto;
 import com.junwoo.ott.global.exception.custom.ElasticException;
 import java.io.IOException;
@@ -32,16 +32,16 @@ public class ElasticVideoService {
   public VideoSearchResponseDto getVideosElasticSearch(VideoSearchRequestDto dto) {
     SearchRequest searchRequest = createSearchRequest(dto.getTitle(), dto.getPage());
 
-    SearchResponse<VideoReadResponseDto> response;
+    SearchResponse<VideoSearchDto> response;
 
     try {
-      response = esClient.search(searchRequest, VideoReadResponseDto.class);
+      response = esClient.search(searchRequest, VideoSearchDto.class);
     } catch (ElasticsearchException | IOException e) {
       throw new ElasticException("ElasticSearch에 문제가 발생했습니다.");
     }
 
     TotalHits hits = response.hits().total();
-    List<VideoReadResponseDto> result = response.hits().hits().stream().map(Hit::source).toList();
+    List<VideoSearchDto> result = response.hits().hits().stream().map(Hit::source).toList();
 
     return new VideoSearchResponseDto(result, hits.value(), (hits.value() / SIZE) + 1);
   }
