@@ -31,6 +31,7 @@ public class SearchService {
       throw new ElasticException("ElasticSearch에 문제가 발생했습니다.");
     }
 
+    // 집계된 필드 "unique_name"을 통해 버킷 안의 key값을 빼오려고 하는 메서드입니다.
     List<String> array = response.aggregations()
         .get("unique_name")
         .sterms()
@@ -53,6 +54,7 @@ public class SearchService {
                 m -> m.field(FIELD).query(input)
             )
         )
+        // 집계를 통해 중복된 내용을 걸러주기 위해서 사용했습니다. (group by 같은 느낌)
         .aggregations("unique_name", a -> a.terms(
             v -> v.field("title.keyword")
         ))
