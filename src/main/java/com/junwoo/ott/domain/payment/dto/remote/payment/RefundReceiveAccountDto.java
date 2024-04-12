@@ -2,11 +2,13 @@ package com.junwoo.ott.domain.payment.dto.remote.payment;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * 결제위젯 가상계좌 환불 정보 입력 기능으로 받은 고객의 환불 계좌 정보입니다.
  */
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class RefundReceiveAccountDto {
 

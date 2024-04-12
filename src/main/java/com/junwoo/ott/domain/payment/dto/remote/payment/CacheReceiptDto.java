@@ -4,12 +4,14 @@ import com.junwoo.ott.global.customenum.payment.cache.CacheReceiptType;
 import com.junwoo.ott.global.customenum.payment.cache.TransactionType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 /**
  * 현금영수증 정보입니다.
  */
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class CacheReceiptDto {
 

@@ -3,11 +3,13 @@ package com.junwoo.ott.domain.payment.dto.remote.payment;
 import com.junwoo.ott.global.customenum.payment.common.SettlementStatusType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * 상품권으로 결제하면 제공되는 상품권 결제 관련 정보입니다.
  */
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class GiftCertificateDto {
 

@@ -3,11 +3,13 @@ package com.junwoo.ott.domain.payment.dto.remote.payment;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * 결제 승인에 실패하면 응답으로 받는 에러 객체입니다. 실패한 결제를 조회할 때 확인할 수 있습니다.
  */
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class FailureDto {
 
