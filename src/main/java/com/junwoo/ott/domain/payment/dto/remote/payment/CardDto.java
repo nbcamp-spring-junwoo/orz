@@ -1,5 +1,6 @@
 package com.junwoo.ott.domain.payment.dto.remote.payment;
 
+import com.junwoo.ott.domain.payment.entity.Card;
 import com.junwoo.ott.global.customenum.payment.card.AcquireStatusType;
 import com.junwoo.ott.global.customenum.payment.card.CardOwnerType;
 import com.junwoo.ott.global.customenum.payment.card.CardType;
@@ -42,5 +43,15 @@ public class CardDto {
   private Boolean isInterestFree;
   // 할부가 적용된 결제에서 할부 수수료를 부담하는 주체입니다.
   private InterestPayerType interestPayer;
+
+  public Card toEntity() {
+    return Card.builder()
+        .issuerCode(issuerCode)
+        .acquirerCode(acquirerCode)
+        .number(number)
+        .cardType(cardType)
+        .ownerType(ownerType)
+        .build();
+  }
 
 }

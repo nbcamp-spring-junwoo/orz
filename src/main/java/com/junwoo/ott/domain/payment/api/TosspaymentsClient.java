@@ -1,7 +1,8 @@
 package com.junwoo.ott.domain.payment.api;
 
 import com.junwoo.ott.domain.payment.api.configuration.TosspaymentsFeignConfiguration;
-import com.junwoo.ott.domain.payment.dto.remote.BillingDto;
+import com.junwoo.ott.domain.payment.dto.remote.BillingKeyDto;
+import com.junwoo.ott.domain.payment.dto.remote.BillingKeyRequestByAuthKeyDto;
 import com.junwoo.ott.domain.payment.dto.remote.PaymentDto;
 import com.junwoo.ott.domain.payment.dto.request.BillingConfirmRequestDto;
 import com.junwoo.ott.domain.payment.dto.request.BillingKeyRequestDto;
@@ -17,7 +18,10 @@ public interface TosspaymentsClient {
   PaymentDto confirmPayment(PaymentConfirmRequestDto requestDto);
 
   @PostMapping(value = "/v1/billing/authorizations/card")
-  BillingDto getBillingKey(BillingKeyRequestDto requestDto);
+  BillingKeyDto getBillingKey(BillingKeyRequestDto requestDto);
+
+  @PostMapping(value = "/v1/billing/authorizations/issue")
+  BillingKeyDto getBillingKey(BillingKeyRequestByAuthKeyDto requestDto);
 
   @PostMapping(value = "/v1/billing/{billingKey}")
   PaymentDto confirmBilling(@PathVariable String billingKey, BillingConfirmRequestDto requestDto);

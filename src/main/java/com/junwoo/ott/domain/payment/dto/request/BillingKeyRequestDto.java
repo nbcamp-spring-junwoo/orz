@@ -1,35 +1,15 @@
 package com.junwoo.ott.domain.payment.dto.request;
 
-import com.junwoo.ott.domain.payment.dto.response.CardResponseDto;
-import com.junwoo.ott.domain.payment.util.PaymentDataGenerator;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import com.junwoo.ott.domain.payment.dto.body.BillingKeyCreateDto;
 
-@Getter
-@Builder
-@AllArgsConstructor
-public class BillingKeyRequestDto {
+public record BillingKeyRequestDto(
+    String customerKey,
+    String authKey,
+    Long userId
+) {
 
-  // 구매자 ID입니다. 빌링키와 연결됩니다.
-  private String customerKey;
-  // 카드 번호입니다.
-  private String cardNumber;
-  // 카드 유효 년도입니다.
-  private String cardExpirationYear;
-  // 카드 유효 월입니다.
-  private String cardExpirationMonth;
-  // 카드 소유자 생년월일입니다.
-  private String customerIdentityNumber;
-
-  public static BillingKeyRequestDto of(final CardResponseDto card) {
-    return BillingKeyRequestDto.builder()
-        .customerKey(PaymentDataGenerator.generateCustomerKey())
-        .cardNumber(card.getCardNumber())
-        .cardExpirationYear(card.getCardExpirationYear())
-        .cardExpirationMonth(card.getCardExpirationMonth())
-        .customerIdentityNumber(card.getCustomerIdentityNumber())
-        .build();
+  public static BillingKeyRequestDto of(final BillingKeyCreateDto dto, final Long userId) {
+    return new BillingKeyRequestDto(dto.customerKey(), dto.authKey(), userId);
   }
 
 }
