@@ -2,10 +2,10 @@ package com.junwoo.ott.domain.subscription.entity;
 
 
 import com.junwoo.ott.domain.membership.entity.Membership;
+import com.junwoo.ott.domain.payment.entity.BillingKey;
 import com.junwoo.ott.domain.payment.entity.Card;
 import com.junwoo.ott.domain.user.entity.User;
 import com.junwoo.ott.global.common.entity.Timestamped;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -13,16 +13,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Subscription extends Timestamped {
@@ -30,12 +27,6 @@ public class Subscription extends Timestamped {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long subscriptionId;
-  @Column(nullable = false, unique = true)
-  private String customerKey;
-  @Column(nullable = false, unique = true)
-  private String billingKey;
-  @Column(nullable = false)
-  private LocalDateTime authenticatedAt;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
@@ -49,10 +40,20 @@ public class Subscription extends Timestamped {
   @JoinColumn(name = "card_id")
   private Card card;
 
-  public void setParents(final User user, final Membership membership, final Card card) {
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "billing_key_id")
+  private BillingKey billingKey;
+
+  public void setParents(
+      final User user,
+      final Card card,
+      final Membership membership,
+      final BillingKey billingKey
+  ) {
     this.user = user;
     this.membership = membership;
     this.card = card;
+    this.billingKey = billingKey;
   }
 
 }
