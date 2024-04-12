@@ -16,7 +16,7 @@ public class CouponIssuanceScheduler {
   private final JobLauncher jobLauncher;
   private final ApplicationContext context;
 
-  @Scheduled(cron = "0 0 * * *")
+  @Scheduled(cron = "0 0 * * * ?")
   public void runBatchJob() throws Exception {
     Job job = context.getBean("couponIssuanceJob", Job.class);
 
