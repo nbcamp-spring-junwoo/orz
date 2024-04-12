@@ -33,7 +33,7 @@ public class SubscriptionController {
         userDetails
     );
 
-    subscriptionService.requestSubscription(requestDto);
+    subscriptionService.subscribe(requestDto);
   }
 
 }

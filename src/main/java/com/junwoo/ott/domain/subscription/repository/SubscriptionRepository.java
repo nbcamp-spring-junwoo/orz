@@ -13,4 +13,10 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Long
       MembershipType membershipType
   );
 
+  Optional<Subscription> findByUser_UserIdAndCard_CardIdAndMembership_MembershipId(
+      Long userId,
+      Long cardId,
+      Long membershipId
+  );
+
 }

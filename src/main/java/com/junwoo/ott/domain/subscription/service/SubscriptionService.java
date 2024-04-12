@@ -14,7 +14,6 @@ import com.junwoo.ott.domain.payment.service.BillingKeyRepository;
 import com.junwoo.ott.domain.payment.service.CardService;
 import com.junwoo.ott.domain.payment.service.OrderService;
 import com.junwoo.ott.domain.subscription.dto.request.SubscriptionRequestDto;
-import com.junwoo.ott.domain.subscription.dto.response.SubscriptionHistoryResponseDto;
 import com.junwoo.ott.domain.subscription.entity.Subscription;
 import com.junwoo.ott.domain.subscription.entity.SubscriptionHistory;
 import com.junwoo.ott.domain.subscription.repository.SubscriptionHistoryRepository;
@@ -46,9 +45,8 @@ public class SubscriptionService {
 
   private final EntityManager entityManager;
 
-  public SubscriptionHistoryResponseDto requestSubscription(final SubscriptionRequestDto dto) {
-    validateUserHasNoSubscription(dto);
-    // TODO: HISTORY를 뒤져서 이미 가입한 내역이 있는지 확인해야 함
+  public void subscribe(final SubscriptionRequestDto dto) {
+    validateUserHasNoActiveSubscription(dto);
 
     Long userId = dto.getUserId();
     Long cardId = dto.getCardId();
@@ -71,7 +69,7 @@ public class SubscriptionService {
     userService.updateUserMembership(dto.getUserId(), subscription.getMembership()
         .getMembershipType());
 
-    return subscriptionHistoryRepository.save(subscriptionHistory).toResponseDto();
+    subscriptionHistoryRepository.save(subscriptionHistory).toResponseDto();
   }
 
   private Subscription getOrCreateSubscription(
@@ -92,7 +90,6 @@ public class SubscriptionService {
     Membership parentMembership = Membership.builder().membershipId(membershipId).build();
     BillingKey billingKey = billingKeyRepository.findByUser_UserIdAndCard_CardId(userId, cardId)
         .orElseThrow(() -> new SubscriptionException("BillingKey not found"));
-
     subscription.setParents(parentUser, parentCard, parentMembership, billingKey);
 
     Subscription savedSubscription = subscriptionRepository.saveAndFlush(subscription);
@@ -102,14 +99,15 @@ public class SubscriptionService {
         .orElseThrow(() -> new SubscriptionException("Subscription not found"));
   }
 
-  private void validateUserHasNoSubscription(
+  private void validateUserHasNoActiveSubscription(
       final SubscriptionRequestDto dto
   ) {
     MembershipType fromMembershipType = dto.getUserDetails().getMembershipType();
     MembershipType toMembershipType = dto.getMembershipType();
 
-    // TODO: 확인 필요
-    if (fromMembershipType == toMembershipType) {
+    boolean isBadRequest = (fromMembershipType == toMembershipType)
+                           || subscriptionHistoryRepository.existsActiveSubscription(dto.getUserId());
+    if (isBadRequest) {
       throw new SubscriptionException("User already has same subscription: " + fromMembershipType);
     }
   }
