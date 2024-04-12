@@ -6,15 +6,16 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class EpisodeAccessResponseDto {
-    private final boolean canAccess;
-    private final String videoLink;
 
-    public static EpisodeAccessResponseDto accessDenied() {
-        return new EpisodeAccessResponseDto(false, null);
-    }
+  private final boolean canAccess;
+  private final String videoLink;
 
-    public static EpisodeAccessResponseDto accessGranted(String videoLink) {
-        return new EpisodeAccessResponseDto(true, videoLink);
-    }
+  public static EpisodeAccessResponseDto accessDenied() {
+    return new EpisodeAccessResponseDto(false, null);
+  }
+
+  public static EpisodeAccessResponseDto accessGranted(String videoLink) {
+    return new EpisodeAccessResponseDto(true, videoLink);
+  }
 
 }

@@ -10,26 +10,18 @@ import lombok.Getter;
 @AllArgsConstructor
 public class EpisodeCreateRequestDto {
 
-    private final Long videoId;
-    private final String title;
-    private final LocalDateTime releasedAt;
-    private final MembershipType membershipType;
-    private final String videoLink;
+  private final Long videoId;
+  private final String title;
+  private final LocalDateTime releasedAt;
+  private final MembershipType membershipType;
+  private final String videoLink;
 
-    public EpisodeCreateRequestDto(EpisodeCreateDto dto) {
-        this.videoId = dto.getVideoId();
-        this.title = dto.getTitle();
-        this.releasedAt = dto.getReleasedAt();
-        this.membershipType = dto.getMembershipType();
-        this.videoLink = dto.getVideoLink();
-    }
-
-    public EpisodeCreateRequestDto(EpisodeCreateDto dto, Long videoId) {
-        this.videoId = videoId;
-        this.title = dto.getTitle();
-        this.releasedAt = dto.getReleasedAt();
-        this.membershipType = dto.getMembershipType();
-        this.videoLink = dto.getVideoLink();
-    }
+  public EpisodeCreateRequestDto(Long videoId, EpisodeCreateDto dto) {
+    this.videoId = videoId;
+    this.title = dto.getTitle();
+    this.releasedAt = dto.getReleasedAt();
+    this.membershipType = dto.getMembershipType();
+    this.videoLink = dto.getVideoLink();
+  }
 
 }
