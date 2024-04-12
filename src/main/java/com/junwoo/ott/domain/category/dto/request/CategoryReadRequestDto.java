@@ -1,8 +1,8 @@
 package com.junwoo.ott.domain.category.dto.request;
 
-import org.springframework.data.domain.Pageable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.data.domain.Pageable;
 
 @Getter
 @AllArgsConstructor

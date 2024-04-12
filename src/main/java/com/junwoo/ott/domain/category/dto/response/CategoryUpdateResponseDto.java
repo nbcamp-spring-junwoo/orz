@@ -12,13 +12,14 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class CategoryUpdateResponseDto {
-    private final Long categoryid;
+
+  private final Long categoryId;
     private final CategoryType type;
     private final Set<GenreType> genres;
     private final LocalDateTime updatedAt;
 
     public CategoryUpdateResponseDto(Category category) {
-        this.categoryid = category.getCategoryId();
+      this.categoryId = category.getCategoryId();
         this.type = category.getType();
         this.genres = new HashSet<>(category.getGenres());
         this.updatedAt = category.getUpdatedAt();

@@ -11,9 +11,10 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class CategoryUpdateDto {
-    @NotNull
-    private final CategoryType type;
-    @NotEmpty
-    private final Set<GenreType> genres;
+
+  @NotNull
+  private final CategoryType type;
+  @NotEmpty
+  private final Set<GenreType> genres;
 
 }

@@ -22,10 +22,7 @@ public class CategoryService {
   private final CategoryJpaRepository categoryJpaRepository;
 
   public CategoryCreateResponseDto createCategory(final CategoryCreateRequestDto dto) {
-    Category category = Category.builder()
-        .type(dto.getType())
-        .genres(dto.getGenres())
-        .build();
+    Category category = Category.builder().type(dto.getType()).genres(dto.getGenres()).build();
 
     category = categoryJpaRepository.save(category);
 
@@ -40,7 +37,8 @@ public class CategoryService {
   }
 
   public CategoryUpdateResponseDto updateCategory(final CategoryUpdateRequestDto dto) {
-    Category category = categoryJpaRepository.findById(dto.getCategoryId())
+    Category category = categoryJpaRepository
+        .findById(dto.getCategoryId())
         .orElseThrow(() -> new EntityNotFoundException("카테고리를 찾을 수 없습니다."));
 
     category.updateCategoryDetails(dto.getDto().getType(), dto.getDto().getGenres());
@@ -50,7 +48,8 @@ public class CategoryService {
   }
 
   public void deleteCategory(final Long categoryId) {
-    Category category = categoryJpaRepository.findById(categoryId)
+    Category category = categoryJpaRepository
+        .findById(categoryId)
         .orElseThrow(() -> new EntityNotFoundException("카테고리를 찾을 수 없습니다."));
 
     categoryJpaRepository.delete(category);
@@ -58,9 +57,9 @@ public class CategoryService {
 
   public Category existsCategoryById(final Long categoryId) {
 
-    return categoryJpaRepository.findById(categoryId).orElseThrow(
-        () -> new EntityNotFoundException("해당 카테고리가 존재하지 않습니다.")
-    );
+    return categoryJpaRepository
+        .findById(categoryId)
+        .orElseThrow(() -> new EntityNotFoundException("해당 카테고리가 존재하지 않습니다."));
   }
 
 }

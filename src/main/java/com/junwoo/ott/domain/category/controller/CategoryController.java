@@ -11,7 +11,6 @@ import com.junwoo.ott.global.common.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,37 +26,34 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/categories")
 public class CategoryController {
 
-    private final CategoryService categoryService;
+  private final CategoryService categoryService;
 
-    @Secured(value = "ROLE_ADMIN")
-    @PostMapping
-    public void postCategory(final @Validated @RequestBody CategoryCreateDto dto) {
-        CategoryCreateRequestDto createDto = new CategoryCreateRequestDto(dto);
-        categoryService.createCategory(createDto);
-    }
+  @PostMapping
+  public void postCategory(final @Validated @RequestBody CategoryCreateDto dto) {
+    CategoryCreateRequestDto createDto = new CategoryCreateRequestDto(dto);
+    categoryService.createCategory(createDto);
+  }
 
-    @GetMapping
-    public ResponseDto<Page<CategoryReadResponseDto>> getCategorys(final Pageable pageable) {
+  @GetMapping
+  public ResponseDto<Page<CategoryReadResponseDto>> getCategories(final Pageable pageable) {
 
-        CategoryReadRequestDto dto = new CategoryReadRequestDto(pageable);
-        Page<CategoryReadResponseDto> result = categoryService.getCategories(dto);
+    CategoryReadRequestDto dto = new CategoryReadRequestDto(pageable);
+    Page<CategoryReadResponseDto> result = categoryService.getCategories(dto);
 
-        return ResponseDto.ok(result);
-    }
+    return ResponseDto.ok(result);
+  }
 
-    @Secured(value = "ROLE_ADMIN")
-    @PutMapping("/{categoryId}")
-    public void putCategory(
-        @PathVariable("categoryId") Long categoryId,
-        @RequestBody CategoryUpdateDto dto) {
-        CategoryUpdateRequestDto updateRequestDto = new CategoryUpdateRequestDto(categoryId, dto);
-        categoryService.updateCategory(updateRequestDto);
-    }
+  @PutMapping("/{categoryId}")
+  public void putCategory(
+      @PathVariable Long categoryId, @RequestBody CategoryUpdateDto dto
+  ) {
+    CategoryUpdateRequestDto updateRequestDto = new CategoryUpdateRequestDto(categoryId, dto);
+    categoryService.updateCategory(updateRequestDto);
+  }
 
-    @Secured(value = "ROLE_ADMIN")
-    @DeleteMapping("/{categoryId}")
-    public void deleteCategory(@PathVariable("categoryId") Long categoryId) {
-        categoryService.deleteCategory(categoryId);
-    }
+  @DeleteMapping("/{categoryId}")
+  public void deleteCategory(@PathVariable Long categoryId) {
+    categoryService.deleteCategory(categoryId);
+  }
 
 }
