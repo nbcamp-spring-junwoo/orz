@@ -1,7 +1,7 @@
 package com.junwoo.ott.domain.user.entity;
 
 import com.junwoo.ott.domain.admin.entity.Admin;
-import com.junwoo.ott.domain.user.dto.reponse.UserReadResponseDto;
+import com.junwoo.ott.domain.user.dto.response.UserReadResponseDto;
 import com.junwoo.ott.global.common.entity.Timestamped;
 import com.junwoo.ott.global.customenum.AuthorityType;
 import com.junwoo.ott.global.customenum.MembershipType;

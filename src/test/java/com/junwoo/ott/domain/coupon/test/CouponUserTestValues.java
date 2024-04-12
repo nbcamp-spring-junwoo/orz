@@ -1,6 +1,6 @@
 package com.junwoo.ott.domain.coupon.test;
 
-import com.junwoo.ott.domain.user.dto.reponse.UserReadResponseDto;
+import com.junwoo.ott.domain.user.dto.response.UserReadResponseDto;
 import com.junwoo.ott.domain.user.entity.User;
 import com.junwoo.ott.global.customenum.AuthorityType;
 import com.junwoo.ott.global.customenum.MembershipType;

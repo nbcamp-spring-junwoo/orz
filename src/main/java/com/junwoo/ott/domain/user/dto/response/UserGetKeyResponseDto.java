@@ -1,4 +1,4 @@
-package com.junwoo.ott.domain.user.dto.reponse;
+package com.junwoo.ott.domain.user.dto.response;
 
 import lombok.Getter;
 
