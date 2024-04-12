@@ -3,6 +3,7 @@ package com.junwoo.ott.domain.coupon.entity;
 import com.junwoo.ott.domain.user.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,6 +19,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter
 @Builder
@@ -25,6 +27,7 @@ import org.springframework.data.annotation.CreatedDate;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @SQLDelete(sql = "update coupon_issuance set used_at = NOW() where coupon_issuance_id = ?")
 @SQLRestriction(value = "used_at is NULL")
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 public class CouponIssuance {
 
