@@ -3,12 +3,14 @@ package com.junwoo.ott.domain.payment.dto.remote.payment;
 import com.junwoo.ott.global.customenum.payment.common.SettlementStatusType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 /**
  * 계좌이체로 결제했을 때 이체 정보가 담기는 객체입니다.
  */
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class TransferDto {
 

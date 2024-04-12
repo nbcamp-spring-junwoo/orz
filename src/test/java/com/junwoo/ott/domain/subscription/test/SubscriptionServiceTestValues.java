@@ -6,6 +6,7 @@ import com.junwoo.ott.domain.payment.dto.remote.PaymentDto;
 import com.junwoo.ott.domain.payment.dto.response.CardResponseDto;
 import com.junwoo.ott.domain.payment.dto.response.OrderItemResponseDto;
 import com.junwoo.ott.domain.payment.dto.response.OrderResponseDto;
+import com.junwoo.ott.domain.payment.entity.BillingKey;
 import com.junwoo.ott.domain.payment.entity.Card;
 import com.junwoo.ott.domain.payment.entity.OrderItem;
 import com.junwoo.ott.domain.subscription.dto.request.SubscriptionRequestDto;
@@ -37,22 +38,17 @@ public interface SubscriptionServiceTestValues {
       .build();
   Card TEST_CARD = Card.builder()
       .cardId(TEST_CARD_ID)
-      .cardNumber(TEST_CARD_NUMBER)
-      .cardExpirationYear("22")
-      .cardExpirationMonth("12")
-      .cardPassword("123")
-      .customerName("TEST_USER")
+      .number(TEST_CARD_NUMBER)
       .user(TEST_USER)
       .build();
-  Subscription TEST_SUBSCRIPTION = Subscription.builder()
-      .subscriptionId(1L)
+  BillingKey TEST_BILLING_KEY = BillingKey.builder()
+      .billingKeyId(1L)
+      .key("key")
       .customerKey("customerKey")
-      .billingKey("billingKey")
-      .authenticatedAt(LocalDateTime.now())
-      .membership(TEST_MEMBERSHIP)
-      .user(TEST_USER)
       .card(TEST_CARD)
+      .user(TEST_USER)
       .build();
+  Subscription TEST_SUBSCRIPTION = new Subscription(1L, TEST_USER, TEST_MEMBERSHIP, TEST_CARD, TEST_BILLING_KEY);
   OrderItem TEST_ORDER_ITEM = OrderItem.builder()
       .itemCode("12")
       .basePrice(10000)

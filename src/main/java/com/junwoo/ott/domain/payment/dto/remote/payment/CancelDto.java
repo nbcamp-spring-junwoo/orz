@@ -2,11 +2,13 @@ package com.junwoo.ott.domain.payment.dto.remote.payment;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * 결제 취소 이력이 담기는 객체입니다.
  */
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class CancelDto {
 
