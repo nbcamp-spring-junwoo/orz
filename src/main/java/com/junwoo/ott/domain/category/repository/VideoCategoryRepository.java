@@ -14,6 +14,8 @@ public interface VideoCategoryRepository extends JpaRepository<VideoCategory, Lo
   void deleteAllByVideo(Video video);
 
   @Query("SELECT vc FROM VideoCategory vc WHERE vc.category.type = :categoryType")
-  Page<VideoCategory> findByCategoryType(@Param("categoryType") CategoryType categoryType, Pageable pageable);
+  Page<VideoCategory> findByCategoryType(
+      @Param("categoryType") CategoryType categoryType, Pageable pageable
+  );
 
 }

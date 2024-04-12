@@ -37,7 +37,8 @@ public class VideoService {
   private final VideoCategoryService videoCategoryService;
 
   public VideoCreateResponseDto createVideo(VideoCreateRequestDto requestDto) {
-    Video video = Video.builder()
+    Video video = Video
+        .builder()
         .title(requestDto.getTitle())
         .description(requestDto.getDescription())
         .ratingType(requestDto.getRatingType())
@@ -62,7 +63,8 @@ public class VideoService {
 
   @Transactional(readOnly = true)
   public VideoReadResponseDto getVideo(final Long videoId) {
-    Video video = videoJpaRepository.findById(videoId)
+    Video video = videoJpaRepository
+        .findById(videoId)
         .orElseThrow(() -> new EntityNotFoundException("비디오를 찾을 수 없습니다."));
 
     return mapToVideoReadResponseDto(video);
@@ -81,11 +83,14 @@ public class VideoService {
 
   @Transactional(readOnly = true)
   public Page<VideoReadResponseDto> getVideosByCategory(
-      final VideoSearchByCategoryDto searchDto,
-      Pageable pageable) {
-    Page<VideoCategory> videoCategoriesPage = videoCategoryService.findVideosByCategory(searchDto.getCategoryType(), searchDto.getGenres(), pageable);
+      final VideoSearchByCategoryDto searchDto, Pageable pageable
+  ) {
+    Page<VideoCategory> videoCategoriesPage = videoCategoryService.findVideosByCategory(
+        searchDto.getCategoryType(), searchDto.getGenres(), pageable);
 
-    List<VideoReadResponseDto> videoDtos = videoCategoriesPage.getContent().stream()
+    List<VideoReadResponseDto> videoDtos = videoCategoriesPage
+        .getContent()
+        .stream()
         .map(vc -> mapToVideoReadResponseDto(vc.getVideo()))
         .collect(Collectors.toList());
 
@@ -94,7 +99,8 @@ public class VideoService {
 
   public VideoUpdateResponseDto updateVideo(final VideoUpdateRequestDto updateRequestDto) {
     Video video = existVideoById(updateRequestDto.getVideoId());
-    video.update(updateRequestDto.getDto().getTitle(), updateRequestDto.getDto().getDescription(), updateRequestDto.getDto().getRatingType());
+    video.update(updateRequestDto.getDto().getTitle(), updateRequestDto.getDto().getDescription(),
+        updateRequestDto.getDto().getRatingType());
     videoJpaRepository.save(video);
 
     videoCategoryService.removeCategoriesByVideo(video);
@@ -120,9 +126,9 @@ public class VideoService {
 
   @Transactional(readOnly = true)
   public Video existVideoById(final Long videoId) {
-    return videoJpaRepository.findById(videoId).orElseThrow(
-        () -> new EntityNotFoundException("비디오 id가 존재하지 않습니다.")
-    );
+    return videoJpaRepository
+        .findById(videoId)
+        .orElseThrow(() -> new EntityNotFoundException("비디오 id가 존재하지 않습니다."));
   }
 
   public List<Video> getByVideoIdIn(final List<Long> videoIds) {
@@ -130,7 +136,8 @@ public class VideoService {
   }
 
   public Video getByVideoId(final Long videoId) {
-    return videoJpaRepository.findById(videoId)
+    return videoJpaRepository
+        .findById(videoId)
         .orElseThrow(() -> new EntityNotFoundException("비디오 id가 존재하지 않습니다."));
 
   }
@@ -145,25 +152,18 @@ public class VideoService {
 
   private Set<CategoryInfoDto> fetchCategoryInfosForVideo(Video video) {
 
-    return video.getVideoCategories().stream()
-        .map(vc -> new CategoryInfoDto(
-            vc.getCategory().getCategoryId(),
-            vc.getCategory().getType(),
+    return video
+        .getVideoCategories()
+        .stream()
+        .map(vc -> new CategoryInfoDto(vc.getCategory().getCategoryId(), vc.getCategory().getType(),
             vc.getCategory().getGenres()))
         .collect(Collectors.toSet());
   }
 
   private VideoReadResponseDto mapToVideoReadResponseDto(Video video) {
     Set<CategoryInfoDto> categoryInfos = fetchCategoryInfosForVideo(video);
-    return new VideoReadResponseDto(
-        video.getVideoId(),
-        video.getTitle(),
-        video.getDescription(),
-        video.getRatingType(),
-        video.getCreatedAt(),
-        video.getUpdatedAt(),
-        categoryInfos
-    );
+    return new VideoReadResponseDto(video.getVideoId(), video.getTitle(), video.getDescription(),
+        video.getRatingType(), video.getCreatedAt(), video.getUpdatedAt(), categoryInfos);
   }
 
 }

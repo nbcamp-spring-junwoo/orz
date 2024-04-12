@@ -6,10 +6,10 @@ import org.springframework.data.domain.Pageable;
 
 public interface VideoCustomRepository {
 
-    Page<Video> findByTitle(final String title, final Pageable pageable);
+  Page<Video> findByTitle(final String title, final Pageable pageable);
 
-    Page<Video> getVideos(final Pageable pageable);
+  Page<Video> getVideos(final Pageable pageable);
 
-    void softDeleteVideoById(Long videoId);
+  void softDeleteVideoById(Long videoId);
 
 }

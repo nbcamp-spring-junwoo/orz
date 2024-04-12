@@ -57,8 +57,7 @@ public class VideoController {
 
   @GetMapping("/search")
   public ResponseDto<Page<VideoReadResponseDto>> searchVideos(
-      final @RequestParam String title,
-      final Pageable pageable
+      final @RequestParam String title, final Pageable pageable
   ) {
     VideoReadRequestDto dto = new VideoReadRequestDto(title, pageable);
     Page<VideoReadResponseDto> videosPage = videoService.getVideosByTitle(dto);
@@ -66,7 +65,9 @@ public class VideoController {
   }
 
   @PostMapping("/search/category")
-  public ResponseDto<Page<VideoReadResponseDto>> searchVideosByCategory(@RequestBody VideoSearchByCategoryDto searchDto, Pageable pageable) {
+  public ResponseDto<Page<VideoReadResponseDto>> searchVideosByCategory(
+      @RequestBody VideoSearchByCategoryDto searchDto, Pageable pageable
+  ) {
     Page<VideoReadResponseDto> videosPage = videoService.getVideosByCategory(searchDto, pageable);
     return ResponseDto.ok(videosPage);
   }
@@ -74,8 +75,7 @@ public class VideoController {
   @Secured(value = "ROLE_ADMIN")
   @PutMapping("/{videoId}")
   public ResponseDto<VideoUpdateResponseDto> updateVideo(
-      final @PathVariable("videoId") Long videoId,
-      final @Validated @RequestBody VideoUpdateDto dto
+      final @PathVariable("videoId") Long videoId, final @Validated @RequestBody VideoUpdateDto dto
   ) {
     VideoUpdateRequestDto updateRequestDto = new VideoUpdateRequestDto(videoId, dto);
     VideoUpdateResponseDto updatedVideo = videoService.updateVideo(updateRequestDto);
