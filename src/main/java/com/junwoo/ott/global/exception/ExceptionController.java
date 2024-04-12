@@ -6,6 +6,7 @@ import com.junwoo.ott.global.exception.custom.CustomCouponException;
 import com.junwoo.ott.global.exception.custom.CustomInvalidDeadLineException;
 import com.junwoo.ott.global.exception.custom.CustomLockException;
 import com.junwoo.ott.global.exception.custom.CustomPaymentException;
+import com.junwoo.ott.global.exception.custom.ElasticException;
 import com.junwoo.ott.global.exception.custom.SubscriptionException;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.Objects;
@@ -73,6 +74,12 @@ public class ExceptionController {
   public ResponseEntity<ExceptionDto> customPaymentException(final CustomPaymentException e) {
     log.error("CustomPaymentException: ", e);
     return createResponse(e.getHttpStatus(), "CustomPaymentException: " + e.getMessage());
+  }
+
+  @ExceptionHandler(ElasticException.class)
+  public ResponseEntity<ExceptionDto> elasticsearchException(final ElasticException e) {
+    log.error("ElasticsearchException: ", e);
+    return createResponse(HttpStatus.BAD_GATEWAY, "ElasticsearchException:" + e.getMessage());
   }
 
   @ExceptionHandler(Exception.class)
