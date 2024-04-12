@@ -14,13 +14,13 @@ public class EpisodeAccessService {
 
   private final EpisodeRepository episodeRepository;
 
-  public Episode getEpisodeById(Long episodeId) {
+  public Episode getEpisodeById(final Long episodeId) {
     return episodeRepository
         .findById(episodeId)
         .orElseThrow(() -> new EntityNotFoundException("에피소드를 찾을 수 없습니다."));
   }
 
-  public boolean canUserAccessEpisode(UserDetailsImpl userDetails, Long videoId, Long episodeId) {
+  public boolean canUserAccessEpisode(final UserDetailsImpl userDetails, final Long videoId, final Long episodeId) {
     Episode episode = getEpisodeById(episodeId);
 
     if (!episode.getVideo().getVideoId().equals(videoId)) {
@@ -34,18 +34,8 @@ public class EpisodeAccessService {
   }
 
   private boolean isAccessAllowed(
-      MembershipType userMembership, MembershipType requiredMembership
+      final MembershipType userMembership, final MembershipType requiredMembership
   ) {
-    if (userMembership.equals(MembershipType.ROLE_GOLD)) {
-      return true;
-    } else if (userMembership.equals(MembershipType.ROLE_SILVER)) {
-      return !requiredMembership.equals(MembershipType.ROLE_GOLD);
-    } else if (userMembership.equals(MembershipType.ROLE_BRONZE)) {
-      return requiredMembership.equals(MembershipType.ROLE_BRONZE) || requiredMembership.equals(
-          MembershipType.ROLE_NORMAL);
-    } else {
-      return requiredMembership.equals(MembershipType.ROLE_NORMAL);
-    }
+    return userMembership.compareTo(requiredMembership) >= 0;
   }
-
 }

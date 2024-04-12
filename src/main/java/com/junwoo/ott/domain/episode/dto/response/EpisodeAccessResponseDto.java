@@ -14,7 +14,7 @@ public class EpisodeAccessResponseDto {
     return new EpisodeAccessResponseDto(false, null);
   }
 
-  public static EpisodeAccessResponseDto accessGranted(String videoLink) {
+  public static EpisodeAccessResponseDto accessGranted(final String videoLink) {
     return new EpisodeAccessResponseDto(true, videoLink);
   }
 

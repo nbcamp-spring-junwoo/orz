@@ -2,7 +2,7 @@ package com.junwoo.ott.global.exception.custom;
 
 public class NotExistMembershipTypeException extends RuntimeException {
 
-  public NotExistMembershipTypeException(String message) {
+  public NotExistMembershipTypeException(final String message) {
     super(message);
   }
 

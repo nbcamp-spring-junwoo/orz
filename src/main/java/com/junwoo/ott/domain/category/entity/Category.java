@@ -46,7 +46,7 @@ public class Category extends Timestamped {
   @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<VideoCategory> videoCategories = new HashSet<>();
 
-  public void updateCategoryDetails(CategoryType type, Set<GenreType> newGenres) {
+  public void updateCategoryDetails(final CategoryType type, final Set<GenreType> newGenres) {
     this.type = type;
     this.genres.clear();
     if (newGenres != null) {

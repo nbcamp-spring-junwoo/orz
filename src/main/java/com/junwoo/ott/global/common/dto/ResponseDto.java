@@ -9,7 +9,7 @@ public class ResponseDto<T> {
 
   private T data;
 
-  public static <T> ResponseDto<T> ok(T data) {
+  public static <T> ResponseDto<T> ok(final T data) {
     return new ResponseDto<>(data);
   }
 

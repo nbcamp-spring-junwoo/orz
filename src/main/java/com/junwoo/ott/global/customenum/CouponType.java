@@ -9,7 +9,7 @@ public enum CouponType {
 
   private final String message;
 
-  CouponType(String message) {
+  CouponType(final String message) {
     this.message = message;
   }
 

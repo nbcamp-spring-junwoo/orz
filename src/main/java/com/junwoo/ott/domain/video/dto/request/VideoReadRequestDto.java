@@ -12,11 +12,11 @@ public class VideoReadRequestDto {
   private String title;
   private Pageable pageable;
 
-  public VideoReadRequestDto(Pageable pageable) {
+  public VideoReadRequestDto(final Pageable pageable) {
     this.pageable = pageable;
   }
 
-  public VideoReadRequestDto(String title, Pageable pageable) {
+  public VideoReadRequestDto(final String title, final Pageable pageable) {
     this.title = title;
     this.pageable = pageable;
   }

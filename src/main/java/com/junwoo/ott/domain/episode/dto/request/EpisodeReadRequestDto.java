@@ -15,24 +15,24 @@ public class EpisodeReadRequestDto {
   private Pageable pageable;
   private MembershipType membershipType;
 
-  public EpisodeReadRequestDto(Long videoId, Pageable pageable) {
+  public EpisodeReadRequestDto(final Long videoId, final Pageable pageable) {
     this.videoId = videoId;
     this.pageable = pageable;
   }
 
-  public EpisodeReadRequestDto(Long videoId, Long episodeId) {
+  public EpisodeReadRequestDto(final Long videoId, final Long episodeId) {
     this.videoId = videoId;
     this.episodeId = episodeId;
 
   }
 
-  public EpisodeReadRequestDto(Long videoId, Pageable pageable, MembershipType membershipType) {
+  public EpisodeReadRequestDto(final Long videoId, final Pageable pageable, final MembershipType membershipType) {
     this.videoId = videoId;
     this.pageable = pageable;
     this.membershipType = membershipType;
   }
 
-  public EpisodeReadRequestDto(Long videoId, Long episodeId, MembershipType membershipType) {
+  public EpisodeReadRequestDto(final Long videoId, final Long episodeId, final MembershipType membershipType) {
     this.videoId = videoId;
     this.episodeId = episodeId;
     this.membershipType = membershipType;

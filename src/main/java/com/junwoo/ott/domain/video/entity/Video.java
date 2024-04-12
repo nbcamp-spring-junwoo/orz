@@ -69,7 +69,7 @@ public class Video extends Timestamped {
         .deletedAt(this.deletedAt);
   }
 
-  public void update(String title, String description, RatingType ratingType) {
+  public void update(final String title, final String description, final RatingType ratingType) {
     if (title != null) {
       this.title = title;
     }
@@ -82,14 +82,14 @@ public class Video extends Timestamped {
 
   }
 
-  public void addVideoCategory(VideoCategory videoCategory) {
+  public void addVideoCategory(final VideoCategory videoCategory) {
     if (this.videoCategories == null) {
       this.videoCategories = new HashSet<>();
     }
     this.videoCategories.add(videoCategory);
   }
 
-  public void removeVideoCategory(VideoCategory videoCategory) {
+  public void removeVideoCategory(final VideoCategory videoCategory) {
     this.videoCategories.remove(videoCategory);
     videoCategory.setVideo(null);
   }

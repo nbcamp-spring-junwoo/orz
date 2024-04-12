@@ -21,14 +21,14 @@ public class ChartUpdateJob extends DefaultBatchConfiguration {
   private final ChartService chartService;
 
   @Bean
-  public Job updateChartJob(JobRepository jobRepository, Step updateChartStep) {
+  public Job updateChartJob(final JobRepository jobRepository, final Step updateChartStep) {
     return new JobBuilder("updateChartJob", jobRepository)
         .start(updateChartStep)
         .build();
   }
 
   @Bean
-  public Step updateChartStep(JobRepository jobRepository) {
+  public Step updateChartStep(final JobRepository jobRepository) {
     return new StepBuilder("updateChartStep", jobRepository)
         .tasklet((contribution, chunkContext) -> {
           log.info("updateChartStep 실행");

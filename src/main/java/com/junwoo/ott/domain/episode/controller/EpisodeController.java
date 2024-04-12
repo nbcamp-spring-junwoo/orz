@@ -47,7 +47,7 @@ public class EpisodeController {
 
     @GetMapping("{videoId}/episodes")
     public ResponseDto<Page<EpisodeReadResponseDto>> getEpisodes(
-        @PathVariable Long videoId, Pageable pageable
+        @PathVariable final Long videoId, final Pageable pageable
     ) {
         EpisodeReadRequestDto requestDto = new EpisodeReadRequestDto(videoId, pageable);
         Page<EpisodeReadResponseDto> episodesPages = episodeService.getEpisodesByVideo(requestDto);
@@ -65,9 +65,9 @@ public class EpisodeController {
 
     @PutMapping("{videoId}/episodes/{episodeId}")
     public void putEpisode(
-        @PathVariable Long videoId,
-        @PathVariable Long episodeId,
-        @Validated @RequestBody EpisodeUpdateDto dto
+        @PathVariable final Long videoId,
+        @PathVariable final Long episodeId,
+        @Validated @RequestBody final EpisodeUpdateDto dto
     ) {
         EpisodeUpdateRequestDto updateRequestDto = new EpisodeUpdateRequestDto(videoId, episodeId,
             dto);
@@ -75,16 +75,16 @@ public class EpisodeController {
     }
 
     @DeleteMapping("/episodes/{episodeId}")
-    public void deleteEpisode(@PathVariable("episodeId") Long episodeId) {
+    public void deleteEpisode(@PathVariable("episodeId") final Long episodeId) {
         episodeService.deleteEpisode(episodeId);
     }
 
     @GetMapping("/{videoId}/episodes/{episodeId}/watch")
-    // 맴버십 권한
+
     public ResponseEntity<Object> watchEpisode(
-        @PathVariable Long videoId,
-        @PathVariable Long episodeId,
-        @AuthenticationPrincipal UserDetailsImpl userDetails
+        @PathVariable final Long videoId,
+        @PathVariable final Long episodeId,
+        @AuthenticationPrincipal final UserDetailsImpl userDetails
     ) {
 
         boolean canAccess = episodeAccessService.canUserAccessEpisode(userDetails, videoId,

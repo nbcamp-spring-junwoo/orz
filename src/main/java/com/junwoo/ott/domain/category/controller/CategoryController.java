@@ -45,14 +45,14 @@ public class CategoryController {
 
   @PutMapping("/{categoryId}")
   public void putCategory(
-      @PathVariable Long categoryId, @RequestBody CategoryUpdateDto dto
+      @PathVariable final Long categoryId, @RequestBody final CategoryUpdateDto dto
   ) {
     CategoryUpdateRequestDto updateRequestDto = new CategoryUpdateRequestDto(categoryId, dto);
     categoryService.updateCategory(updateRequestDto);
   }
 
   @DeleteMapping("/{categoryId}")
-  public void deleteCategory(@PathVariable Long categoryId) {
+  public void deleteCategory(@PathVariable final Long categoryId) {
     categoryService.deleteCategory(categoryId);
   }
 

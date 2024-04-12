@@ -15,7 +15,7 @@ public class CategoryReadResponseDto {
     private CategoryType type;
     private Set<GenreType> genres;
 
-    public CategoryReadResponseDto(Category category) {
+    public CategoryReadResponseDto(final Category category) {
         this.categoryId = category.getCategoryId();
         this.type = category.getType();
         this.genres = category.getGenres();

@@ -54,7 +54,7 @@ public class EpisodeCustomRepositoryImpl implements EpisodeCustomRepository {
 
   @Override
   public Page<Episode> findByVideoIdAndMembershipType(
-      Long videoId, MembershipType membershipType, Pageable pageable
+      final Long videoId, final MembershipType membershipType, final Pageable pageable
   ) {
     QEpisode qEpisode = QEpisode.episode;
 
@@ -78,7 +78,7 @@ public class EpisodeCustomRepositoryImpl implements EpisodeCustomRepository {
 
   @Override
   public Optional<Episode> findByVideoIdAndEpisodeIdAndMembershipType(
-      Long videoId, Long episodeId, MembershipType membershipType
+      final Long videoId, final Long episodeId, final MembershipType membershipType
   ) {
     QEpisode qEpisode = QEpisode.episode;
 
@@ -92,7 +92,7 @@ public class EpisodeCustomRepositoryImpl implements EpisodeCustomRepository {
   }
 
   @Override
-  public void softDeleteEpisodeById(Long episodeId) {
+  public void softDeleteEpisodeById(final Long episodeId) {
     QEpisode qEpisode = QEpisode.episode;
 
     queryFactory

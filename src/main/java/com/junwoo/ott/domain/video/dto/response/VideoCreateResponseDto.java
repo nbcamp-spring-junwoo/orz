@@ -19,7 +19,7 @@ public class VideoCreateResponseDto {
   private final LocalDateTime createdAt;
   private final LocalDateTime updatedAt;
 
-  public VideoCreateResponseDto(Video video, Set<Long> categoryIds) {
+  public VideoCreateResponseDto(final Video video, final Set<Long> categoryIds) {
     this.videoId = video.getVideoId();
     this.categoryIds = categoryIds;
     this.title = video.getTitle();

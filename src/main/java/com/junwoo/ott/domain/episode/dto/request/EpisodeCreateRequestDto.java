@@ -16,7 +16,7 @@ public class EpisodeCreateRequestDto {
   private final MembershipType membershipType;
   private final String videoLink;
 
-  public EpisodeCreateRequestDto(Long videoId, EpisodeCreateDto dto) {
+  public EpisodeCreateRequestDto(final Long videoId, final EpisodeCreateDto dto) {
     this.videoId = videoId;
     this.title = dto.getTitle();
     this.releasedAt = dto.getReleasedAt();

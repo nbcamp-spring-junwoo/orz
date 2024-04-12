@@ -29,7 +29,7 @@ public class Membership {
   private Integer price;
   private String detail;
 
-  public Membership(MembershipType membershipType, Integer price, String detail) {
+  public Membership(final MembershipType membershipType, final Integer price, final String detail) {
     this.membershipType = membershipType;
     this.price = price;
     this.detail = detail;

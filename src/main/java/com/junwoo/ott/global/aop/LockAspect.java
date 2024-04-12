@@ -19,7 +19,7 @@ public class LockAspect {
   private final RedissonClient redissonClient;
 
   @Around("@annotation(lockable)")
-  public Object applyLock(ProceedingJoinPoint joinPoint, Lockable lockable) throws Throwable {
+  public Object applyLock(final ProceedingJoinPoint joinPoint, final Lockable lockable) throws Throwable {
     RLock lock = redissonClient.getFairLock(lockable.value());
 
     try {

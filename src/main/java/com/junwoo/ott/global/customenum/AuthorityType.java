@@ -12,7 +12,7 @@ public enum AuthorityType {
 
   private final String authority;
 
-  AuthorityType(String authority) {
+  AuthorityType(final String authority) {
     this.authority = authority;
   }
 
@@ -21,7 +21,7 @@ public enum AuthorityType {
     return authority;
   }
 
-  public static AuthorityType fromString(String authority) {
+  public static AuthorityType fromString(final String authority) {
     for (AuthorityType type : AuthorityType.values()) {
       if (type.authority.equals(authority)) {
         return type;

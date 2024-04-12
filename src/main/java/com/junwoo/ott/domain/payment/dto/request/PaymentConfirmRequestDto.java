@@ -14,7 +14,7 @@ public class PaymentConfirmRequestDto {
 
   private Long userid;
 
-  public PaymentConfirmRequestDto(PaymentConfirmDto paymentConfirmDto) {
+  public PaymentConfirmRequestDto(final PaymentConfirmDto paymentConfirmDto) {
     this.paymentKey = paymentConfirmDto.getPaymentKey();
     this.orderId = paymentConfirmDto.getOrderId();
     this.amount = paymentConfirmDto.getAmount();

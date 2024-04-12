@@ -16,7 +16,7 @@ public class VideoPointAspect {
   private final ChartHistoryService chartHistoryService;
 
   @AfterReturning(value = "@annotation(videoPoint) && args(videoId)")
-  public void addVideoPoint(VideoPoint videoPoint, Long videoId) {
+  public void addVideoPoint(final VideoPoint videoPoint, final Long videoId) {
     double points = videoPoint.points();
 
     chartHistoryService.addVideoPoint(videoId, points);

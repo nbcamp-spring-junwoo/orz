@@ -18,7 +18,7 @@ public class CategoryCreateResponseDto {
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
 
-    public CategoryCreateResponseDto(Category category) {
+    public CategoryCreateResponseDto(final Category category) {
       this.categoryId = category.getCategoryId();
         this.type = category.getType();
         this.genres = category.getGenres();

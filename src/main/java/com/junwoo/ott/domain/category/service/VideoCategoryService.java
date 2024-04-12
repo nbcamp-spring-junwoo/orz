@@ -23,13 +23,13 @@ public class VideoCategoryService {
 
     private final VideoCategoryRepository videoCategoryRepository;
 
-    public void associateVideoWithCategory(Video video, Category category) {
+    public void associateVideoWithCategory(final Video video, final Category category) {
         VideoCategory videoCategory = new VideoCategory(video, category);
         videoCategoryRepository.save(videoCategory);
     }
 
     public Page<VideoCategory> findVideosByCategory(
-        CategoryType categoryType, Set<GenreType> genres, Pageable pageable
+        final CategoryType categoryType, final Set<GenreType> genres, final Pageable pageable
     ) {
         Page<VideoCategory> allVideoCategories = videoCategoryRepository.findByCategoryType(
             categoryType, pageable);
@@ -42,7 +42,7 @@ public class VideoCategoryService {
         return new PageImpl<>(filteredVideoCategories, pageable, filteredVideoCategories.size());
     }
 
-    public void removeCategoriesByVideo(Video video) {
+    public void removeCategoriesByVideo(final Video video) {
         videoCategoryRepository.deleteAllByVideo(video);
     }
 
