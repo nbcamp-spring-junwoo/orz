@@ -1,21 +1,24 @@
 # 빌더 스테이지
 FROM openjdk:17-alpine AS builder
-
-# 소스 파일이나 빌드된 jar 파일을 컨테이너로 복사
-ARG JAR_FILE=build/libs/*.jar
-COPY ${JAR_FILE} app.jar
+COPY build/libs/OTT-0.0.1-SNAPSHOT.jar /app.jar
 
 # 런타임 스테이지
 FROM openjdk:17-alpine
+
+# 필요한 패키지 설치 및 AWS CLI, jq 설치
+RUN apk add --no-cache python3 py3-pip groff less jq && \
+    pip3 install --no-cache-dir --upgrade pip awscli
+
+# 작업 디렉토리 설정
 WORKDIR /application
 
-# 빌더 스테이지에서 빌드된 jar 파일을 런타임 스테이지로 복사
-COPY --from=builder /app.jar .
-
-# 환경 변수 설정을 위한 스크립트 추가
+# 빌더 스테이지에서 생성된 JAR 파일과 진입점 스크립트 복사
+COPY --from=builder /app.jar /application/app.jar
 COPY entrypoint.sh /entrypoint.sh
+
+# 진입점 스크립트 실행 권한 부여
 RUN chmod +x /entrypoint.sh
 
-# 컨테이너가 시작할 때 실행할 스크립트 지정
+# 컨테이너 시작 시 실행할 명령 지정
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["java","-jar","app.jar"]
+CMD ["java", "-jar", "app.jar"]
