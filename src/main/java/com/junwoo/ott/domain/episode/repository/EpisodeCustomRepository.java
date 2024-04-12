@@ -8,13 +8,19 @@ import org.springframework.data.domain.Pageable;
 
 public interface EpisodeCustomRepository {
 
-    Page<Episode> findByEpisodeId(final Long videoId, final Pageable pageable);
+  Page<Episode> findByEpisodeId(final Long videoId, final Pageable pageable);
 
-    Optional<Episode> findByVideoIdAndEpisodeId(final Long videoId, final Long episodeId);
+  Optional<Episode> findByVideoIdAndEpisodeId(final Long videoId, final Long episodeId);
 
 
-    Page<Episode> findByVideoIdAndMembershipType(Long videoId, MembershipType membershipType, Pageable pageable);
-    Optional<Episode> findByVideoIdAndEpisodeIdAndMembershipType(Long videoId, Long episodeId, MembershipType membershipType);
-    void softDeleteEpisodeById(Long episodeId);
+  Page<Episode> findByVideoIdAndMembershipType(
+      Long videoId, MembershipType membershipType, Pageable pageable
+  );
+
+  Optional<Episode> findByVideoIdAndEpisodeIdAndMembershipType(
+      Long videoId, Long episodeId, MembershipType membershipType
+  );
+
+  void softDeleteEpisodeById(Long episodeId);
 
 }

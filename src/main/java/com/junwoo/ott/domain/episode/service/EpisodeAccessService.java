@@ -12,35 +12,40 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class EpisodeAccessService {
 
-    private final EpisodeRepository episodeRepository;
+  private final EpisodeRepository episodeRepository;
 
-    public Episode getEpisodeById(Long episodeId) {
-        return episodeRepository.findById(episodeId)
-            .orElseThrow(() -> new EntityNotFoundException("에피소드를 찾을 수 없습니다."));
+  public Episode getEpisodeById(Long episodeId) {
+    return episodeRepository
+        .findById(episodeId)
+        .orElseThrow(() -> new EntityNotFoundException("에피소드를 찾을 수 없습니다."));
+  }
+
+  public boolean canUserAccessEpisode(UserDetailsImpl userDetails, Long videoId, Long episodeId) {
+    Episode episode = getEpisodeById(episodeId);
+
+    if (!episode.getVideo().getVideoId().equals(videoId)) {
+      throw new EntityNotFoundException("에피소드가 지정된 비디오에 없습니다.");
     }
 
-    public boolean canUserAccessEpisode(UserDetailsImpl userDetails, Long videoId, Long episodeId) {
-        Episode episode = getEpisodeById(episodeId);
+    MembershipType userMembership = userDetails.getMembershipType();
+    MembershipType requiredMembership = episode.getMembershipType();
 
-        if (!episode.getVideo().getVideoId().equals(videoId)) {
-            throw new EntityNotFoundException("에피소드가 지정된 비디오에 없습니다.");
-        }
+    return isAccessAllowed(userMembership, requiredMembership);
+  }
 
-        MembershipType userMembership = userDetails.getMembershipType();
-        MembershipType requiredMembership = episode.getMembershipType();
-
-        return isAccessAllowed(userMembership, requiredMembership);
+  private boolean isAccessAllowed(
+      MembershipType userMembership, MembershipType requiredMembership
+  ) {
+    if (userMembership.equals(MembershipType.ROLE_GOLD)) {
+      return true;
+    } else if (userMembership.equals(MembershipType.ROLE_SILVER)) {
+      return !requiredMembership.equals(MembershipType.ROLE_GOLD);
+    } else if (userMembership.equals(MembershipType.ROLE_BRONZE)) {
+      return requiredMembership.equals(MembershipType.ROLE_BRONZE) || requiredMembership.equals(
+          MembershipType.ROLE_NORMAL);
+    } else {
+      return requiredMembership.equals(MembershipType.ROLE_NORMAL);
     }
-    private boolean isAccessAllowed(MembershipType userMembership, MembershipType requiredMembership) {
-        if (userMembership.equals(MembershipType.ROLE_GOLD)) {
-            return true;
-        } else if (userMembership.equals(MembershipType.ROLE_SILVER)) {
-            return !requiredMembership.equals(MembershipType.ROLE_GOLD);
-        } else if (userMembership.equals(MembershipType.ROLE_BRONZE)) {
-            return requiredMembership.equals(MembershipType.ROLE_BRONZE) || requiredMembership.equals(MembershipType.ROLE_NORMAL);
-        } else {
-            return requiredMembership.equals(MembershipType.ROLE_NORMAL);
-        }
-    }
+  }
 
 }

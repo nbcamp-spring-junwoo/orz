@@ -8,8 +8,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public class EpisodeUpdateRequestDto {
 
-    private final Long videoId;
-    private final Long episodeId;
-    private final EpisodeUpdateDto dto;
+  private final Long videoId;
+  private final Long episodeId;
+  private final EpisodeUpdateDto dto;
 
 }
