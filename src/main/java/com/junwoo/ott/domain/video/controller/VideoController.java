@@ -4,9 +4,12 @@ import com.junwoo.ott.domain.video.dto.body.VideoCreateDto;
 import com.junwoo.ott.domain.video.dto.body.VideoUpdateDto;
 import com.junwoo.ott.domain.video.dto.request.VideoCreateRequestDto;
 import com.junwoo.ott.domain.video.dto.request.VideoReadRequestDto;
+import com.junwoo.ott.domain.video.dto.request.VideoSearchRequestDto;
 import com.junwoo.ott.domain.video.dto.request.VideoUpdateRequestDto;
 import com.junwoo.ott.domain.video.dto.response.VideoReadResponseDto;
+import com.junwoo.ott.domain.video.dto.response.VideoSearchResponseDto;
 import com.junwoo.ott.domain.video.dto.response.VideoUpdateResponseDto;
+import com.junwoo.ott.domain.video.service.ElasticVideoService;
 import com.junwoo.ott.domain.video.service.VideoService;
 import com.junwoo.ott.global.aop.VideoPoint;
 import com.junwoo.ott.global.common.dto.ResponseDto;
@@ -30,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class VideoController {
 
   private final VideoService videoService;
+  private final ElasticVideoService elasticVideoService;
 
   @PostMapping
   public void postVideo(final @Validated @RequestBody VideoCreateDto dto) {
@@ -60,6 +64,16 @@ public class VideoController {
     VideoReadRequestDto dto = new VideoReadRequestDto(title, pageable);
     Page<VideoReadResponseDto> videosPage = videoService.getVideosByTitle(dto);
     return ResponseDto.ok(videosPage);
+  }
+
+  @GetMapping("/search1")
+  public ResponseDto<VideoSearchResponseDto> searchVideos1(
+      final @RequestParam String title,
+      final @RequestParam int page
+  ) {
+    VideoSearchRequestDto dto = new VideoSearchRequestDto(title, page);
+    VideoSearchResponseDto responseDto = elasticVideoService.getVideosElasticSearch(dto);
+    return ResponseDto.ok(responseDto);
   }
 
   @PutMapping("/{videoId}")
