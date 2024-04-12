@@ -1,10 +1,10 @@
 package com.junwoo.ott.domain.user.controller;
 
 import com.junwoo.ott.domain.user.dto.body.UserPutDto;
-import com.junwoo.ott.domain.user.dto.reponse.UserGetKeyResponseDto;
-import com.junwoo.ott.domain.user.dto.reponse.UserReadResponseDto;
 import com.junwoo.ott.domain.user.dto.request.UserGetKeyRequestDto;
 import com.junwoo.ott.domain.user.dto.request.UserPutRequestDto;
+import com.junwoo.ott.domain.user.dto.response.UserGetKeyResponseDto;
+import com.junwoo.ott.domain.user.dto.response.UserReadResponseDto;
 import com.junwoo.ott.domain.user.service.UserService;
 import com.junwoo.ott.global.common.dto.ResponseDto;
 import com.junwoo.ott.global.jwt.UserDetailsImpl;

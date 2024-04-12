@@ -1,4 +1,4 @@
-package com.junwoo.ott.domain.user.dto.reponse;
+package com.junwoo.ott.domain.user.dto.response;
 
 import com.junwoo.ott.global.customenum.AuthorityType;
 import com.junwoo.ott.global.customenum.MembershipType;

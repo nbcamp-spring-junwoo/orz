@@ -11,8 +11,8 @@ import static org.mockito.Mockito.times;
 
 import com.junwoo.ott.domain.auth.dto.request.AuthLoginRequestDto;
 import com.junwoo.ott.domain.user.UserTestValues;
-import com.junwoo.ott.domain.user.dto.reponse.UserGetKeyResponseDto;
-import com.junwoo.ott.domain.user.dto.reponse.UserReadResponseDto;
+import com.junwoo.ott.domain.user.dto.response.UserGetKeyResponseDto;
+import com.junwoo.ott.domain.user.dto.response.UserReadResponseDto;
 import com.junwoo.ott.domain.user.entity.User;
 import com.junwoo.ott.domain.user.repository.UserRepository;
 import com.junwoo.ott.global.customenum.MembershipType;

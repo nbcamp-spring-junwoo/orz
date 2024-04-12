@@ -4,9 +4,9 @@ import com.junwoo.ott.domain.auth.dto.body.AuthSignupDto;
 import com.junwoo.ott.domain.auth.dto.request.AuthLoginRequestDto;
 import com.junwoo.ott.domain.auth.dto.request.AuthSignupRequestDto;
 import com.junwoo.ott.domain.user.dto.body.UserPutDto;
-import com.junwoo.ott.domain.user.dto.reponse.UserGetKeyResponseDto;
 import com.junwoo.ott.domain.user.dto.request.UserGetKeyRequestDto;
 import com.junwoo.ott.domain.user.dto.request.UserPutRequestDto;
+import com.junwoo.ott.domain.user.dto.response.UserGetKeyResponseDto;
 import com.junwoo.ott.domain.user.entity.User;
 import java.time.LocalDate;
 
