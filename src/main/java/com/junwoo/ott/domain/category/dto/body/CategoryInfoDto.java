@@ -9,8 +9,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class CategoryInfoDto {
-    private final Long categoryId;
-    private final CategoryType type;
-    private final Set<GenreType> genres;
+
+  private final Long categoryId;
+  private final CategoryType type;
+  private final Set<GenreType> genres;
 
 }

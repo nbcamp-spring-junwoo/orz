@@ -11,14 +11,15 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class CategoryCreateResponseDto {
-    private final Long categoryid;
+
+  private final Long categoryId;
     private final CategoryType type;
     private final Set<GenreType> genres;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
 
     public CategoryCreateResponseDto(Category category) {
-        this.categoryid = category.getCategoryId();
+      this.categoryId = category.getCategoryId();
         this.type = category.getType();
         this.genres = category.getGenres();
         this.createdAt = category.getCreatedAt();

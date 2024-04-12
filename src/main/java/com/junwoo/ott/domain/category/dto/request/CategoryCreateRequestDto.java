@@ -10,12 +10,13 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class CategoryCreateRequestDto {
-    private final CategoryType type;
-    private final Set<GenreType> genres;
 
-    public CategoryCreateRequestDto(CategoryCreateDto dto) {
-        this.type = dto.getType();
-        this.genres = dto.getGenres();
-    }
+  private final CategoryType type;
+  private final Set<GenreType> genres;
+
+  public CategoryCreateRequestDto(CategoryCreateDto dto) {
+    this.type = dto.getType();
+    this.genres = dto.getGenres();
+  }
 
 }

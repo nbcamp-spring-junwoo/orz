@@ -11,12 +11,12 @@ import lombok.Getter;
 @AllArgsConstructor
 public class CategoryReadResponseDto {
 
-    private Long categoryid;
+    private Long categoryId;
     private CategoryType type;
     private Set<GenreType> genres;
 
     public CategoryReadResponseDto(Category category) {
-        this.categoryid = category.getCategoryId();
+        this.categoryId = category.getCategoryId();
         this.type = category.getType();
         this.genres = category.getGenres();
     }
