@@ -62,11 +62,18 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
 
       # Docker Image 파일로 빌드 후 ECR 업로드
-      - name: Build Docker image
+      - name: Build and push Docker image to Amazon ECR
         run: |
           docker build -t ${{ secrets.ECR_REGISTRY }}/ecr-repository:latest .
-          docker tag ${{ secrets.ECR_REGISTRY }}/ecr-repository:latest ${{ secrets.ECR_REGISTRY }}/ecr-repository:latest
-
-      - name: Push Docker image to Amazon ECR
-        run: |
           docker push ${{ secrets.ECR_REGISTRY }}/ecr-repository:latest
+
+      # ECS 서비스 업데이트
+      - name: Update ECS Service
+        run: |
+          aws ecs update-service --cluster ${{ secrets.ECS_CLUSTER_NAME }} \
+                       --service ${{ secrets.ECS_SERVICE_NAME }} \
+                       --task-definition ${{ secrets.ECS_TASK_DEFINITION }} \
+                       --desired-count 1 \
+                       --health-check-grace-period-seconds 120 \
+                       --force-new-deployment
+
