@@ -1,4 +1,4 @@
-package com.junwoo.ott.domain.video.dto.body;
+package com.junwoo.ott.global.search.dto.body;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -18,10 +18,5 @@ public class VideoSearchDto {
   private String description;
   @JsonFormat(shape = JsonFormat.Shape.STRING)
   private LocalDateTime created_at;
-  @JsonFormat(shape = JsonFormat.Shape.STRING)
-  private LocalDateTime updated_at;
-  @JsonFormat(shape = JsonFormat.Shape.STRING)
-  private LocalDateTime deleted_at;
-  private int rating_type;
 
 }

@@ -1,6 +1,6 @@
-package com.junwoo.ott.domain.video.dto.response;
+package com.junwoo.ott.global.search.dto.response;
 
-import com.junwoo.ott.domain.video.dto.body.VideoSearchDto;
+import com.junwoo.ott.global.search.dto.body.VideoSearchDto;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
