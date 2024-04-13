@@ -1,6 +1,7 @@
 package com.junwoo.ott.domain.video.dto.body;
 
 import com.junwoo.ott.global.customenum.GenreType;
+import com.junwoo.ott.global.customenum.MembershipType;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,8 @@ public class VideoCreateDto {
   private String title;
   @NotNull
   private String description;
+  @NotNull
+  private MembershipType membershipType;
   private String posterUrl;
   private List<GenreType> genreTypeList;
   @NotNull
