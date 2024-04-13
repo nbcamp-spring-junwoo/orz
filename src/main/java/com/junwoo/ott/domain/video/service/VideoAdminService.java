@@ -24,6 +24,7 @@ public class VideoAdminService {
         Video.builder()
             .title(videoCreateRequestDto.getTitle())
             .description(videoCreateRequestDto.getDescription())
+            .membershipType(videoCreateRequestDto.getMembershipType())
             .posterUrl(videoCreateRequestDto.getPosterUrl())
             .releasedAt(videoCreateRequestDto.getReleasedAt())
             .build()
