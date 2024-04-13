@@ -2,14 +2,12 @@ package com.junwoo.ott.domain.video.entity;
 
 
 import com.junwoo.ott.global.common.entity.Timestamped;
-import com.junwoo.ott.global.customenum.RatingType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -33,13 +31,11 @@ public class Video extends Timestamped {
   private Long videoId;
   @Column(nullable = false)
   private String title;
-  @Column(nullable = false)
+  @Column(nullable = false, length = 511)
   private String description;
+  private String posterUrl;
   @Column(nullable = false)
-  @Enumerated(EnumType.STRING)
-  private RatingType ratingType;
-  @Column(nullable = false)
-  private String videoUrl;
+  private LocalDate releasedAt;
   private LocalDateTime deletedAt;
 
 }

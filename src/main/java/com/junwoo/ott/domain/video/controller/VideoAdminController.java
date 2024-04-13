@@ -2,7 +2,7 @@ package com.junwoo.ott.domain.video.controller;
 
 import com.junwoo.ott.domain.video.dto.body.VideoCreateDto;
 import com.junwoo.ott.domain.video.dto.request.VideoCreateRequestDto;
-import com.junwoo.ott.domain.video.service.VideoService;
+import com.junwoo.ott.domain.video.service.VideoAdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class VideoAdminController {
 
-  private final VideoService videoService;
+  private final VideoAdminService videoAdminService;
 
   @PostMapping
   public void postVideo(@Validated @RequestBody final VideoCreateDto videoCreateDto) {
-    videoService.postVideo(new VideoCreateRequestDto(videoCreateDto));
+    videoAdminService.postVideo(new VideoCreateRequestDto(videoCreateDto));
   }
 
 }
