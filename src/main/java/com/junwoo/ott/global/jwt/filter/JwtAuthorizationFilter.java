@@ -114,7 +114,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     User user = new User(userId, username, authorityType, membershipType);
     UserDetails userDetails = new UserDetailsImpl(user);
 
-    return new UsernamePasswordAuthenticationToken(userDetails, null, null);
+    return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
   }
 
 }
