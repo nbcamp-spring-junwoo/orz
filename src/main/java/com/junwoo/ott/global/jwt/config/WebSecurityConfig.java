@@ -49,6 +49,7 @@ public class WebSecurityConfig {
             .requestMatchers("/api/v1/admin/signup", "/api/v1/admin/login").permitAll()
             .requestMatchers("/api/v1/admin/**").hasAnyAuthority("ROLE_ADMIN")
             .requestMatchers("/actuator/**").permitAll()
+            .requestMatchers("/health").permitAll()
             .requestMatchers("/localhost:3000/**").permitAll()
             .requestMatchers("/localhost:9090/**").permitAll()
             .requestMatchers("/localhost:9292/**").permitAll()
