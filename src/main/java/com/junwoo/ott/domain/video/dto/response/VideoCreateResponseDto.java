@@ -9,13 +9,13 @@ public class VideoCreateResponseDto {
   private final Long videoId;
   private final String title;
   private final String description;
-  private final String videoUrl;
+  private final String posterUrl;
 
   public VideoCreateResponseDto(final Video video) {
     this.videoId = video.getVideoId();
     this.title = video.getTitle();
     this.description = video.getDescription();
-    this.videoUrl = video.getVideoUrl();
+    this.posterUrl = video.getPosterUrl();
   }
 
 }
