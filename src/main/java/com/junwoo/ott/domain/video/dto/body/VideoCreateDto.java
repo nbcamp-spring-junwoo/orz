@@ -2,21 +2,22 @@ package com.junwoo.ott.domain.video.dto.body;
 
 import com.junwoo.ott.global.customenum.RatingType;
 import jakarta.validation.constraints.NotNull;
-import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class VideoCreateDto {
 
   @NotNull
-  private final String title;
+  private String title;
   @NotNull
-  private final String description;
+  private String description;
   @NotNull
-  private final RatingType ratingType;
+  private RatingType ratingType;
   @NotNull
-  private final Set<Long> categoryIds;
+  private String videoUrl;
 
 }
