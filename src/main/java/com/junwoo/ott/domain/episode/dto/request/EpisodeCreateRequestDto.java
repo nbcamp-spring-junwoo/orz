@@ -1,27 +1,26 @@
 package com.junwoo.ott.domain.episode.dto.request;
 
 import com.junwoo.ott.domain.episode.dto.body.EpisodeCreateDto;
-import com.junwoo.ott.global.customenum.MembershipType;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class EpisodeCreateRequestDto {
 
-  private final Long videoId;
-  private final String title;
-  private final LocalDateTime releasedAt;
-  private final MembershipType membershipType;
-  private final String videoLink;
+  private Long videoId;
+  private String title;
+  private String description;
+  private LocalDate releasedAt;
 
-  public EpisodeCreateRequestDto(final Long videoId, final EpisodeCreateDto dto) {
-    this.videoId = videoId;
-    this.title = dto.getTitle();
-    this.releasedAt = dto.getReleasedAt();
-    this.membershipType = dto.getMembershipType();
-    this.videoLink = dto.getVideoLink();
+  public EpisodeCreateRequestDto(final EpisodeCreateDto episodeCreateDto) {
+    this.videoId = episodeCreateDto.getVideoId();
+    this.title = episodeCreateDto.getTitle();
+    this.description = episodeCreateDto.getDescription();
+    this.releasedAt = LocalDate.parse(episodeCreateDto.getReleasedAt());
   }
 
 }
