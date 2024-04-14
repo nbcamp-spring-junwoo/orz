@@ -16,10 +16,15 @@ public class ChartQueryRepositoryImpl implements ChartQueryRepository {
 
   @Override
   public List<ChartResponseDto> getAllChartsWithVideoInfo() {
+
     return factory
         .select(Projections.constructor(ChartResponseDto.class,
             chart.video.videoId,
-            chart.video.title))
+            chart.video.title,
+            chart.video.description,
+            // chart.video.releasedAt,
+            chart.video.posterUrl
+        ))
         .from(chart)
         .join(chart.video, video)
         .orderBy(chart.point.desc())
