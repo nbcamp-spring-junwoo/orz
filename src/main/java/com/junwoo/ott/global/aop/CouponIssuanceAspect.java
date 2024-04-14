@@ -23,7 +23,7 @@ public class CouponIssuanceAspect {
   private final UserRepository userRepository;
 
   @AfterReturning(value = "@annotation(couponIssuance) && args(dto)")
-  public void addCouponIssuance(CouponIssuance couponIssuance, AuthSignupDto dto) {
+  public void addCouponIssuance(final CouponIssuance couponIssuance, final AuthSignupDto dto) {
     User user = userRepository.findByUsername(dto.getUsername())
         .orElseThrow(() -> new UserNotFoundException("해당 유저가 존재하지 않습니다."));
 
