@@ -5,6 +5,7 @@ import com.junwoo.ott.domain.video.dto.request.VideoRequestDto;
 import com.junwoo.ott.domain.video.dto.response.VideoReadResponseDto;
 import com.junwoo.ott.domain.video.dto.response.VideoResponseDto;
 import com.junwoo.ott.domain.video.service.VideoService;
+import com.junwoo.ott.global.aop.VideoPoint;
 import com.junwoo.ott.global.common.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -30,6 +31,7 @@ public class VideoController {
     return ResponseDto.ok(videoService.getVideos(new VideoRequestDto(pageable)));
   }
 
+  @VideoPoint(points = 1.0)
   @GetMapping("/{videoId}")
   public ResponseDto<VideoReadResponseDto> getVideo(
       final @PageableDefault(sort = "releasedAt", direction = Direction.DESC) Pageable pageable,
