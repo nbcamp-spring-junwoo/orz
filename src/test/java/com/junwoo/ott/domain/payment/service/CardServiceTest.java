@@ -10,6 +10,7 @@ import static org.mockito.Mockito.never;
 
 import com.junwoo.ott.domain.payment.api.TosspaymentsClient;
 import com.junwoo.ott.domain.payment.dto.remote.BillingKeyDto;
+import com.junwoo.ott.domain.payment.dto.remote.payment.CardDto;
 import com.junwoo.ott.domain.payment.dto.request.BillingKeyRequestDto;
 import com.junwoo.ott.domain.payment.dto.request.CardsReadRequestDto;
 import com.junwoo.ott.domain.payment.dto.response.CardReadRequestDto;
@@ -79,6 +80,7 @@ class CardServiceTest implements UserTestValues {
       // given
       BillingKeyRequestDto requestDto = fmRecord.giveMeOne(BillingKeyRequestDto.class);
       BillingKeyDto response = fm.giveMeBuilder(BillingKeyDto.class)
+          .set("card", fm.giveMeOne(CardDto.class))
           .set("customerKey", requestDto.customerKey())
           .sample();
 
@@ -99,6 +101,7 @@ class CardServiceTest implements UserTestValues {
       // given
       BillingKeyRequestDto requestDto = fmRecord.giveMeOne(BillingKeyRequestDto.class);
       BillingKeyDto response = fm.giveMeBuilder(BillingKeyDto.class)
+          .set("card", fm.giveMeOne(CardDto.class))
           .set("customerKey", "invalid_key")
           .sample();
 
