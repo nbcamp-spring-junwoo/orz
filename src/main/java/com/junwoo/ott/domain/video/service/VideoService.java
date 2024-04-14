@@ -6,6 +6,7 @@ import com.junwoo.ott.domain.video.dto.response.VideoReadResponseDto;
 import com.junwoo.ott.domain.video.dto.response.VideoResponseDto;
 import com.junwoo.ott.domain.video.entity.Video;
 import com.junwoo.ott.domain.video.repository.VideoRepository;
+import com.junwoo.ott.global.exception.custom.VideoNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -32,6 +33,11 @@ public class VideoService {
 
 
   public VideoReadResponseDto getVideo(final VideoReadRequestDto videoReadRequestDto) {
+
+    if (!isExistVideo(videoReadRequestDto.getVideoId())) {
+      throw new VideoNotFoundException("존재하지 않는 비디오 입니다");
+    }
+
     return videoRepository.findOneQuery(videoReadRequestDto.getVideoId(),
         videoReadRequestDto.getPageable());
   }
@@ -40,4 +46,7 @@ public class VideoService {
     return videoRepository.findAllByVideoIdIn(videoIds);
   }
 
+  private boolean isExistVideo(final Long videoId) {
+    return videoRepository.existsById(videoId);
+  }
 }

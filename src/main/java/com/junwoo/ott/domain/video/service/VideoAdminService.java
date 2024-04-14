@@ -54,5 +54,4 @@ public class VideoAdminService {
   public boolean isExistVideo(final Long videoId) {
     return videoRepository.existsById(videoId);
   }
-
 }
