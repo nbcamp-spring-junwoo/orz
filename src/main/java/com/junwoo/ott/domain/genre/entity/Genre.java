@@ -21,9 +21,9 @@ public class Genre {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long GenreId;
+  private Long genreId;
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
-  private GenreType name;
+  private GenreType genreType;
 
 }

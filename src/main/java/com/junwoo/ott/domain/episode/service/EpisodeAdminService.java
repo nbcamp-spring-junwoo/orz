@@ -15,9 +15,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class EpisodeAdminService {
 
-  private final EpisodeRepository episodeRepository;
-
   private final VideoAdminService videoAdminService;
+
+  private final EpisodeRepository episodeRepository;
 
   public EpisodeCreateResponseDto postEpisode(final EpisodeCreateRequestDto episodeCreateRequestDto) {
 
@@ -32,6 +32,7 @@ public class EpisodeAdminService {
 
     return new EpisodeCreateResponseDto(episodeRepository.save(episode));
   }
+
 
   private void validateVideo(final Long videoId) {
     if (!videoAdminService.isExistVideo(videoId)) {

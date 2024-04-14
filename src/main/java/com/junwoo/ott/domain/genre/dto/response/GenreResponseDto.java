@@ -8,11 +8,11 @@ import lombok.Getter;
 public class GenreResponseDto {
 
   private final Long GenreId;
-  private final GenreType GenreName;
+  private final GenreType genreType;
 
   public GenreResponseDto(final Genre genre) {
     this.GenreId = genre.getGenreId();
-    this.GenreName = genre.getName();
+    this.genreType = genre.getGenreType();
   }
 
 }

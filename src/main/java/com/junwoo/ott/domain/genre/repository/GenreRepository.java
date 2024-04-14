@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface GenreRepository extends JpaRepository<Genre, Long> {
 
-  List<Genre> findAllByNameIn(Set<GenreType> genres);
+  List<Genre> findAllByGenreTypeIn(final Set<GenreType> genres);
 
 }

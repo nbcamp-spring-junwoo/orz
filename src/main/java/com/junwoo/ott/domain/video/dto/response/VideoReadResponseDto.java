@@ -1,33 +1,35 @@
 package com.junwoo.ott.domain.video.dto.response;
 
-import com.junwoo.ott.domain.category.dto.body.CategoryInfoDto;
-import com.junwoo.ott.domain.video.entity.Video;
-import com.junwoo.ott.global.customenum.RatingType;
-import java.time.LocalDateTime;
-import java.util.Set;
+import com.junwoo.ott.domain.episode.dto.response.EpisodeProjectionDto;
+import com.junwoo.ott.global.customenum.GenreType;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
 
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class VideoReadResponseDto {
 
-  private final Long videoId;
-  private final String title;
-  private final String description;
-  private final RatingType ratingType;
-  private final LocalDateTime createdAt;
-  private final LocalDateTime updatedAt;
-  private final Set<CategoryInfoDto> categories;
+  private Long videoId;
+  private String title;
+  private String description;
+  private String posterUrl;
+  private List<GenreType> genreTypeList;
+  private Page<EpisodeProjectionDto> episodeResponseDtoPage;
 
-  public VideoReadResponseDto(final Video video, final Set<CategoryInfoDto> categories) {
-    this.videoId = video.getVideoId();
-    this.title = video.getTitle();
-    this.description = video.getDescription();
-    this.ratingType = video.getRatingType();
-    this.createdAt = video.getCreatedAt();
-    this.updatedAt = video.getUpdatedAt();
-    this.categories = categories;
+  public VideoReadResponseDto(
+      final VideoProjectionDto videoProjectionDto,
+      final List<GenreType> genreTypeList,
+      final Page<EpisodeProjectionDto> episodeResponseDtoPage
+  ) {
+    this.videoId = videoProjectionDto.getVideoId();
+    this.title = videoProjectionDto.getTitle();
+    this.description = videoProjectionDto.getDescription();
+    this.posterUrl = videoProjectionDto.getPosterUrl();
+    this.genreTypeList = genreTypeList;
+    this.episodeResponseDtoPage = episodeResponseDtoPage;
   }
-
 }

@@ -18,7 +18,7 @@ public class VideoGenre {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long VideoGenreId;
+  private Long videoGenreId;
   @Column(nullable = false)
   private Long videoId;
   @Column(nullable = false)
