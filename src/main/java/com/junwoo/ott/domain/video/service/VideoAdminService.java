@@ -24,8 +24,6 @@ public class VideoAdminService {
 
   private final VideoRepository videoRepository;
 
-
-
   public VideoCreateResponseDto postVideo(final VideoCreateRequestDto videoCreateRequestDto) {
 
     Video video = videoRepository.save(
@@ -54,4 +52,5 @@ public class VideoAdminService {
   public boolean isExistVideo(final Long videoId) {
     return videoRepository.existsById(videoId);
   }
+
 }
