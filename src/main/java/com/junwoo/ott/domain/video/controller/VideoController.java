@@ -34,8 +34,8 @@ public class VideoController {
   @VideoPoint(points = 1.0)
   @GetMapping("/{videoId}")
   public ResponseDto<VideoReadResponseDto> getVideo(
-      final @PageableDefault(sort = "releasedAt", direction = Direction.DESC) Pageable pageable,
-      @PathVariable final Long videoId
+      @PathVariable("videoId") final Long videoId,
+      final @PageableDefault(sort = "releasedAt", direction = Direction.DESC) Pageable pageable
   ) {
     return ResponseDto.ok(videoService.getVideo(new VideoReadRequestDto(pageable, videoId)));
   }

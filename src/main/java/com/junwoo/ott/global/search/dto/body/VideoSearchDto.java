@@ -17,6 +17,7 @@ public class VideoSearchDto {
   private String title;
   private String description;
   @JsonFormat(shape = JsonFormat.Shape.STRING)
-  private LocalDateTime created_at;
+  private LocalDateTime released_at;
+  private String poster_url;
 
 }
