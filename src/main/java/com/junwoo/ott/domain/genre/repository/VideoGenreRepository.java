@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface VideoGenreRepository extends JpaRepository<VideoGenre, Long> {
 
-  List<VideoGenre> findAllByVideoId(Long videoId);
+  List<VideoGenre> findAllByVideoId(final Long videoId);
 
 }
