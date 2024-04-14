@@ -17,7 +17,7 @@ public class GenreService {
   private final GenreRepository genreRepository;
 
   public List<GenreResponseDto> getAllIn(final Set<GenreType> genreTypes) {
-    return genreRepository.findAllByNameIn(genreTypes).stream()
+    return genreRepository.findAllByGenreTypeIn(genreTypes).stream()
         .map(GenreResponseDto::new).toList();
   }
 

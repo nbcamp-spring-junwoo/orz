@@ -2,8 +2,10 @@ package com.junwoo.ott.domain.video.service;
 
 import com.junwoo.ott.domain.genre.service.VideoGenreService;
 import com.junwoo.ott.domain.video.dto.request.VideoCreateRequestDto;
+import com.junwoo.ott.domain.video.dto.request.VideoReadRequestDto;
 import com.junwoo.ott.domain.video.dto.request.VideoRequestDto;
 import com.junwoo.ott.domain.video.dto.response.VideoCreateResponseDto;
+import com.junwoo.ott.domain.video.dto.response.VideoReadResponseDto;
 import com.junwoo.ott.domain.video.dto.response.VideoResponseDto;
 import com.junwoo.ott.domain.video.entity.Video;
 import com.junwoo.ott.domain.video.repository.VideoRepository;
@@ -17,9 +19,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class VideoAdminService {
 
+  private final VideoGenreService videoGenreService;
+  private final VideoService videoService;
+
   private final VideoRepository videoRepository;
 
-  private final VideoGenreService videoGenreService;
+
 
   public VideoCreateResponseDto postVideo(final VideoCreateRequestDto videoCreateRequestDto) {
 
@@ -39,15 +44,11 @@ public class VideoAdminService {
   }
 
   public Page<VideoResponseDto> getVideos(final VideoRequestDto videoRequestDto) {
-    return videoRepository.findAll(
-        videoRequestDto.getPageable()
-    ).map(video -> new VideoResponseDto(
-        video.getVideoId(),
-        video.getTitle(),
-        video.getDescription(),
-        video.getPosterUrl(),
-        video.getMembershipType()
-    ));
+    return videoService.getVideos(videoRequestDto);
+  }
+
+  public VideoReadResponseDto getVideo(final VideoReadRequestDto videoReadRequestDto) {
+    return videoService.getVideo(videoReadRequestDto);
   }
 
   public boolean isExistVideo(final Long videoId) {

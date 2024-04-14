@@ -1,6 +1,8 @@
 package com.junwoo.ott.domain.video.service;
 
+import com.junwoo.ott.domain.video.dto.request.VideoReadRequestDto;
 import com.junwoo.ott.domain.video.dto.request.VideoRequestDto;
+import com.junwoo.ott.domain.video.dto.response.VideoReadResponseDto;
 import com.junwoo.ott.domain.video.dto.response.VideoResponseDto;
 import com.junwoo.ott.domain.video.entity.Video;
 import com.junwoo.ott.domain.video.repository.VideoRepository;
@@ -28,8 +30,14 @@ public class VideoService {
         );
   }
 
+
+  public VideoReadResponseDto getVideo(final VideoReadRequestDto videoReadRequestDto) {
+    return videoRepository.findOneQuery(videoReadRequestDto.getVideoId(),
+        videoReadRequestDto.getPageable());
+  }
+
   public List<Video> getByVideoIdIn(final List<Long> videoIds) {
-    return null;
+    return videoRepository.findAllByVideoIdIn(videoIds);
   }
 
 }

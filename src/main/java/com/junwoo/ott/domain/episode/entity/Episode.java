@@ -1,19 +1,12 @@
 package com.junwoo.ott.domain.episode.entity;
 
-import com.junwoo.ott.domain.episode.dto.body.EpisodeUpdateDto;
-import com.junwoo.ott.domain.video.entity.Video;
 import com.junwoo.ott.global.common.entity.Timestamped;
-import com.junwoo.ott.global.customenum.MembershipType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -36,35 +29,13 @@ public class Episode extends Timestamped {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long episodeId;
   @Column(nullable = false)
+  private Long videoId;
+  @Column(nullable = false)
   private String title;
   @Column(nullable = false)
-  private LocalDateTime releasedAt;
+  private String description;
+  @Column(nullable = false)
+  private LocalDate releasedAt;
   private LocalDateTime deletedAt;
-  @Enumerated(EnumType.STRING)
-  @Column(name = "membership_type")
-  private MembershipType membershipType;
-  @Column
-  private String videoLink;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "video_id")
-  private Video video;
-
-  public void update(final EpisodeUpdateDto dto) {
-
-    if (dto.getTitle() != null) {
-      this.title = dto.getTitle();
-    }
-    if (dto.getReleasedAt() != null) {
-      this.releasedAt = dto.getReleasedAt();
-    }
-    if (dto.getMembershipType() != null) {
-      this.membershipType = dto.getMembershipType();
-    }
-    if (dto.getVideoLink() != null) { // Update videoLink if provided
-      this.videoLink = dto.getVideoLink();
-    }
-
-  }
 
 }
