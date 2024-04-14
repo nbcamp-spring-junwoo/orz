@@ -50,6 +50,7 @@ public class VideoQueryDslRepositoryImpl implements VideoQueryDslRepository {
             episode.episodeId,
             episode.title,
             episode.description,
+            episode.episodeUrl,
             episode.releasedAt))
         .from(episode)
         .where(episode.videoId.eq(videoId))

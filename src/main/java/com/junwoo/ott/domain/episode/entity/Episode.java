@@ -35,6 +35,8 @@ public class Episode extends Timestamped {
   @Column(nullable = false)
   private String description;
   @Column(nullable = false)
+  private String episodeUrl;
+  @Column(nullable = false)
   private LocalDate releasedAt;
   private LocalDateTime deletedAt;
 
