@@ -216,7 +216,6 @@ class CouponServiceImplTest implements CouponTestValues, CouponUserTestValues {
     void 쿠폰_발급_테이블_생성_성공() {
       // given
       Coupon coupon = TEST_COUPON_V1;
-      given(userService.getUser(TEST_COUPON_USER_ID)).willReturn(TEST_USER_READ_RESPONSE_DTO);
       given(couponRepository.findById(TEST_COUPON_ID)).willReturn(
           Optional.ofNullable(coupon));
 
