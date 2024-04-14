@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 public class CouponIssuanceAspect {
 
   private final CouponService couponService;
+
   private final UserRepository userRepository;
 
   @AfterReturning(value = "@annotation(couponIssuance) && args(dto)")
