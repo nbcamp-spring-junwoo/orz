@@ -9,6 +9,7 @@ import com.junwoo.ott.domain.auth.dto.request.AuthLoginRequestDto;
 import com.junwoo.ott.domain.auth.dto.request.AuthSignupRequestDto;
 import com.junwoo.ott.domain.auth.service.AuthService;
 import com.junwoo.ott.domain.user.service.UserService;
+import com.junwoo.ott.global.aop.CouponIssuance;
 import com.junwoo.ott.global.jwt.JwtUtil;
 import com.junwoo.ott.global.jwt.UserDetailsImpl;
 import jakarta.servlet.http.HttpServletResponse;
@@ -31,6 +32,7 @@ public class AuthController {
 
   private final JwtUtil jwtUtil;
 
+  @CouponIssuance
   @PostMapping("/signup")
   public void signup(@RequestBody @Validated final AuthSignupDto authSignupDto) {
     authService.signup(new AuthSignupRequestDto(authSignupDto));
