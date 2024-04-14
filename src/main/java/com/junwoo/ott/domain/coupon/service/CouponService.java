@@ -13,9 +13,7 @@ import com.junwoo.ott.domain.coupon.entity.Coupon;
 import com.junwoo.ott.domain.coupon.entity.CouponIssuance;
 import com.junwoo.ott.domain.coupon.repository.CouponIssuanceRepository;
 import com.junwoo.ott.domain.coupon.repository.CouponRepository;
-import com.junwoo.ott.domain.user.dto.response.UserReadResponseDto;
 import com.junwoo.ott.domain.user.entity.User;
-import com.junwoo.ott.domain.user.service.UserService;
 import com.junwoo.ott.global.aop.Lockable;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.concurrent.TimeUnit;
@@ -29,8 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Service
 public class CouponService {
-
-  private final UserService userService;
 
   private final CouponRepository couponRepository;
   private final CouponIssuanceRepository couponIssuanceRepository;
@@ -72,8 +68,7 @@ public class CouponService {
       final CouponIssuanceCreateRequestDto createRequestDto
   ) {
     Coupon coupon = existCouponById(createRequestDto.getCouponId());
-    UserReadResponseDto dto = userService.getUser(createRequestDto.getUserId());
-    User user = createUser(dto);
+    User user = User.builder().userId(createRequestDto.getUserId()).build();
     coupon.decreaseCount();
 
     CouponIssuance couponIssuance = CouponIssuance.of(coupon, user);
@@ -103,18 +98,6 @@ public class CouponService {
     return couponRepository.findById(couponId).orElseThrow(
         () -> new EntityNotFoundException("해당 쿠폰이 존재하지 않습니다.")
     );
-  }
-
-  private User createUser(final UserReadResponseDto dto) {
-
-    return User.builder()
-        .userId(dto.getUserId())
-        .username(dto.getUsername())
-        .email(dto.getEmail())
-        .born(dto.getBorn())
-        .authorityType(dto.getAuthorityType())
-        .membershipType(dto.getMembershipType())
-        .build();
   }
 
 }
