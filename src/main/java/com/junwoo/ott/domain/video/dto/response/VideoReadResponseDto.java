@@ -2,6 +2,8 @@ package com.junwoo.ott.domain.video.dto.response;
 
 import com.junwoo.ott.domain.episode.dto.response.EpisodeProjectionDto;
 import com.junwoo.ott.global.customenum.GenreType;
+import com.junwoo.ott.global.customenum.MembershipType;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,6 +19,8 @@ public class VideoReadResponseDto {
   private String title;
   private String description;
   private String posterUrl;
+  private LocalDate releasedAt;
+  private MembershipType membershipType;
   private List<GenreType> genreTypeList;
   private Page<EpisodeProjectionDto> episodeResponseDtoPage;
 
@@ -29,7 +33,9 @@ public class VideoReadResponseDto {
     this.title = videoProjectionDto.getTitle();
     this.description = videoProjectionDto.getDescription();
     this.posterUrl = videoProjectionDto.getPosterUrl();
+    this.releasedAt = videoProjectionDto.getReleasedAt();
     this.genreTypeList = genreTypeList;
+    this.membershipType = videoProjectionDto.getMembershipType();
     this.episodeResponseDtoPage = episodeResponseDtoPage;
   }
 }
