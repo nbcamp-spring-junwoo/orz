@@ -39,9 +39,12 @@ public class ChartServiceTest implements ChartTestValues {
   void 차트_조회() {
     // given
     List<ChartResponseDto> chartResponse = List.of(
-        new ChartResponseDto(TEST_VIDEO_ID_V1, TEST_VIDEO_TITLE_V1),
-        new ChartResponseDto(TEST_VIDEO_ID_V2, TEST_VIDEO_TITLE_V2),
-        new ChartResponseDto(TEST_VIDEO_ID_V3, TEST_VIDEO_TITLE_V3)
+        new ChartResponseDto(TEST_VIDEO_ID_V1, TEST_VIDEO_TITLE_V1, TEST_VIDEO_DESCRIPTION_V1,
+            TEST_VIDEO_URL_V1),
+        new ChartResponseDto(TEST_VIDEO_ID_V2, TEST_VIDEO_TITLE_V2, TEST_VIDEO_DESCRIPTION_V2,
+            TEST_VIDEO_URL_V2),
+        new ChartResponseDto(TEST_VIDEO_ID_V3, TEST_VIDEO_TITLE_V3, TEST_VIDEO_DESCRIPTION_V3,
+            TEST_VIDEO_URL_V3)
     );
     given(chartJpaRepository.getAllChartsWithVideoInfo()).willReturn(chartResponse);
 

@@ -13,6 +13,12 @@ public interface ChartTestValues {
   String TEST_VIDEO_TITLE_V1 = "테스트 비디오 1";
   String TEST_VIDEO_TITLE_V2 = "테스트 비디오 2";
   String TEST_VIDEO_TITLE_V3 = "테스트 비디오 3";
+  String TEST_VIDEO_DESCRIPTION_V1 = "테스트 설명1";
+  String TEST_VIDEO_DESCRIPTION_V2 = "테스트 설명2";
+  String TEST_VIDEO_DESCRIPTION_V3 = "테스트 설명3";
+  String TEST_VIDEO_URL_V1 = "TEST_URL1";
+  String TEST_VIDEO_URL_V2 = "TEST_URL2";
+  String TEST_VIDEO_URL_V3 = "TEST_URL3";
   Video TEST_VIDEO_V1 = Video.builder()
       .videoId(TEST_VIDEO_ID_V1)
       .title(TEST_VIDEO_TITLE_V1)
