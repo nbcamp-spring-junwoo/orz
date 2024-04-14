@@ -20,6 +20,7 @@ public class VideoService {
 
   private final VideoRepository videoRepository;
 
+  @Transactional(readOnly = true)
   public Page<VideoResponseDto> getVideos(final VideoRequestDto videoRequestDto) {
     return videoRepository.findAll(videoRequestDto.getPageable())
         .map(video -> new VideoResponseDto(
@@ -31,7 +32,7 @@ public class VideoService {
         );
   }
 
-
+  @Transactional(readOnly = true)
   public VideoReadResponseDto getVideo(final VideoReadRequestDto videoReadRequestDto) {
 
     if (!isExistVideo(videoReadRequestDto.getVideoId())) {
@@ -49,4 +50,5 @@ public class VideoService {
   private boolean isExistVideo(final Long videoId) {
     return videoRepository.existsById(videoId);
   }
+
 }
