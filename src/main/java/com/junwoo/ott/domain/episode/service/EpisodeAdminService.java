@@ -33,7 +33,6 @@ public class EpisodeAdminService {
     return new EpisodeCreateResponseDto(episodeRepository.save(episode));
   }
 
-
   private void validateVideo(final Long videoId) {
     if (!videoAdminService.isExistVideo(videoId)) {
       throw new VideoNotFoundException("비디오가 존재하지 않습니다.");

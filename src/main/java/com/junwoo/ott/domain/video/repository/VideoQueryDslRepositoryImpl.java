@@ -34,6 +34,7 @@ public class VideoQueryDslRepositoryImpl implements VideoQueryDslRepository {
             video.title,
             video.description,
             video.posterUrl,
+            video.releasedAt,
             video.membershipType))
         .from(video)
         .where(video.videoId.eq(videoId))
