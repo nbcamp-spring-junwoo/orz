@@ -27,7 +27,7 @@ import org.hibernate.annotations.SQLRestriction;
 @Table(uniqueConstraints = {
     @UniqueConstraint(
         name = "EPISODEID_TITLE_UNIQUE",
-        columnNames = {"episode_id", "title"}
+        columnNames = {"video_id", "title"}
     )
 })
 @Entity
@@ -35,11 +35,10 @@ public class Episode extends Timestamped {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "episode_id")
   private Long episodeId;
   @Column(nullable = false)
   private Long videoId;
-  @Column(nullable = false, name = "title")
+  @Column(nullable = false)
   private String title;
   @Column(nullable = false)
   private String description;
