@@ -54,12 +54,13 @@ class CardServiceTest implements UserTestValues {
   @Nested
   class CreateBillingKey {
 
-    @DisplayName("should create billing key successfully")
+    @DisplayName("성공")
     @Test
-    void shouldCreateBillingKeySuccessfully() {
+    void success() {
       // given
       BillingKeyRequestDto requestDto = fmRecord.giveMeOne(BillingKeyRequestDto.class);
       BillingKeyDto response = fm.giveMeBuilder(BillingKeyDto.class)
+          .set("card", fm.giveMeOne(CardDto.class))
           .set("customerKey", requestDto.customerKey())
           .sample();
 
