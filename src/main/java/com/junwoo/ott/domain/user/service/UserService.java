@@ -9,6 +9,7 @@ import com.junwoo.ott.domain.user.dto.response.UserReadResponseDto;
 import com.junwoo.ott.domain.user.entity.User;
 import com.junwoo.ott.domain.user.repository.UserRepository;
 import com.junwoo.ott.global.customenum.MembershipType;
+import com.junwoo.ott.global.exception.custom.DuplicatedEmailException;
 import com.junwoo.ott.global.exception.custom.PasswordNotEqualsException;
 import com.junwoo.ott.global.exception.custom.UserNotFoundException;
 import com.junwoo.ott.global.exception.custom.UserNotSameException;
@@ -96,6 +97,9 @@ public class UserService {
     }
 
     if (newEmail != null) {
+      if (userRepository.existsByEmail(newEmail)) {
+        throw new DuplicatedEmailException("이미 존재하는 이메일입니다.");
+      }
       user.updateEmail(newEmail);
     }
 
