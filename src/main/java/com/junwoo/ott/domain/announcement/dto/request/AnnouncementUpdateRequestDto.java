@@ -11,7 +11,7 @@ public class AnnouncementUpdateRequestDto {
   private final String title;
   private final String content;
 
-  public AnnouncementUpdateRequestDto(AnnouncementUpdateDto dto, Long announcementId) {
+  public AnnouncementUpdateRequestDto(final AnnouncementUpdateDto dto, final Long announcementId) {
     this.announcementId = announcementId;
     this.couponId = dto.getCouponId();
     this.title = dto.getTitle();

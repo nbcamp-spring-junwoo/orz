@@ -8,6 +8,6 @@ import lombok.Getter;
 public class AnnouncementReadDto {
 
   private Long announcementId;
-  private String announcementTitle;
+  private String title;
 
 }

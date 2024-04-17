@@ -10,7 +10,7 @@ public class AnnouncementCreateRequestDto {
   private final String title;
   private final String content;
 
-  public AnnouncementCreateRequestDto(AnnouncementCreateDto dto) {
+  public AnnouncementCreateRequestDto(final AnnouncementCreateDto dto) {
     this.couponId = dto.getCouponId();
     this.title = dto.getTitle();
     this.content = dto.getContent();
