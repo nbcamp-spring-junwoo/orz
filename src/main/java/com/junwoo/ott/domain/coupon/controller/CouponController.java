@@ -32,12 +32,12 @@ public class CouponController {
   private final JobLauncher jobLauncher;
   private final ApplicationContext applicationContext;
 
-  @GetMapping("users/{userId}/coupons")
+  @GetMapping("users/me/coupons")
   public ResponseDto<Page<CouponIssuanceReadResponseDto>> getCoupons(
-      final @PathVariable("userId") Long userId,
+      final @AuthenticationPrincipal UserDetailsImpl userDetails,
       final Pageable pageable
   ) {
-    CouponReadRequestDto dto = new CouponReadRequestDto(userId, pageable);
+    CouponReadRequestDto dto = new CouponReadRequestDto(userDetails.getUserId(), pageable);
     Page<CouponIssuanceReadResponseDto> result = couponService.getCoupons(dto);
 
     return ResponseDto.ok(result);
