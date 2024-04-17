@@ -1,6 +1,7 @@
 package com.junwoo.ott.domain.announcement.controller;
 
 import com.junwoo.ott.domain.announcement.dto.request.AnnouncementReadRequestDto;
+import com.junwoo.ott.domain.announcement.dto.response.AnnouncementListResponseDto;
 import com.junwoo.ott.domain.announcement.dto.response.AnnouncementReadResponseDto;
 import com.junwoo.ott.domain.announcement.service.AnnouncementService;
 import com.junwoo.ott.global.common.dto.ResponseDto;
@@ -23,6 +24,11 @@ public class AnnouncementController {
   ) {
     AnnouncementReadRequestDto dto = new AnnouncementReadRequestDto(announcementId);
     return ResponseDto.ok(announcementService.getAnnouncement(dto));
+  }
+
+  @GetMapping
+  public ResponseDto<AnnouncementListResponseDto> getAnnouncementList() {
+    return ResponseDto.ok(announcementService.getAnnouncementList());
   }
 
 }
