@@ -26,7 +26,7 @@ public class AnnouncementService {
   private final AnnouncementRepository announcementRepository;
 
   @Transactional(readOnly = true)
-  public AnnouncementReadResponseDto getAnnouncement(AnnouncementReadRequestDto dto) {
+  public AnnouncementReadResponseDto getAnnouncement(final AnnouncementReadRequestDto dto) {
     Announcement announcement = existAnnouncement(dto.getAnnouncementId());
 
     return new AnnouncementReadResponseDto(announcement);
