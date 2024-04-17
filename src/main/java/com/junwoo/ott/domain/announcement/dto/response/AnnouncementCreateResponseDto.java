@@ -11,7 +11,7 @@ public class AnnouncementCreateResponseDto {
   private final String title;
   private final String content;
 
-  public AnnouncementCreateResponseDto(Announcement announcement) {
+  public AnnouncementCreateResponseDto(final Announcement announcement) {
     this.announcementId = announcement.getAnnouncementId();
     this.couponId = announcement.getCoupon().getCouponId();
     this.title = announcement.getTitle();
