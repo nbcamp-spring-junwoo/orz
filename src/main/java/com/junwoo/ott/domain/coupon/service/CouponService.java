@@ -89,7 +89,7 @@ public class CouponService {
   }
 
   @Transactional(readOnly = true)
-  protected Coupon existCouponById(final Long couponId) {
+  public Coupon existCouponById(final Long couponId) {
 
     return couponRepository.findById(couponId).orElseThrow(
         () -> new EntityNotFoundException("해당 쿠폰이 존재하지 않습니다.")
