@@ -74,6 +74,25 @@ public class UserService {
     updateUserInfo(userPutRequestDto, user);
   }
 
+  public void updateUserMembership(
+      final Long userid,
+      final MembershipType membership
+  ) {
+    User user = userRepository.findById(userid).orElseThrow(
+        () -> new UserNotFoundException("존재하지 않는 회원입니다.")
+    );
+
+    user.updateMembership(membership);
+  }
+
+  public UserGetKeyResponseDto getKey(final UserGetKeyRequestDto userGetKeyRequestDto) {
+    User user = userRepository.findById(userGetKeyRequestDto.getUserId()).orElseThrow(
+        () -> new UserNotFoundException("존재하지 않는 회원입니다.")
+    );
+
+    return new UserGetKeyResponseDto(user.getCustomerKey());
+  }
+
   private void validateUser(final Long requestId, final Long userId) {
     if (!requestId.equals(userId)) {
       throw new UserNotSameException("해당 회원정보에 대한 수정권한이 없습니다.");
@@ -107,25 +126,6 @@ public class UserService {
       LocalDate newDatedBorn = LocalDate.parse(userPutRequestDto.getNewBorn());
       user.updateBorn(newDatedBorn);
     }
-  }
-
-  public void updateUserMembership(
-      final Long userid,
-      final MembershipType membership
-  ) {
-    User user = userRepository.findById(userid).orElseThrow(
-        () -> new UserNotFoundException("존재하지 않는 회원입니다.")
-    );
-
-    user.updateMembership(membership);
-  }
-
-  public UserGetKeyResponseDto getKey(final UserGetKeyRequestDto userGetKeyRequestDto) {
-    User user = userRepository.findById(userGetKeyRequestDto.getUserId()).orElseThrow(
-        () -> new UserNotFoundException("존재하지 않는 회원입니다.")
-    );
-
-    return new UserGetKeyResponseDto(user.getCustomerKey());
   }
 
 }
