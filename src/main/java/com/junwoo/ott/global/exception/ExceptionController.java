@@ -1,6 +1,7 @@
 package com.junwoo.ott.global.exception;
 
 import com.junwoo.ott.global.common.dto.ExceptionDto;
+import com.junwoo.ott.global.exception.custom.CustomAnnouncementException;
 import com.junwoo.ott.global.exception.custom.CustomCardException;
 import com.junwoo.ott.global.exception.custom.CustomCouponException;
 import com.junwoo.ott.global.exception.custom.CustomInvalidDeadLineException;
@@ -45,7 +46,8 @@ public class ExceptionController {
   }
 
   @ExceptionHandler(CustomInvalidDeadLineException.class)
-  public ResponseEntity<ExceptionDto> customInvalidDeadLineException(final CustomInvalidDeadLineException e) {
+  public ResponseEntity<ExceptionDto> customInvalidDeadLineException(
+      final CustomInvalidDeadLineException e) {
     log.error("CustomInvalidDeadLineException: ", e);
     return createResponse(HttpStatus.BAD_REQUEST,
         "CustomInvalidDeadLineException: " + e.getMessage());
@@ -80,6 +82,13 @@ public class ExceptionController {
   public ResponseEntity<ExceptionDto> elasticsearchException(final ElasticException e) {
     log.error("ElasticsearchException: ", e);
     return createResponse(HttpStatus.BAD_GATEWAY, "ElasticsearchException:" + e.getMessage());
+  }
+
+  @ExceptionHandler(CustomAnnouncementException.class)
+  public ResponseEntity<ExceptionDto> customAnnouncementException(
+      final CustomAnnouncementException e) {
+    log.error("CustomAnnouncementException: ", e);
+    return createResponse(HttpStatus.BAD_REQUEST, "CustomAnnouncementException: " + e.getMessage());
   }
 
   @ExceptionHandler(Exception.class)
