@@ -12,10 +12,11 @@ import com.junwoo.ott.domain.announcement.entity.Announcement;
 import com.junwoo.ott.domain.announcement.repository.AnnouncementRepository;
 import com.junwoo.ott.domain.coupon.entity.Coupon;
 import com.junwoo.ott.domain.coupon.service.CouponService;
+import com.junwoo.ott.global.exception.custom.CustomAnnouncementException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,8 @@ public class AnnouncementService {
 
   private final AnnouncementRepository announcementRepository;
 
+  private final int PAGE_SIZE = 10;
+
   @Transactional(readOnly = true)
   public AnnouncementReadResponseDto getAnnouncement(final AnnouncementReadRequestDto dto) {
     Announcement announcement = existAnnouncement(dto.getAnnouncementId());
@@ -36,8 +39,17 @@ public class AnnouncementService {
   }
 
   @Transactional(readOnly = true)
-  public Page<AnnouncementsReadResponseDto> getAnnouncementList(final Pageable pageable) {
-    Page<Announcement> announcements = announcementRepository.findAll(pageable);
+  public Page<AnnouncementsReadResponseDto> getAnnouncementList(final int page) {
+    if (page <= 0) {
+      throw new CustomAnnouncementException("더이상 조회할 수 없습니다.");
+    }
+
+    Page<Announcement> announcements = announcementRepository.findAllByOrderByCreatedAtDesc(
+        PageRequest.of(page - 1, PAGE_SIZE));
+
+    if (announcements.getTotalElements() < (long) (page - 1) * PAGE_SIZE) {
+      throw new CustomAnnouncementException("더이상 조회할 수 없습니다.");
+    }
 
     return announcements.map(announcement ->
         new AnnouncementsReadResponseDto(announcement.getAnnouncementId(),
@@ -67,11 +79,9 @@ public class AnnouncementService {
       final AnnouncementUpdateRequestDto updateRequestDto
   ) {
     Announcement announcement = existAnnouncement(updateRequestDto.getAnnouncementId());
-    Coupon coupon = null;
 
-    if (updateRequestDto.getCouponId() != null) {
-      coupon = couponService.existCouponById(updateRequestDto.getCouponId());
-    }
+    Coupon coupon = (updateRequestDto.getCouponId() == null) ? null : couponService.existCouponById(
+        updateRequestDto.getCouponId());
 
     announcement.updateAnnouncement(coupon, updateRequestDto.getTitle(),
         updateRequestDto.getContent());
