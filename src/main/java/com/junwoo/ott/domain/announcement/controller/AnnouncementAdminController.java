@@ -31,7 +31,7 @@ public class AnnouncementAdminController {
 
   @PutMapping("/{announcementId}")
   public void updateAnnouncement(
-      final @RequestBody AnnouncementUpdateDto dto,
+      final @Validated @RequestBody AnnouncementUpdateDto dto,
       final @PathVariable("announcementId") Long announcementId
   ) {
     AnnouncementUpdateRequestDto updateRequestDto = new AnnouncementUpdateRequestDto(dto,
