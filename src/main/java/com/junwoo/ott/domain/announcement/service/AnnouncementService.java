@@ -1,14 +1,12 @@
 package com.junwoo.ott.domain.announcement.service;
 
-import com.junwoo.ott.domain.announcement.dto.body.AnnouncementReadDto;
 import com.junwoo.ott.domain.announcement.dto.request.AnnouncementCreateRequestDto;
 import com.junwoo.ott.domain.announcement.dto.request.AnnouncementDeleteRequestDto;
 import com.junwoo.ott.domain.announcement.dto.request.AnnouncementReadRequestDto;
 import com.junwoo.ott.domain.announcement.dto.request.AnnouncementUpdateRequestDto;
 import com.junwoo.ott.domain.announcement.dto.response.AnnouncementCreateResponseDto;
-import com.junwoo.ott.domain.announcement.dto.response.AnnouncementListResponseDto;
-import com.junwoo.ott.domain.announcement.dto.response.AnnouncementReadResponseDto;
 import com.junwoo.ott.domain.announcement.dto.response.AnnouncementUpdateResponseDto;
+import com.junwoo.ott.domain.announcement.dto.response.AnnouncementsReadResponseDto;
 import com.junwoo.ott.domain.announcement.entity.Announcement;
 import com.junwoo.ott.domain.announcement.repository.AnnouncementRepository;
 import com.junwoo.ott.domain.coupon.entity.Coupon;
@@ -29,22 +27,22 @@ public class AnnouncementService {
   private final AnnouncementRepository announcementRepository;
 
   @Transactional(readOnly = true)
-  public AnnouncementReadResponseDto getAnnouncement(final AnnouncementReadRequestDto dto) {
+  public com.junwoo.ott.domain.announcement.dto.response.AnnouncementReadResponseDto getAnnouncement(
+      final AnnouncementReadRequestDto dto) {
     Announcement announcement = existAnnouncement(dto.getAnnouncementId());
 
-    return new AnnouncementReadResponseDto(announcement);
+    return new com.junwoo.ott.domain.announcement.dto.response.AnnouncementReadResponseDto(
+        announcement);
   }
 
   @Transactional(readOnly = true)
-  public AnnouncementListResponseDto getAnnouncementList() {
+  public List<AnnouncementsReadResponseDto> getAnnouncementList() {
     List<Announcement> announcements = announcementRepository.findAll();
 
-    List<AnnouncementReadDto> announcementReadDtoList = announcements.stream().map(
-            announcement -> new AnnouncementReadDto(announcement.getAnnouncementId(),
+    return announcements.stream().map(
+            announcement -> new AnnouncementsReadResponseDto(announcement.getAnnouncementId(),
                 announcement.getTitle()))
         .toList();
-
-    return new AnnouncementListResponseDto(announcementReadDtoList);
   }
 
   public AnnouncementCreateResponseDto createAnnouncement(

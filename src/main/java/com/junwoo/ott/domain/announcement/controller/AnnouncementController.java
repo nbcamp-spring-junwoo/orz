@@ -1,10 +1,11 @@
 package com.junwoo.ott.domain.announcement.controller;
 
 import com.junwoo.ott.domain.announcement.dto.request.AnnouncementReadRequestDto;
-import com.junwoo.ott.domain.announcement.dto.response.AnnouncementListResponseDto;
 import com.junwoo.ott.domain.announcement.dto.response.AnnouncementReadResponseDto;
+import com.junwoo.ott.domain.announcement.dto.response.AnnouncementsReadResponseDto;
 import com.junwoo.ott.domain.announcement.service.AnnouncementService;
 import com.junwoo.ott.global.common.dto.ResponseDto;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +28,7 @@ public class AnnouncementController {
   }
 
   @GetMapping
-  public ResponseDto<AnnouncementListResponseDto> getAnnouncementList() {
+  public ResponseDto<List<AnnouncementsReadResponseDto>> getAnnouncementList() {
     return ResponseDto.ok(announcementService.getAnnouncementList());
   }
 

@@ -33,7 +33,7 @@ public class Announcement extends Timestamped {
   @OneToOne
   @JoinColumn(name = "coupon_id")
   private Coupon coupon;
-  @Column(nullable = false)
+  @Column(nullable = false, length = 60)
   private String title;
   @Column(nullable = false)
   private String content;
