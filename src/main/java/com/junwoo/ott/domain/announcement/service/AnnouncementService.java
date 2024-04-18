@@ -39,7 +39,7 @@ public class AnnouncementService {
   }
 
   @Transactional(readOnly = true)
-  public Page<AnnouncementsReadResponseDto> getAnnouncementList(final int page) {
+  public Page<AnnouncementsReadResponseDto> getAnnouncementList(final Integer page) {
     if (page <= 0) {
       throw new CustomAnnouncementException("더이상 조회할 수 없습니다.");
     }

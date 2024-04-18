@@ -30,7 +30,7 @@ public class AnnouncementController {
 
   @GetMapping
   public ResponseDto<Page<AnnouncementsReadResponseDto>> getAnnouncementList(
-      final @RequestParam("page") int page
+      final @RequestParam(value = "page", required = false, defaultValue = "1") Integer page
   ) {
     return ResponseDto.ok(announcementService.getAnnouncementList(page));
   }
