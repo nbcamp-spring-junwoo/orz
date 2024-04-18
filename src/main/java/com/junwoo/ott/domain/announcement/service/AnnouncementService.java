@@ -5,6 +5,7 @@ import com.junwoo.ott.domain.announcement.dto.request.AnnouncementDeleteRequestD
 import com.junwoo.ott.domain.announcement.dto.request.AnnouncementReadRequestDto;
 import com.junwoo.ott.domain.announcement.dto.request.AnnouncementUpdateRequestDto;
 import com.junwoo.ott.domain.announcement.dto.response.AnnouncementCreateResponseDto;
+import com.junwoo.ott.domain.announcement.dto.response.AnnouncementReadResponseDto;
 import com.junwoo.ott.domain.announcement.dto.response.AnnouncementUpdateResponseDto;
 import com.junwoo.ott.domain.announcement.dto.response.AnnouncementsReadResponseDto;
 import com.junwoo.ott.domain.announcement.entity.Announcement;
@@ -12,8 +13,9 @@ import com.junwoo.ott.domain.announcement.repository.AnnouncementRepository;
 import com.junwoo.ott.domain.coupon.entity.Coupon;
 import com.junwoo.ott.domain.coupon.service.CouponService;
 import jakarta.persistence.EntityNotFoundException;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,28 +29,29 @@ public class AnnouncementService {
   private final AnnouncementRepository announcementRepository;
 
   @Transactional(readOnly = true)
-  public com.junwoo.ott.domain.announcement.dto.response.AnnouncementReadResponseDto getAnnouncement(
-      final AnnouncementReadRequestDto dto) {
+  public AnnouncementReadResponseDto getAnnouncement(final AnnouncementReadRequestDto dto) {
     Announcement announcement = existAnnouncement(dto.getAnnouncementId());
 
-    return new com.junwoo.ott.domain.announcement.dto.response.AnnouncementReadResponseDto(
-        announcement);
+    return new AnnouncementReadResponseDto(announcement);
   }
 
   @Transactional(readOnly = true)
-  public List<AnnouncementsReadResponseDto> getAnnouncementList() {
-    List<Announcement> announcements = announcementRepository.findAll();
+  public Page<AnnouncementsReadResponseDto> getAnnouncementList(final Pageable pageable) {
+    Page<Announcement> announcements = announcementRepository.findAll(pageable);
 
-    return announcements.stream().map(
-            announcement -> new AnnouncementsReadResponseDto(announcement.getAnnouncementId(),
-                announcement.getTitle()))
-        .toList();
+    return announcements.map(announcement ->
+        new AnnouncementsReadResponseDto(announcement.getAnnouncementId(),
+            announcement.getTitle()));
   }
 
   public AnnouncementCreateResponseDto createAnnouncement(
       final AnnouncementCreateRequestDto createRequestDto
   ) {
-    Coupon coupon = couponService.existCouponById(createRequestDto.getCouponId());
+    Coupon coupon = null;
+
+    if (createRequestDto.getCouponId() != null) {
+      coupon = couponService.existCouponById(createRequestDto.getCouponId());
+    }
 
     Announcement announcement = Announcement.builder()
         .title(createRequestDto.getTitle())
@@ -64,12 +67,11 @@ public class AnnouncementService {
       final AnnouncementUpdateRequestDto updateRequestDto
   ) {
     Announcement announcement = existAnnouncement(updateRequestDto.getAnnouncementId());
+    Coupon coupon = null;
 
     if (updateRequestDto.getCouponId() != null) {
-      couponService.existCouponById(updateRequestDto.getCouponId());
+      coupon = couponService.existCouponById(updateRequestDto.getCouponId());
     }
-
-    Coupon coupon = couponService.existCouponById(updateRequestDto.getCouponId());
 
     announcement.updateAnnouncement(coupon, updateRequestDto.getTitle(),
         updateRequestDto.getContent());

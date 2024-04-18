@@ -5,8 +5,9 @@ import com.junwoo.ott.domain.announcement.dto.response.AnnouncementReadResponseD
 import com.junwoo.ott.domain.announcement.dto.response.AnnouncementsReadResponseDto;
 import com.junwoo.ott.domain.announcement.service.AnnouncementService;
 import com.junwoo.ott.global.common.dto.ResponseDto;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,8 +29,10 @@ public class AnnouncementController {
   }
 
   @GetMapping
-  public ResponseDto<List<AnnouncementsReadResponseDto>> getAnnouncementList() {
-    return ResponseDto.ok(announcementService.getAnnouncementList());
+  public ResponseDto<Page<AnnouncementsReadResponseDto>> getAnnouncementList(
+      final Pageable pageable
+  ) {
+    return ResponseDto.ok(announcementService.getAnnouncementList(pageable));
   }
 
 }
