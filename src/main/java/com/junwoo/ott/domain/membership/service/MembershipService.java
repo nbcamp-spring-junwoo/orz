@@ -20,14 +20,14 @@ public class MembershipService {
   @Transactional(readOnly = true)
   public MemberShipResponseDto getMembership(final Long membershipId) {
     return membershipRepository.findById(membershipId)
-        .orElseThrow(() -> new NotExistMembershipTypeException("Invalid membership id"))
+        .orElseThrow(() -> new NotExistMembershipTypeException("존재하지 않는 맴버십입니다."))
         .toResponseDto();
   }
 
   @Transactional(readOnly = true)
   public MemberShipResponseDto getMembershipByMembershipType(final MembershipType membershipType) {
     return membershipRepository.findByMembershipType(membershipType)
-        .orElseThrow(() -> new NotExistMembershipTypeException("Invalid membership id"))
+        .orElseThrow(() -> new NotExistMembershipTypeException("존재하지 않는 맴버십입니다."))
         .toResponseDto();
   }
 
