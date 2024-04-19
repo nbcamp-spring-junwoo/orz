@@ -2,7 +2,6 @@ package com.junwoo.ott.global.search.service;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.ElasticsearchException;
-import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
@@ -27,7 +26,6 @@ public class SearchService {
   private final String INDEX = "videos";
   private final String FIELD = "title";
   private final String AGG_MOVIE_NAME = "movie_name";
-  private final String SORT_TYPE = "created_at";
   private final int AUTO_SIZE = 7;
   private final int SIZE = 10;
 
@@ -67,7 +65,9 @@ public class SearchService {
     TotalHits hits = response.hits().total();
     List<VideoSearchDto> result = response.hits().hits().stream().map(Hit::source).toList();
 
-    return new VideoSearchResponseDto(result, hits.value(), (hits.value() / SIZE) + 1);
+    long totalPage = (hits.value() % SIZE == 0) ? (hits.value() / SIZE) - 1 : hits.value() / SIZE;
+
+    return new VideoSearchResponseDto(result, hits.value(), totalPage + 1);
   }
 
   private SearchRequest createSearchRequest(final String input, final Integer page) {
@@ -81,8 +81,6 @@ public class SearchService {
                 m -> m.field(FIELD).query(input)
             )
         )
-        .sort(s -> s.field(
-            f -> f.field(SORT_TYPE).order(SortOrder.Desc)))
         .build();
   }
 
@@ -91,7 +89,7 @@ public class SearchService {
 
     return new SearchRequest.Builder()
         .index(INDEX)
-        .size(AUTO_SIZE)
+        .size(0)
         .query(
             q -> q.matchPhrasePrefix(
                 m -> m.field(FIELD).query(input)
@@ -99,7 +97,7 @@ public class SearchService {
         )
         // 집계를 통해 중복된 내용을 걸러주기 위해서 사용했습니다. (group by 같은 느낌)
         .aggregations(AGG_MOVIE_NAME, a -> a.terms(
-            v -> v.field("title.keyword")
+            v -> v.field("title.keyword").size(AUTO_SIZE)
         ))
         .build();
   }
