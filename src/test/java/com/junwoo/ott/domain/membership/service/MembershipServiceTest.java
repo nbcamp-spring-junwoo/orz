@@ -58,7 +58,7 @@ class MembershipServiceTest implements MembershipServiceTestValues {
 
       // when & then
       NotExistMembershipTypeException e = assertThrows(NotExistMembershipTypeException.class, () -> membershipService.getMembership(1L));
-      assertTrue(e.getMessage().contains("Invalid membership id"));
+      assertTrue(e.getMessage().contains("존재하지 않는 맴버십입니다."));
     }
 
   }
