@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface CouponIssuanceRepository extends JpaRepository<CouponIssuance, Long>,
     CouponIssuanceQueryDsl {
 
+  boolean existsCouponIssuanceByCoupon_CouponIdAndUser_UserId(Long couponId, Long userId);
+
 }

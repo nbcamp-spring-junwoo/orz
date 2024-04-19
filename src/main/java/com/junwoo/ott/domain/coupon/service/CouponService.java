@@ -14,6 +14,7 @@ import com.junwoo.ott.domain.coupon.entity.CouponIssuance;
 import com.junwoo.ott.domain.coupon.repository.CouponIssuanceRepository;
 import com.junwoo.ott.domain.coupon.repository.CouponRepository;
 import com.junwoo.ott.domain.user.entity.User;
+import com.junwoo.ott.global.exception.custom.CustomCouponException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -63,8 +64,13 @@ public class CouponService {
       final CouponIssuanceCreateRequestDto createRequestDto
   ) {
     Coupon coupon = existCouponById(createRequestDto.getCouponId());
-
     User user = User.builder().userId(createRequestDto.getUserId()).build();
+
+    if (couponIssuanceRepository.existsCouponIssuanceByCoupon_CouponIdAndUser_UserId(
+        coupon.getCouponId(), user.getUserId())) {
+      throw new CustomCouponException("해당 쿠폰은 이미 발행 되었습니다.");
+    }
+
     coupon.decreaseCount();
 
     CouponIssuance couponIssuance = CouponIssuance.of(coupon, user);
