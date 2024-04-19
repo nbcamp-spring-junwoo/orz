@@ -36,4 +36,9 @@ public class SearchController {
     return ResponseDto.ok(responseDto);
   }
 
+  @GetMapping("/videos/random")
+  public ResponseDto<VideoSearchResponseDto> searchRandomVideos() {
+    return ResponseDto.ok(searchService.getRandomVideosElasticSearch());
+  }
+
 }

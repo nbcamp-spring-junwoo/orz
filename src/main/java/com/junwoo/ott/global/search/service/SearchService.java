@@ -70,6 +70,22 @@ public class SearchService {
     return new VideoSearchResponseDto(result, hits.value(), totalPage + 1);
   }
 
+  public VideoSearchResponseDto getRandomVideosElasticSearch() {
+    SearchRequest searchRequest = randomSearch();
+
+    SearchResponse<VideoSearchDto> response;
+
+    try {
+      response = esClient.search(searchRequest, VideoSearchDto.class);
+    } catch (ElasticsearchException | IOException e) {
+      throw new ElasticException("ElasticSearch에 문제가 발생했습니다.");
+    }
+
+    List<VideoSearchDto> result = response.hits().hits().stream().map(Hit::source).toList();
+
+    return new VideoSearchResponseDto(result, 10L, 1L);
+  }
+
   private SearchRequest createSearchRequest(final String input, final Integer page) {
 
     return new SearchRequest.Builder()
@@ -100,6 +116,19 @@ public class SearchService {
             v -> v.field("title.keyword").size(AUTO_SIZE)
         ))
         .build();
+  }
+
+  private SearchRequest randomSearch() {
+
+    return new SearchRequest.Builder()
+        .index(INDEX)
+        .query(
+            q ->
+                q.functionScore(f ->
+                    f.functions(m -> m.randomScore(r -> r))
+                        .query(y -> y.matchAll(v -> v))
+                )
+        ).build();
   }
 
 }
