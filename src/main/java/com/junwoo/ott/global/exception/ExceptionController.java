@@ -1,14 +1,23 @@
 package com.junwoo.ott.global.exception;
 
 import com.junwoo.ott.global.common.dto.ExceptionDto;
+import com.junwoo.ott.global.exception.custom.AdminKeyNotCorrectException;
 import com.junwoo.ott.global.exception.custom.CustomAnnouncementException;
 import com.junwoo.ott.global.exception.custom.CustomCardException;
 import com.junwoo.ott.global.exception.custom.CustomCouponException;
 import com.junwoo.ott.global.exception.custom.CustomInvalidDeadLineException;
 import com.junwoo.ott.global.exception.custom.CustomLockException;
 import com.junwoo.ott.global.exception.custom.CustomPaymentException;
+import com.junwoo.ott.global.exception.custom.DuplicatedEmailException;
 import com.junwoo.ott.global.exception.custom.ElasticException;
+import com.junwoo.ott.global.exception.custom.NotExistMembershipTypeException;
+import com.junwoo.ott.global.exception.custom.PasswordNotEqualsException;
 import com.junwoo.ott.global.exception.custom.SubscriptionException;
+import com.junwoo.ott.global.exception.custom.UserNotFoundException;
+import com.junwoo.ott.global.exception.custom.UserNotSameException;
+import com.junwoo.ott.global.exception.custom.UsernameAlreadyExistException;
+import com.junwoo.ott.global.exception.custom.UsernameHasAdminPreFixException;
+import com.junwoo.ott.global.exception.custom.VideoNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
@@ -89,6 +98,63 @@ public class ExceptionController {
       final CustomAnnouncementException e) {
     log.error("CustomAnnouncementException: ", e);
     return createResponse(HttpStatus.BAD_REQUEST, "CustomAnnouncementException: " + e.getMessage());
+  }
+
+  @ExceptionHandler(UsernameAlreadyExistException.class)
+  ResponseEntity<ExceptionDto> usernameAlreadyExistException(final UsernameAlreadyExistException e) {
+    log.error("UsernameAlreadyExistException: ", e);
+    return createResponse(HttpStatus.BAD_REQUEST,
+        "UsernameAlreadyExistException: " + e.getMessage());
+  }
+
+  @ExceptionHandler(AdminKeyNotCorrectException.class)
+  ResponseEntity<ExceptionDto> adminKeyNotCorrectException(final AdminKeyNotCorrectException e) {
+    log.error("AdminKeyNotCorrectException: ", e);
+    return createResponse(HttpStatus.BAD_REQUEST, "AdminKeyNotCorrectException: " + e.getMessage());
+  }
+
+  @ExceptionHandler(UsernameHasAdminPreFixException.class)
+  ResponseEntity<ExceptionDto> usernameHasAdminPreFixException(final UsernameHasAdminPreFixException e) {
+    log.error("UsernameHasAdminPreFixException: ", e);
+    return createResponse(HttpStatus.BAD_REQUEST,
+        "UsernameHasAdminPreFixException: " + e.getMessage());
+  }
+
+  @ExceptionHandler(VideoNotFoundException.class)
+  ResponseEntity<ExceptionDto> videoNotFoundException(final VideoNotFoundException e) {
+    log.error("VideoNotFoundException: ", e);
+    return createResponse(HttpStatus.BAD_REQUEST, "VideoNotFoundException: " + e.getMessage());
+  }
+
+  @ExceptionHandler(UserNotFoundException.class)
+  ResponseEntity<ExceptionDto> userNotFoundException(final UserNotFoundException e) {
+    log.error("UserNotFoundException: ", e);
+    return createResponse(HttpStatus.BAD_REQUEST, "UserNotFoundException: " + e.getMessage());
+  }
+
+  @ExceptionHandler(UserNotSameException.class)
+  ResponseEntity<ExceptionDto> userNotSameException(final UserNotSameException e) {
+    log.error("UserNotSameException: ", e);
+    return createResponse(HttpStatus.BAD_REQUEST, "UserNotSameException: " + e.getMessage());
+  }
+
+  @ExceptionHandler(PasswordNotEqualsException.class)
+  ResponseEntity<ExceptionDto> passwordNotEqualsException(final PasswordNotEqualsException e) {
+    log.error("PasswordNotEqualsException: ", e);
+    return createResponse(HttpStatus.BAD_REQUEST, "PasswordNotEqualsException: " + e.getMessage());
+  }
+
+  @ExceptionHandler(DuplicatedEmailException.class)
+  ResponseEntity<ExceptionDto> duplicatedEmailException(final DuplicatedEmailException e) {
+    log.error("DuplicatedEmailException: ", e);
+    return createResponse(HttpStatus.BAD_REQUEST, "DuplicatedEmailException: " + e.getMessage());
+  }
+
+  @ExceptionHandler(NotExistMembershipTypeException.class)
+  ResponseEntity<ExceptionDto> notExistMembershipTypeException(final NotExistMembershipTypeException e) {
+    log.error("NotExistMembershipTypeException: ", e);
+    return createResponse(HttpStatus.BAD_REQUEST,
+        "NotExistMembershipTypeException: " + e.getMessage());
   }
 
   @ExceptionHandler(Exception.class)
