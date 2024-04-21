@@ -26,6 +26,7 @@ public class SearchService {
   private final String INDEX = "videos";
   private final String FIELD = "title";
   private final String AGG_MOVIE_NAME = "movie_name";
+  private final String POSTER_URL = "poster_url";
   private final int AUTO_SIZE = 7;
   private final int SIZE = 10;
 
@@ -122,13 +123,22 @@ public class SearchService {
 
     return new SearchRequest.Builder()
         .index(INDEX)
+        .size(SIZE)
         .query(
-            q ->
-                q.functionScore(f ->
-                    f.functions(m -> m.randomScore(r -> r))
-                        .query(y -> y.matchAll(v -> v))
+            q -> q.bool(
+                b -> b.mustNot(
+                    mn -> mn.term(
+                        t -> t.field(POSTER_URL).value("None")
+                    )
+                ).must(
+                    m -> m.functionScore(
+                        f -> f.functions(o -> o.randomScore(r -> r))
+                            .query(y -> y.matchAll(v -> v))
+                    )
                 )
-        ).build();
+            )
+        )
+        .build();
   }
 
 }
