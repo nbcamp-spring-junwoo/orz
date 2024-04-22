@@ -127,8 +127,8 @@ public class SearchService {
         .query(
             q -> q.bool(
                 b -> b.mustNot(
-                    mn -> mn.term(
-                        t -> t.field(POSTER_URL).value("None")
+                    mn -> mn.match(
+                        m -> m.field(POSTER_URL).query("None")
                     )
                 ).must(
                     m -> m.functionScore(
