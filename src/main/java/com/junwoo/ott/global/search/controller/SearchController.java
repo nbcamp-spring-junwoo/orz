@@ -3,6 +3,7 @@ package com.junwoo.ott.global.search.controller;
 import com.junwoo.ott.global.common.dto.ResponseDto;
 import com.junwoo.ott.global.search.dto.request.VideoSearchRequestDto;
 import com.junwoo.ott.global.search.dto.response.SearchResponseDto;
+import com.junwoo.ott.global.search.dto.response.VideoRandomSearchResponseDto;
 import com.junwoo.ott.global.search.dto.response.VideoSearchResponseDto;
 import com.junwoo.ott.global.search.service.SearchService;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +38,7 @@ public class SearchController {
   }
 
   @GetMapping("/videos/random")
-  public ResponseDto<VideoSearchResponseDto> searchRandomVideos() {
+  public ResponseDto<VideoRandomSearchResponseDto> searchRandomVideos() {
     return ResponseDto.ok(searchService.getRandomVideosElasticSearch());
   }
 

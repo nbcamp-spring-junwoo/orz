@@ -11,6 +11,7 @@ import com.junwoo.ott.global.search.dto.body.SearchDto;
 import com.junwoo.ott.global.search.dto.body.VideoSearchDto;
 import com.junwoo.ott.global.search.dto.request.VideoSearchRequestDto;
 import com.junwoo.ott.global.search.dto.response.SearchResponseDto;
+import com.junwoo.ott.global.search.dto.response.VideoRandomSearchResponseDto;
 import com.junwoo.ott.global.search.dto.response.VideoSearchResponseDto;
 import java.io.IOException;
 import java.util.List;
@@ -71,7 +72,7 @@ public class SearchService {
     return new VideoSearchResponseDto(result, hits.value(), totalPage + 1);
   }
 
-  public VideoSearchResponseDto getRandomVideosElasticSearch() {
+  public VideoRandomSearchResponseDto getRandomVideosElasticSearch() {
     SearchRequest searchRequest = randomSearch();
 
     SearchResponse<VideoSearchDto> response;
@@ -84,7 +85,7 @@ public class SearchService {
 
     List<VideoSearchDto> result = response.hits().hits().stream().map(Hit::source).toList();
 
-    return new VideoSearchResponseDto(result, 10L, 1L);
+    return new VideoRandomSearchResponseDto(result);
   }
 
   private SearchRequest createSearchRequest(final String input, final Integer page) {
