@@ -116,7 +116,7 @@ public class UserService {
     }
 
     if (newEmail != null) {
-      if (userRepository.existsByEmail(newEmail)) {
+      if (!user.getEmail().equals(newEmail) && userRepository.existsByEmail(newEmail)) {
         throw new DuplicatedEmailException("이미 존재하는 이메일입니다.");
       }
       user.updateEmail(newEmail);
