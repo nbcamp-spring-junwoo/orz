@@ -28,6 +28,7 @@ public class VideoAdminService {
 
     Video video = videoRepository.save(
         Video.builder()
+            .originalTitle(videoCreateRequestDto.getOriginalTitle())
             .title(videoCreateRequestDto.getTitle())
             .description(videoCreateRequestDto.getDescription())
             .membershipType(videoCreateRequestDto.getMembershipType())
