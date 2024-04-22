@@ -12,7 +12,6 @@ public class ChartResponseDto {
   private Long videoId;
   private String videoTitle;
   private String videoDescription;
-  // private LocalDate released_at;
-  private String poster_url;
+  private String posterUrl;
 
 }

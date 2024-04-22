@@ -22,7 +22,6 @@ public class ChartQueryRepositoryImpl implements ChartQueryRepository {
             chart.video.videoId,
             chart.video.title,
             chart.video.description,
-            // chart.video.releasedAt,
             chart.video.posterUrl
         ))
         .from(chart)
