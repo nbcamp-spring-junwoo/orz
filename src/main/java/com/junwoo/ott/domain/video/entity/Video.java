@@ -32,6 +32,8 @@ public class Video extends Timestamped {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long videoId;
   @Column(nullable = false)
+  private String originalTitle;
+  @Column(nullable = false)
   private String title;
   @Column(nullable = false, length = 511)
   private String description;

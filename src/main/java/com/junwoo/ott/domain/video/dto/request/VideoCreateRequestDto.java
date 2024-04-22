@@ -11,6 +11,7 @@ import lombok.Getter;
 @Getter
 public class VideoCreateRequestDto {
 
+  private final String originalTitle;
   private final String title;
   private final String description;
   private final MembershipType membershipType;
@@ -19,6 +20,7 @@ public class VideoCreateRequestDto {
   private final LocalDate releasedAt;
 
   public VideoCreateRequestDto(final VideoCreateDto videoCreateDto) {
+    this.originalTitle = videoCreateDto.getOriginalTitle();
     this.title = videoCreateDto.getTitle();
     this.description = videoCreateDto.getDescription();
     this.membershipType = videoCreateDto.getMembershipType();

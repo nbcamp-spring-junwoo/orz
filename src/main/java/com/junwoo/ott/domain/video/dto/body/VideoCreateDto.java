@@ -15,6 +15,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class VideoCreateDto {
 
   @NotNull
+  private String originalTitle;
+  @NotNull
   private String title;
   @NotNull
   private String description;
