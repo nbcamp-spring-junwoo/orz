@@ -94,6 +94,13 @@ public class CouponService {
     return new CouponUpdateResponseDto(coupon);
   }
 
+  public void usedCouponIssuance(final Long couponIssuanceId) {
+    CouponIssuance couponIssuance = couponIssuanceRepository.findById(couponIssuanceId)
+        .orElseThrow(() -> new EntityNotFoundException("발급된 쿠폰이 없습니다."));
+
+    couponIssuanceRepository.delete(couponIssuance);
+  }
+
   @Transactional(readOnly = true)
   public Coupon existCouponById(final Long couponId) {
 
