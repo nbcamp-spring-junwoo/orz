@@ -50,7 +50,8 @@ public class CouponService {
         dto.getUserId(), dto.getPageable());
 
     return couponIssuanceList.map(
-        coupon -> new CouponIssuanceReadResponseDto(coupon.getCoupon(), coupon));
+        couponIssuance -> new CouponIssuanceReadResponseDto(couponIssuance.getCoupon(),
+            couponIssuance));
   }
 
   public CouponCreateResponseDto createCoupon(final CouponCreateRequestDto createRequestDto) {
