@@ -1,16 +1,17 @@
 package com.junwoo.ott.global.search.dto.request;
 
 import lombok.Getter;
+import org.springframework.data.domain.Pageable;
 
 @Getter
 public class VideoSearchRequestDto {
 
   private final String input;
-  private final Integer page;
+  private final Pageable pageable;
 
-  public VideoSearchRequestDto(String input, Integer page) {
+  public VideoSearchRequestDto(String input, Pageable pageable) {
     this.input = input;
-    this.page = page == null ? 1 : page;
+    this.pageable = pageable;
   }
 
 }
