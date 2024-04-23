@@ -48,6 +48,8 @@ public class VideoQueryDslRepositoryImpl implements VideoQueryDslRepository {
         .join(videoGenre)
         .on(videoGenre.videoId.eq(videoId))
         .where(videoGenre.genreId.eq(genre.genreId))
+        .offset(pageable.getOffset())
+        .limit(pageable.getPageSize())
         .fetch();
 
     List<EpisodeProjectionDto> episodeProjectionDtoList = jpaQueryFactory
@@ -76,7 +78,7 @@ public class VideoQueryDslRepositoryImpl implements VideoQueryDslRepository {
     Predicate filterPredicate = filter(genreTypeList, isIntersection);
 
     List<Tuple> videoList = jpaQueryFactory
-        .select(video.videoId, video.title, video.description, video.posterUrl,
+        .select(video.videoId, video.title, video.posterUrl,
             video.membershipType)
         .distinct()
         .from(video)
@@ -85,6 +87,8 @@ public class VideoQueryDslRepositoryImpl implements VideoQueryDslRepository {
         .join(genre)
         .on(genre.genreId.eq(videoGenre.genreId))
         .where(filterPredicate)
+        .offset(pageable.getOffset())
+        .limit(pageable.getPageSize())
         .fetch();
 
     JPAQuery<Long> count = jpaQueryFactory

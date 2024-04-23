@@ -12,7 +12,6 @@ public class VideoResponseDto {
 
   private Long videoId;
   private String title;
-  private String description;
   private String posterUrl;
   private MembershipType membershipType;
 

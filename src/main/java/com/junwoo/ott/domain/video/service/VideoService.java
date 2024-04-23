@@ -30,8 +30,7 @@ public class VideoService {
             video.get(0, Long.class),
             video.get(1, String.class),
             video.get(2, String.class),
-            video.get(3, String.class),
-            video.get(4, MembershipType.class))
+            video.get(3, MembershipType.class))
         );
   }
 
