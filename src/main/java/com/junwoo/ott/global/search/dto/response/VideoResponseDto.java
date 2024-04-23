@@ -1,8 +1,7 @@
-package com.junwoo.ott.global.search.dto.body;
+package com.junwoo.ott.global.search.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.time.LocalDateTime;
+import com.junwoo.ott.global.customenum.MembershipType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,13 +10,11 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class VideoSearchDto {
+public class VideoResponseDto {
 
   private Long video_id;
   private String title;
-  private String description;
-  @JsonFormat(shape = JsonFormat.Shape.STRING)
-  private LocalDateTime released_at;
   private String poster_url;
+  private MembershipType membership_type;
 
 }
