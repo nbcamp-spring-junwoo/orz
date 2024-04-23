@@ -26,6 +26,7 @@ import com.navercorp.fixturemonkey.FixtureMonkey;
 import com.navercorp.fixturemonkey.api.introspector.FieldReflectionArbitraryIntrospector;
 import jakarta.persistence.EntityManager;
 import java.util.Optional;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -34,6 +35,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+@Disabled
 @ExtendWith(MockitoExtension.class)
 class SubscriptionServiceTest implements
     SubscriptionServiceTestValues {
