@@ -7,7 +7,7 @@ import java.util.UUID;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = lombok.AccessLevel.PRIVATE)
-public class PaymentDataGenerator {
+public class PaymentUtil {
 
   public static String generateCustomerKey() {
     return UUID.randomUUID().toString() + '.' + UUID.randomUUID();

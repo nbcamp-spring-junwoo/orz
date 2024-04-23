@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class OrderResponseDto {
 
   private String orderId;
+  private String name;
   private List<OrderItemResponseDto> orderItems;
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;

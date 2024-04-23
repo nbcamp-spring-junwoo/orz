@@ -41,35 +41,38 @@ public class SubscriptionService {
   private final BillingKeyRepository billingKeyRepository;
   private final SubscriptionRepository subscriptionRepository;
   private final SubscriptionHistoryRepository subscriptionHistoryRepository;
-  private final TosspaymentsClient client;
+  private final TosspaymentsClient paymentClient;
 
   private final EntityManager entityManager;
 
-  public void subscribe(final SubscriptionRequestDto dto) {
-    validateUserHasNoActiveSubscription(dto);
+  public void subscribe(final SubscriptionRequestDto subscriptionRequest) {
+    validateUserHasNoActiveSubscription(subscriptionRequest);
 
-    Long userId = dto.getUserId();
-    Long cardId = dto.getCardId();
+    Long userId = subscriptionRequest.getUserId();
+    Long cardId = subscriptionRequest.getCardId();
     CardResponseDto validCard = validateUserHasCard(userId, cardId);
 
-    Long membershipId = membershipService.getMembershipByMembershipType(dto.getMembershipType())
-        .getMembershipId();
+    Long membershipId = getMembershipId(subscriptionRequest.getMembershipType());
     Subscription subscription = getOrCreateSubscription(userId, validCard.getCardId(), membershipId);
 
-    Long couponIssuanceId = dto.getCouponIssuanceId();
+    Long couponIssuanceId = subscriptionRequest.getCouponIssuanceId();
     OrderResponseDto order = orderService.createSubscriptionOrder(subscription, couponIssuanceId);
 
-    BillingConfirmRequestDto requestDto = BillingConfirmRequestDto.of(subscription, order.getOrderId());
-    PaymentDto confirmResult = client.confirmBilling(subscription.getBillingKey()
-        .getKey(), requestDto);
+    BillingConfirmRequestDto billingRequest = BillingConfirmRequestDto.of(subscription, order);
+    PaymentDto paymentConfirmation = paymentClient.confirmBilling(subscription.getBillingKey()
+        .getKey(), billingRequest);
 
-    SubscriptionHistory subscriptionHistory = confirmResult.toSubscriptionHistory();
-    subscriptionHistory.setParents(subscription, User.builder().userId(userId).build());
+    SubscriptionHistory subscriptionHistory = paymentConfirmation.toSubscriptionHistory();
+    subscriptionHistory.setParents(subscription);
 
-    userService.updateUserMembership(dto.getUserId(), subscription.getMembership()
+    userService.updateUserMembership(subscriptionRequest.getUserId(), subscription.getMembership()
         .getMembershipType());
+    subscriptionHistoryRepository.save(subscriptionHistory);
+  }
 
-    subscriptionHistoryRepository.save(subscriptionHistory).toResponseDto();
+  private Long getMembershipId(final MembershipType membershipType) {
+    return membershipService.getMembershipByMembershipType(membershipType)
+        .getMembershipId();
   }
 
   private Subscription getOrCreateSubscription(

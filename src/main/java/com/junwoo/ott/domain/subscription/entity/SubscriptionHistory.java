@@ -49,9 +49,9 @@ public class SubscriptionHistory extends Timestamped {
   @JoinColumn(name = "user_id")
   private User user;
 
-  public void setParents(final Subscription subscription, final User user) {
+  public void setParents(final Subscription subscription) {
     this.subscription = subscription;
-    this.user = user;
+    this.user = subscription.getUser();
   }
 
   public SubscriptionHistoryResponseDto toResponseDto() {
