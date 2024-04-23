@@ -8,14 +8,17 @@ import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.core.search.TotalHits;
 import com.junwoo.ott.global.exception.custom.ElasticException;
 import com.junwoo.ott.global.search.dto.body.SearchDto;
-import com.junwoo.ott.global.search.dto.body.VideoSearchDto;
 import com.junwoo.ott.global.search.dto.request.VideoSearchRequestDto;
 import com.junwoo.ott.global.search.dto.response.SearchResponseDto;
-import com.junwoo.ott.global.search.dto.response.VideoRandomSearchResponseDto;
-import com.junwoo.ott.global.search.dto.response.VideoSearchResponseDto;
+import com.junwoo.ott.global.search.dto.response.VideoRandomResponseDto;
+import com.junwoo.ott.global.search.dto.response.VideoResponseDto;
 import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -31,7 +34,7 @@ public class SearchService {
   private final int AUTO_SIZE = 7;
   private final int SIZE = 10;
 
-  public SearchResponseDto search(final String input) {
+  public SearchResponseDto titleSearch(final String input) {
     SearchResponse<SearchDto> response;
 
     try {
@@ -53,39 +56,38 @@ public class SearchService {
     return new SearchResponseDto(array);
   }
 
-  public VideoSearchResponseDto getVideosElasticSearch(VideoSearchRequestDto dto) {
+  public Page<VideoResponseDto> getVideosElasticSearch(VideoSearchRequestDto dto) {
     SearchRequest searchRequest = createSearchRequest(dto.getInput(), dto.getPage());
+    Pageable pageable = PageRequest.of(dto.getPage() - 1, SIZE);
 
-    SearchResponse<VideoSearchDto> response;
+    SearchResponse<VideoResponseDto> response;
 
     try {
-      response = esClient.search(searchRequest, VideoSearchDto.class);
+      response = esClient.search(searchRequest, VideoResponseDto.class);
     } catch (ElasticsearchException | IOException e) {
       throw new ElasticException("ElasticSearch에 문제가 발생했습니다.");
     }
 
     TotalHits hits = response.hits().total();
-    List<VideoSearchDto> result = response.hits().hits().stream().map(Hit::source).toList();
+    List<VideoResponseDto> result = response.hits().hits().stream().map(Hit::source).toList();
 
-    long totalPage = (hits.value() % SIZE == 0) ? (hits.value() / SIZE) - 1 : hits.value() / SIZE;
-
-    return new VideoSearchResponseDto(result, hits.value(), totalPage + 1);
+    return PageableExecutionUtils.getPage(result, pageable, hits::value);
   }
 
-  public VideoRandomSearchResponseDto getRandomVideosElasticSearch() {
+  public VideoRandomResponseDto getRandomVideosElasticSearch() {
     SearchRequest searchRequest = randomSearch();
 
-    SearchResponse<VideoSearchDto> response;
+    SearchResponse<VideoResponseDto> response;
 
     try {
-      response = esClient.search(searchRequest, VideoSearchDto.class);
+      response = esClient.search(searchRequest, VideoResponseDto.class);
     } catch (ElasticsearchException | IOException e) {
       throw new ElasticException("ElasticSearch에 문제가 발생했습니다.");
     }
 
-    List<VideoSearchDto> result = response.hits().hits().stream().map(Hit::source).toList();
+    List<VideoResponseDto> result = response.hits().hits().stream().map(Hit::source).toList();
 
-    return new VideoRandomSearchResponseDto(result);
+    return new VideoRandomResponseDto(result);
   }
 
   private SearchRequest createSearchRequest(final String input, final Integer page) {
