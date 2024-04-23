@@ -12,6 +12,7 @@ import lombok.Getter;
 public class CouponIssuanceReadResponseDto {
 
   private final Long couponId;
+  private final Long couponIssuanceId;
   private final CouponType couponType;
   private final MembershipType membershipType;
   private final Integer discount;
@@ -22,6 +23,7 @@ public class CouponIssuanceReadResponseDto {
 
   public CouponIssuanceReadResponseDto(final Coupon coupon, final CouponIssuance couponIssuance) {
     this.couponId = coupon.getCouponId();
+    this.couponIssuanceId = couponIssuance.getCouponIssuanceId();
     this.couponType = coupon.getCouponType();
     this.membershipType = coupon.getMembershipType();
     this.discount = coupon.getDiscount();
