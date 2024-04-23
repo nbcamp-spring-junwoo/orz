@@ -25,16 +25,15 @@ spring:
         enabled: false
 
   datasource:
-    hikari:
-      master:
-        username: ${mysql.username}
-        password: ${mysql.password}
-        jdbc-url: jdbc:mysql://${mysql.url.master}/${database.name}
+    master:
+      username: ${mysql.username}
+      password: ${mysql.password}
+      jdbc-url: jdbc:mysql://${mysql.url.master}/${database.name}
 
-      slave:
-        username: ${mysql.username}
-        password: ${mysql.password}
-        jdbc-url: jdbc:mysql://${mysql.url.slave}/${database.name}
+    slave:
+      username: ${mysql.username}
+      password: ${mysql.password}
+      jdbc-url: jdbc:mysql://${mysql.url.slave}/${database.name}
 
   jpa:
     properties:

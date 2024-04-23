@@ -11,7 +11,11 @@ spring:
       port: 6379
 
   datasource:
-    url: jdbc:h2:mem:testdb;MODE=MySQL
+    master:
+      jdbc-url: jdbc:h2:mem:testdb;MODE=MySQL
+
+    slave:
+      jdbc-url: jdbc:h2:mem:testdb;MODE=MySQL
 
   jpa:
     properties:
