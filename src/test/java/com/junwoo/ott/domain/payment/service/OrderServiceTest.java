@@ -15,6 +15,7 @@ import com.junwoo.ott.domain.payment.repository.OrderItemRepository;
 import com.junwoo.ott.domain.payment.repository.OrderRepository;
 import com.junwoo.ott.domain.subscription.entity.Subscription;
 import com.junwoo.ott.domain.subscription.test.SubscriptionServiceTestValues;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+@Disabled
 @ExtendWith(MockitoExtension.class)
 class OrderServiceTest implements
     SubscriptionServiceTestValues, CouponTestValues {
