@@ -47,6 +47,17 @@ public class LockAspect {
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
       throw new CustomLockException("Interrupt 발생");
+    } catch (RuntimeException e) {
+
+      if (lock.isHeldByCurrentThread()) { // 락이 현재 내 스레드 일 때만 해제를 한다.
+        log.info("현재 내 스레드에서 예외가 발생해서 Lock을 해제");
+        lock.unlock();
+      } else {
+        log.info("남의 스레드에서 Lock이 가지고 있는 상태임..");
+        log.info("개빡침 그냥 안함");
+      }
+
+      throw e;
     }
   }
 

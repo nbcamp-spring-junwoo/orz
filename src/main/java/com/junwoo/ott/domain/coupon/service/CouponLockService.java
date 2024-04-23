@@ -12,7 +12,7 @@ public class CouponLockService {
 
   private final CouponService couponService;
 
-  @Lockable(value = "createCouponIssuance Lock", waitTime = 50, leaseTime = 50, timeUnit = TimeUnit.SECONDS)
+  @Lockable(value = "createCouponIssuance Lock", waitTime = 5, leaseTime = 3, timeUnit = TimeUnit.SECONDS)
   public void createCouponIssuanceLock(final CouponIssuanceCreateRequestDto createRequestDto) {
     couponService.createCouponIssuance(createRequestDto);
   }
