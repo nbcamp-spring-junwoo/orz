@@ -2,6 +2,7 @@ package com.junwoo.ott.domain.chart.controller;
 
 import com.junwoo.ott.domain.chart.dto.response.ChartResponseDto;
 import com.junwoo.ott.domain.chart.service.ChartService;
+import com.junwoo.ott.global.common.dto.ResponseDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
@@ -24,8 +25,8 @@ public class ChartController {
   private final ApplicationContext applicationContext;
 
   @GetMapping("/chart")
-  public List<ChartResponseDto> getChart() {
-    return chartService.getChart();
+  public ResponseDto<List<ChartResponseDto>> getChart() {
+    return ResponseDto.ok(chartService.getChart());
   }
 
   // 테스트용
