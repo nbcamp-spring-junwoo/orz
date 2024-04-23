@@ -16,8 +16,6 @@ import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 
@@ -57,8 +55,8 @@ public class SearchService {
   }
 
   public Page<VideoResponseDto> getVideosElasticSearch(VideoSearchRequestDto dto) {
-    SearchRequest searchRequest = createSearchRequest(dto.getInput(), dto.getPage());
-    Pageable pageable = PageRequest.of(dto.getPage() - 1, SIZE);
+    SearchRequest searchRequest = createSearchRequest(dto.getInput(), dto.getPageable()
+        .getPageNumber());
 
     SearchResponse<VideoResponseDto> response;
 
@@ -71,7 +69,7 @@ public class SearchService {
     TotalHits hits = response.hits().total();
     List<VideoResponseDto> result = response.hits().hits().stream().map(Hit::source).toList();
 
-    return PageableExecutionUtils.getPage(result, pageable, hits::value);
+    return PageableExecutionUtils.getPage(result, dto.getPageable(), hits::value);
   }
 
   public VideoRandomResponseDto getRandomVideosElasticSearch() {
@@ -94,7 +92,7 @@ public class SearchService {
 
     return new SearchRequest.Builder()
         .index(INDEX)
-        .from((page - 1) * SIZE)
+        .from(page * SIZE)
         .size(SIZE)
         .query(
             q -> q.matchPhrasePrefix(
