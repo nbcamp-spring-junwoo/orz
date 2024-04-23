@@ -18,7 +18,7 @@ public class SubscriptionController {
   private final SubscriptionService subscriptionService;
 
   @PostMapping("/api/v1/users/{userId}/subscriptions")
-  public void requestSubscription(
+  public void postSubscription(
       @PathVariable @Positive final Long userId,
       @RequestParam("card") final Long cardId,
       @RequestParam("membership") final String membershipType,

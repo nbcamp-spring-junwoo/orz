@@ -1,6 +1,7 @@
 package com.junwoo.ott.domain.payment.dto.request;
 
-import com.junwoo.ott.domain.membership.entity.Membership;
+import com.junwoo.ott.domain.payment.dto.response.OrderItemResponseDto;
+import com.junwoo.ott.domain.payment.dto.response.OrderResponseDto;
 import com.junwoo.ott.domain.subscription.entity.Subscription;
 import com.junwoo.ott.domain.user.entity.User;
 import lombok.AllArgsConstructor;
@@ -12,28 +13,28 @@ import lombok.Getter;
 @AllArgsConstructor
 public class BillingConfirmRequestDto {
 
-  private String customerKey;
   private Integer amount;
-  private String orderName;
+  private String customerKey;
   private String orderId;
+  private String orderName;
   private String customerEmail;
-  private Integer taxFreeAmount;
-  private Integer taxExemptionAmount;
 
-  public static BillingConfirmRequestDto of(final Subscription subscription, final String orderId) {
+  public static BillingConfirmRequestDto of(
+      final Subscription subscription, final OrderResponseDto order
+  ) {
     User user = subscription.getUser();
-    Membership membership = subscription.getMembership();
-    // TODO: 매직넘버 없애기
-    String orderName = membership.getMembershipType().name().substring(5) + " 구독";
+
+    Integer amount = order.getOrderItems()
+        .stream()
+        .mapToInt(OrderItemResponseDto::getDiscountedPrice)
+        .sum();
 
     return BillingConfirmRequestDto.builder()
-        .amount(membership.getPrice())
+        .amount(amount)
         .customerKey(subscription.getBillingKey().getCustomerKey())
-        .orderId(orderId)
-        .orderName(orderName)
+        .orderId(order.getOrderId())
+        .orderName(order.getName())
         .customerEmail(user.getEmail())
-        .taxFreeAmount(0)
-        .taxExemptionAmount(membership.getPrice())
         .build();
   }
 
