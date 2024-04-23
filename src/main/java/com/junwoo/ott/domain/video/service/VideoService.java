@@ -6,6 +6,7 @@ import com.junwoo.ott.domain.video.dto.response.VideoReadResponseDto;
 import com.junwoo.ott.domain.video.dto.response.VideoResponseDto;
 import com.junwoo.ott.domain.video.entity.Video;
 import com.junwoo.ott.domain.video.repository.VideoRepository;
+import com.junwoo.ott.global.customenum.MembershipType;
 import com.junwoo.ott.global.exception.custom.VideoNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -22,13 +23,15 @@ public class VideoService {
 
   @Transactional(readOnly = true)
   public Page<VideoResponseDto> getVideos(final VideoRequestDto videoRequestDto) {
-    return videoRepository.findAll(videoRequestDto.getPageable())
+    return videoRepository
+        .findAllByFilter(videoRequestDto.getPageable(), videoRequestDto.getGenreTypeList(),
+            videoRequestDto.getIsIntersection())
         .map(video -> new VideoResponseDto(
-            video.getVideoId(),
-            video.getTitle(),
-            video.getDescription(),
-            video.getPosterUrl(),
-            video.getMembershipType())
+            video.get(0, Long.class),
+            video.get(1, String.class),
+            video.get(2, String.class),
+            video.get(3, String.class),
+            video.get(4, MembershipType.class))
         );
   }
 
