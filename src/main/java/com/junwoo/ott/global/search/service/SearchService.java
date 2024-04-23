@@ -8,6 +8,7 @@ import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.core.search.TotalHits;
 import com.junwoo.ott.global.exception.custom.ElasticException;
 import com.junwoo.ott.global.search.dto.body.SearchDto;
+import com.junwoo.ott.global.search.dto.body.VideoDto;
 import com.junwoo.ott.global.search.dto.request.VideoSearchRequestDto;
 import com.junwoo.ott.global.search.dto.response.SearchResponseDto;
 import com.junwoo.ott.global.search.dto.response.VideoRandomResponseDto;
@@ -58,16 +59,17 @@ public class SearchService {
     SearchRequest searchRequest = createSearchRequest(dto.getInput(), dto.getPageable()
         .getPageNumber());
 
-    SearchResponse<VideoResponseDto> response;
+    SearchResponse<VideoDto> response;
 
     try {
-      response = esClient.search(searchRequest, VideoResponseDto.class);
+      response = esClient.search(searchRequest, VideoDto.class);
     } catch (ElasticsearchException | IOException e) {
       throw new ElasticException("ElasticSearch에 문제가 발생했습니다.");
     }
 
     TotalHits hits = response.hits().total();
-    List<VideoResponseDto> result = response.hits().hits().stream().map(Hit::source).toList();
+    List<VideoDto> videoDtoList = response.hits().hits().stream().map(Hit::source).toList();
+    List<VideoResponseDto> result = videoDtoList.stream().map(VideoResponseDto::new).toList();
 
     return PageableExecutionUtils.getPage(result, dto.getPageable(), hits::value);
   }
@@ -75,15 +77,15 @@ public class SearchService {
   public VideoRandomResponseDto getRandomVideosElasticSearch() {
     SearchRequest searchRequest = randomSearch();
 
-    SearchResponse<VideoResponseDto> response;
+    SearchResponse<VideoDto> response;
 
     try {
-      response = esClient.search(searchRequest, VideoResponseDto.class);
+      response = esClient.search(searchRequest, VideoDto.class);
     } catch (ElasticsearchException | IOException e) {
       throw new ElasticException("ElasticSearch에 문제가 발생했습니다.");
     }
 
-    List<VideoResponseDto> result = response.hits().hits().stream().map(Hit::source).toList();
+    List<VideoDto> result = response.hits().hits().stream().map(Hit::source).toList();
 
     return new VideoRandomResponseDto(result);
   }

@@ -1,20 +1,22 @@
 package com.junwoo.ott.global.search.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.junwoo.ott.global.customenum.MembershipType;
-import lombok.AllArgsConstructor;
+import com.junwoo.ott.global.search.dto.body.VideoDto;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
 public class VideoResponseDto {
 
-  private Long video_id;
-  private String title;
-  private String poster_url;
-  private MembershipType membership_type;
+  private final Long videoId;
+  private final String title;
+  private final String posterUrl;
+  private final MembershipType membershipType;
+
+  public VideoResponseDto(VideoDto videoDto) {
+    this.videoId = videoDto.getVideo_id();
+    this.title = videoDto.getTitle();
+    this.posterUrl = videoDto.getPoster_url();
+    this.membershipType = videoDto.getMembership_type();
+  }
 
 }
