@@ -89,6 +89,7 @@ public class VideoQueryDslRepositoryImpl implements VideoQueryDslRepository {
         .where(filterPredicate)
         .offset(pageable.getOffset())
         .limit(pageable.getPageSize())
+        .orderBy(video.releasedAt.desc())
         .fetch();
 
     JPAQuery<Long> count = jpaQueryFactory
