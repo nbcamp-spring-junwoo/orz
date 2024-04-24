@@ -84,7 +84,7 @@ public class ExceptionController {
   @ExceptionHandler(CustomPaymentException.class)
   public ResponseEntity<ExceptionDto> customPaymentException(final CustomPaymentException e) {
     log.error("CustomPaymentException: ", e);
-    return createResponse(e.getHttpStatus(), e.getMessage());
+    return createResponse(HttpStatus.BAD_GATEWAY, "결제사와 통신하는 도중 오류가 발생했습니다.");
   }
 
   @ExceptionHandler(ElasticException.class)
