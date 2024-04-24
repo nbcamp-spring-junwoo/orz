@@ -47,116 +47,111 @@ public class ExceptionController {
   @ExceptionHandler(CustomLockException.class)
   public ResponseEntity<ExceptionDto> customLockException(final CustomLockException e) {
     log.error("CustomLockException: ", e);
-    return createResponse(HttpStatus.REQUEST_TIMEOUT, "Lock Exception: " + e.getMessage());
+    return createResponse(HttpStatus.REQUEST_TIMEOUT, e.getMessage());
   }
 
   @ExceptionHandler(EntityNotFoundException.class)
   public ResponseEntity<ExceptionDto> entityNotFoundException(final EntityNotFoundException e) {
     log.error("EntityNotFoundException: ", e);
-    return createResponse(HttpStatus.BAD_REQUEST, "EntityNotFoundException: " + e.getMessage());
+    return createResponse(HttpStatus.BAD_REQUEST, e.getMessage());
   }
 
   @ExceptionHandler(CustomInvalidDeadLineException.class)
   public ResponseEntity<ExceptionDto> customInvalidDeadLineException(
       final CustomInvalidDeadLineException e) {
     log.error("CustomInvalidDeadLineException: ", e);
-    return createResponse(HttpStatus.BAD_REQUEST,
-        "CustomInvalidDeadLineException: " + e.getMessage());
+    return createResponse(HttpStatus.BAD_REQUEST, e.getMessage());
   }
 
   @ExceptionHandler(CustomCouponException.class)
   public ResponseEntity<ExceptionDto> customCouponException(final CustomCouponException e) {
     log.error("CustomCouponException: ", e);
-    return createResponse(HttpStatus.BAD_REQUEST,
-        "CustomCouponException: " + e.getMessage());
+    return createResponse(HttpStatus.BAD_REQUEST, e.getMessage());
   }
 
   @ExceptionHandler(CustomCardException.class)
   public ResponseEntity<ExceptionDto> customCardException(final CustomCardException e) {
     log.error("CustomCardException: ", e);
-    return createResponse(HttpStatus.BAD_REQUEST, "CustomCardException: " + e.getMessage());
+    return createResponse(HttpStatus.BAD_REQUEST, e.getMessage());
   }
 
   @ExceptionHandler(SubscriptionException.class)
   public ResponseEntity<ExceptionDto> subscriptionException(final SubscriptionException e) {
     log.error("SubscriptionException: ", e);
-    return createResponse(HttpStatus.BAD_REQUEST, "SubscriptionException: " + e.getMessage());
+    return createResponse(HttpStatus.BAD_REQUEST, e.getMessage());
   }
 
   @ExceptionHandler(CustomPaymentException.class)
   public ResponseEntity<ExceptionDto> customPaymentException(final CustomPaymentException e) {
     log.error("CustomPaymentException: ", e);
-    return createResponse(e.getHttpStatus(), "CustomPaymentException: " + e.getMessage());
+    return createResponse(e.getHttpStatus(), e.getMessage());
   }
 
   @ExceptionHandler(ElasticException.class)
   public ResponseEntity<ExceptionDto> elasticsearchException(final ElasticException e) {
     log.error("ElasticsearchException: ", e);
-    return createResponse(HttpStatus.BAD_GATEWAY, "ElasticsearchException:" + e.getMessage());
+    return createResponse(HttpStatus.BAD_GATEWAY, e.getMessage());
   }
 
   @ExceptionHandler(CustomAnnouncementException.class)
   public ResponseEntity<ExceptionDto> customAnnouncementException(
       final CustomAnnouncementException e) {
     log.error("CustomAnnouncementException: ", e);
-    return createResponse(HttpStatus.BAD_REQUEST, "CustomAnnouncementException: " + e.getMessage());
+    return createResponse(HttpStatus.BAD_REQUEST, e.getMessage());
   }
 
   @ExceptionHandler(UsernameAlreadyExistException.class)
   ResponseEntity<ExceptionDto> usernameAlreadyExistException(final UsernameAlreadyExistException e) {
     log.error("UsernameAlreadyExistException: ", e);
-    return createResponse(HttpStatus.BAD_REQUEST,
-        "UsernameAlreadyExistException: " + e.getMessage());
+    return createResponse(HttpStatus.BAD_REQUEST, e.getMessage());
   }
 
   @ExceptionHandler(AdminKeyNotCorrectException.class)
   ResponseEntity<ExceptionDto> adminKeyNotCorrectException(final AdminKeyNotCorrectException e) {
     log.error("AdminKeyNotCorrectException: ", e);
-    return createResponse(HttpStatus.BAD_REQUEST, "AdminKeyNotCorrectException: " + e.getMessage());
+    return createResponse(HttpStatus.BAD_REQUEST, e.getMessage());
   }
 
   @ExceptionHandler(UsernameHasAdminPreFixException.class)
   ResponseEntity<ExceptionDto> usernameHasAdminPreFixException(final UsernameHasAdminPreFixException e) {
     log.error("UsernameHasAdminPreFixException: ", e);
-    return createResponse(HttpStatus.BAD_REQUEST,
-        "UsernameHasAdminPreFixException: " + e.getMessage());
+    return createResponse(HttpStatus.BAD_REQUEST, e.getMessage());
   }
 
   @ExceptionHandler(VideoNotFoundException.class)
   ResponseEntity<ExceptionDto> videoNotFoundException(final VideoNotFoundException e) {
     log.error("VideoNotFoundException: ", e);
-    return createResponse(HttpStatus.BAD_REQUEST, "VideoNotFoundException: " + e.getMessage());
+    return createResponse(HttpStatus.BAD_REQUEST, e.getMessage());
   }
 
   @ExceptionHandler(UserNotFoundException.class)
   ResponseEntity<ExceptionDto> userNotFoundException(final UserNotFoundException e) {
     log.error("UserNotFoundException: ", e);
-    return createResponse(HttpStatus.BAD_REQUEST, "UserNotFoundException: " + e.getMessage());
+    return createResponse(HttpStatus.BAD_REQUEST, e.getMessage());
   }
 
   @ExceptionHandler(UserNotSameException.class)
   ResponseEntity<ExceptionDto> userNotSameException(final UserNotSameException e) {
     log.error("UserNotSameException: ", e);
-    return createResponse(HttpStatus.BAD_REQUEST, "UserNotSameException: " + e.getMessage());
+    return createResponse(HttpStatus.BAD_REQUEST, e.getMessage());
   }
 
   @ExceptionHandler(PasswordNotEqualsException.class)
   ResponseEntity<ExceptionDto> passwordNotEqualsException(final PasswordNotEqualsException e) {
     log.error("PasswordNotEqualsException: ", e);
-    return createResponse(HttpStatus.BAD_REQUEST, "PasswordNotEqualsException: " + e.getMessage());
+    return createResponse(HttpStatus.BAD_REQUEST, e.getMessage());
   }
 
   @ExceptionHandler(DuplicatedEmailException.class)
   ResponseEntity<ExceptionDto> duplicatedEmailException(final DuplicatedEmailException e) {
     log.error("DuplicatedEmailException: ", e);
-    return createResponse(HttpStatus.BAD_REQUEST, "DuplicatedEmailException: " + e.getMessage());
+    return createResponse(HttpStatus.BAD_REQUEST, e.getMessage());
   }
 
   @ExceptionHandler(NotExistMembershipTypeException.class)
   ResponseEntity<ExceptionDto> notExistMembershipTypeException(final NotExistMembershipTypeException e) {
     log.error("NotExistMembershipTypeException: ", e);
-    return createResponse(HttpStatus.BAD_REQUEST,
-        "NotExistMembershipTypeException: " + e.getMessage());
+    return createResponse(HttpStatus.BAD_REQUEST, e.getMessage());
   }
 
   @ExceptionHandler(BadCredentialsException.class)
@@ -168,7 +163,7 @@ public class ExceptionController {
   @ExceptionHandler(TokenNotValidException.class)
   ResponseEntity<ExceptionDto> tokenNotValidException(final TokenNotValidException e) {
     log.error("TokenNotValidException: ", e);
-    return createResponse(HttpStatus.BAD_REQUEST, "TokenNotValidException: " + e.getMessage());
+    return createResponse(HttpStatus.BAD_REQUEST, e.getMessage());
   }
 
   @ExceptionHandler(Exception.class)
