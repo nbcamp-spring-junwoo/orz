@@ -104,7 +104,6 @@ public class SearchService {
         .build();
   }
 
-
   private SearchRequest autoSearch(final String input) {
 
     return new SearchRequest.Builder()
