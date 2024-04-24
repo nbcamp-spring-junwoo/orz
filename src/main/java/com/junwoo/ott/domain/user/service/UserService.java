@@ -34,6 +34,7 @@ public class UserService {
   private final AuthenticationManager authenticationManager;
 
   public void createUser(final AuthSignupRequestDto authSignupRequestDto) {
+    validateEmail(authSignupRequestDto.getEmail());
     String encodedPassword = passwordEncoder.encode(authSignupRequestDto.getPassword());
     LocalDate datedBorn = LocalDate.parse(authSignupRequestDto.getBorn());
     User user = authSignupRequestDto.authSignupRequestDtoToUser(encodedPassword, datedBorn);
@@ -59,6 +60,14 @@ public class UserService {
   public void validateUserNotExist(final String username) {
     if (userRepository.existsByUsername(username)) {
       throw new UsernameAlreadyExistException("이미 존재하는 username입니다.");
+    }
+  }
+
+  // 이메일 중복 체크
+  @Transactional(readOnly = true)
+  public void validateEmail(final String email) {
+    if (userRepository.existsByEmail(email)) {
+      throw new DuplicatedEmailException("이미 존재하는 email입니다.");
     }
   }
 

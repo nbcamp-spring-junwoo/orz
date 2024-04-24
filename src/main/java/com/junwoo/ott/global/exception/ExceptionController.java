@@ -13,6 +13,7 @@ import com.junwoo.ott.global.exception.custom.ElasticException;
 import com.junwoo.ott.global.exception.custom.NotExistMembershipTypeException;
 import com.junwoo.ott.global.exception.custom.PasswordNotEqualsException;
 import com.junwoo.ott.global.exception.custom.SubscriptionException;
+import com.junwoo.ott.global.exception.custom.TokenNotValidException;
 import com.junwoo.ott.global.exception.custom.UserNotFoundException;
 import com.junwoo.ott.global.exception.custom.UserNotSameException;
 import com.junwoo.ott.global.exception.custom.UsernameAlreadyExistException;
@@ -162,6 +163,12 @@ public class ExceptionController {
   ResponseEntity<ExceptionDto> badCredentialsException(final BadCredentialsException e) {
     log.error("BadCredentialsException: ", e);
     return createResponse(HttpStatus.BAD_REQUEST, "로그인 실패");
+  }
+
+  @ExceptionHandler(TokenNotValidException.class)
+  ResponseEntity<ExceptionDto> tokenNotValidException(final TokenNotValidException e) {
+    log.error("TokenNotValidException: ", e);
+    return createResponse(HttpStatus.BAD_REQUEST, "TokenNotValidException: " + e.getMessage());
   }
 
   @ExceptionHandler(Exception.class)

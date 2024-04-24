@@ -1,6 +1,7 @@
 package com.junwoo.ott.domain.auth.dto.body;
 
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,6 +18,7 @@ public class AuthSignupDto {
   @NotNull
   private String password;
   @NotNull
+  @Email
   private String email;
   @NotNull
   @DateTimeFormat(pattern = "yyyy-MM-dd")
