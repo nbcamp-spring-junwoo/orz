@@ -162,7 +162,7 @@ public class ExceptionController {
   @ExceptionHandler(BadCredentialsException.class)
   ResponseEntity<ExceptionDto> badCredentialsException(final BadCredentialsException e) {
     log.error("BadCredentialsException: ", e);
-    return createResponse(HttpStatus.BAD_REQUEST, "로그인 실패");
+    return createResponse(HttpStatus.BAD_REQUEST, "로그인 정보가 시스템에 있는 정보와 다릅니다");
   }
 
   @ExceptionHandler(TokenNotValidException.class)
