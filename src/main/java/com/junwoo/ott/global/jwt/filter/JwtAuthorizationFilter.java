@@ -3,6 +3,7 @@ package com.junwoo.ott.global.jwt.filter;
 import com.junwoo.ott.domain.user.entity.User;
 import com.junwoo.ott.global.customenum.AuthorityType;
 import com.junwoo.ott.global.customenum.MembershipType;
+import com.junwoo.ott.global.exception.custom.TokenNotValidException;
 import com.junwoo.ott.global.jwt.JwtUtil;
 import com.junwoo.ott.global.jwt.RefreshTokenRepository;
 import com.junwoo.ott.global.jwt.TokenState;
@@ -49,6 +50,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
       if (tokenState == TokenState.INVALID) {
         log.error("Token Error");
+        throw new TokenNotValidException("올바르지 않는 토큰입니다.");
       } else if (tokenState == TokenState.EXPIRED) {
         try {
           Claims info = jwtUtil.getExpiredTokenClaims(tokenValue);
