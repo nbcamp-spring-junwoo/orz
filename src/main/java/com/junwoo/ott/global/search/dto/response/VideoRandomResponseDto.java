@@ -10,7 +10,7 @@ public class VideoRandomResponseDto {
 
   private final List<VideoRandomDto> videos;
 
-  public VideoRandomResponseDto(List<VideoDto> videos) {
+  public VideoRandomResponseDto(final List<VideoDto> videos) {
     this.videos = videos.stream().map(VideoRandomDto::new).toList();
   }
 
