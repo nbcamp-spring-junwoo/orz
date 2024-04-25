@@ -7,6 +7,7 @@ import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.core.search.TotalHits;
+import com.junwoo.ott.global.customenum.SearchType;
 import com.junwoo.ott.global.exception.custom.ElasticException;
 import com.junwoo.ott.global.search.dto.body.SearchDto;
 import com.junwoo.ott.global.search.dto.body.VideoDto;
@@ -60,7 +61,7 @@ public class SearchService {
   }
 
   public Page<VideoResponseDto> getVideos(final VideoSearchRequestDto dto) {
-    SearchRequest searchRequest = (dto.getSearchType().equals(TITLE))
+    SearchRequest searchRequest = (dto.getSearchType().equals(SearchType.TITLE))
         ? searchByTitle(dto.getInput(), dto.getPageable().getPageNumber())
         : searchByDescription(dto.getInput(), dto.getPageable().getPageNumber());
 

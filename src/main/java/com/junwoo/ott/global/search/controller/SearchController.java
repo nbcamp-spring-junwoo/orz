@@ -1,6 +1,7 @@
 package com.junwoo.ott.global.search.controller;
 
 import com.junwoo.ott.global.common.dto.ResponseDto;
+import com.junwoo.ott.global.customenum.SearchType;
 import com.junwoo.ott.global.search.dto.request.VideoSearchRequestDto;
 import com.junwoo.ott.global.search.dto.response.SearchResponseDto;
 import com.junwoo.ott.global.search.dto.response.VideoRandomResponseDto;
@@ -30,12 +31,13 @@ public class SearchController {
     return ResponseDto.ok(responseDto);
   }
 
-  @GetMapping("/videos/search/title")
+  @GetMapping("/videos/search")
   public ResponseDto<Page<VideoResponseDto>> searchVideosTitle(
-      final @RequestParam("t") String input,
+      final @RequestParam String input,
+      final @RequestParam SearchType type,
       final @PageableDefault Pageable pageable
   ) {
-    VideoSearchRequestDto dto = new VideoSearchRequestDto(input, pageable, "title");
+    VideoSearchRequestDto dto = new VideoSearchRequestDto(input, pageable, type);
     Page<VideoResponseDto> responseDto = searchService.getVideos(dto);
     return ResponseDto.ok(responseDto);
   }
@@ -43,16 +45,6 @@ public class SearchController {
   @GetMapping("/videos/random")
   public ResponseDto<VideoRandomResponseDto> searchRandomVideos() {
     return ResponseDto.ok(searchService.getRandomVideos());
-  }
-
-  @GetMapping("/videos/search/description")
-  public ResponseDto<Page<VideoResponseDto>> searchVideoDescription(
-      final @RequestParam("d") String description,
-      final @PageableDefault Pageable pageable
-  ) {
-    VideoSearchRequestDto dto = new VideoSearchRequestDto(description, pageable, "description");
-    Page<VideoResponseDto> responseDto = searchService.getVideos(dto);
-    return ResponseDto.ok(responseDto);
   }
 
 }
