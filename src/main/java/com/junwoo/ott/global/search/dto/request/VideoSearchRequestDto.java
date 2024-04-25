@@ -10,7 +10,9 @@ public class VideoSearchRequestDto {
   private final Pageable pageable;
   private final String searchType;
 
-  public VideoSearchRequestDto(String input, Pageable pageable, String searchType) {
+  public VideoSearchRequestDto(
+      final String input, final Pageable pageable, final String searchType
+  ) {
     this.input = input;
     this.pageable = pageable;
     this.searchType = searchType;

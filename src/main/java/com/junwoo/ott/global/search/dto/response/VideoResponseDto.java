@@ -12,7 +12,7 @@ public class VideoResponseDto {
   private final String posterUrl;
   private final MembershipType membershipType;
 
-  public VideoResponseDto(VideoDto videoDto) {
+  public VideoResponseDto(final VideoDto videoDto) {
     this.videoId = videoDto.getVideo_id();
     this.title = videoDto.getTitle();
     this.posterUrl = videoDto.getPoster_url();

@@ -59,11 +59,10 @@ public class SearchService {
     return new SearchResponseDto(array);
   }
 
-  public Page<VideoResponseDto> getVideos(VideoSearchRequestDto dto) {
-    SearchRequest searchRequest =
-        (dto.getSearchType().equals(TITLE)) ? searchByTitle(dto.getInput(), dto.getPageable()
-            .getPageNumber())
-            : searchByDescription(dto.getInput(), dto.getPageable().getPageNumber());
+  public Page<VideoResponseDto> getVideos(final VideoSearchRequestDto dto) {
+    SearchRequest searchRequest = (dto.getSearchType().equals(TITLE))
+        ? searchByTitle(dto.getInput(), dto.getPageable().getPageNumber())
+        : searchByDescription(dto.getInput(), dto.getPageable().getPageNumber());
 
     SearchResponse<VideoDto> response;
 
