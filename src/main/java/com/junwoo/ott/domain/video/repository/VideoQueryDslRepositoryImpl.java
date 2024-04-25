@@ -78,8 +78,13 @@ public class VideoQueryDslRepositoryImpl implements VideoQueryDslRepository {
     Predicate filterPredicate = filter(genreTypeList, isIntersection);
 
     List<Tuple> videoList = jpaQueryFactory
-        .select(video.videoId, video.title, video.posterUrl,
-            video.membershipType)
+        .select(
+            video.videoId,
+            video.title,
+            video.posterUrl,
+            video.membershipType,
+            video.releasedAt
+        )
         .distinct()
         .from(video)
         .join(videoGenre)
