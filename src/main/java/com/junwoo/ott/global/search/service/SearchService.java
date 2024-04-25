@@ -2,6 +2,7 @@ package com.junwoo.ott.global.search.service;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.ElasticsearchException;
+import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
@@ -27,17 +28,20 @@ public class SearchService {
   private final ElasticsearchClient esClient;
 
   private final String INDEX = "videos";
-  private final String FIELD = "title";
+  private final String TITLE = "title";
+  private final String TITLE_NGRAM = "title.ngram";
+  private final String TITLE_KEYWORD = "title.keyword";
+  private final String DESCRIPTION_NORI = "description.nori";
   private final String AGG_MOVIE_NAME = "movie_name";
   private final String POSTER_URL = "poster_url";
   private final int AUTO_SIZE = 7;
   private final int SIZE = 10;
 
-  public SearchResponseDto titleSearch(final String input) {
+  public SearchResponseDto autoTitleSearch(final String input) {
     SearchResponse<SearchDto> response;
 
     try {
-      response = esClient.search(autoSearch(input), SearchDto.class);
+      response = esClient.search(autoSearchByTitle(input), SearchDto.class);
     } catch (ElasticsearchException | IOException e) {
       throw new ElasticException("ElasticSearch에 문제가 발생했습니다.");
     }
@@ -55,9 +59,11 @@ public class SearchService {
     return new SearchResponseDto(array);
   }
 
-  public Page<VideoResponseDto> getVideosElasticSearch(VideoSearchRequestDto dto) {
-    SearchRequest searchRequest = createSearchRequest(dto.getInput(), dto.getPageable()
-        .getPageNumber());
+  public Page<VideoResponseDto> getVideos(VideoSearchRequestDto dto) {
+    SearchRequest searchRequest =
+        (dto.getSearchType().equals(TITLE)) ? searchByTitle(dto.getInput(), dto.getPageable()
+            .getPageNumber())
+            : searchByDescription(dto.getInput(), dto.getPageable().getPageNumber());
 
     SearchResponse<VideoDto> response;
 
@@ -74,7 +80,7 @@ public class SearchService {
     return PageableExecutionUtils.getPage(result, dto.getPageable(), hits::value);
   }
 
-  public VideoRandomResponseDto getRandomVideosElasticSearch() {
+  public VideoRandomResponseDto getRandomVideos() {
     SearchRequest searchRequest = randomSearch();
 
     SearchResponse<VideoDto> response;
@@ -90,33 +96,41 @@ public class SearchService {
     return new VideoRandomResponseDto(result);
   }
 
-  private SearchRequest createSearchRequest(final String input, final Integer page) {
+  private SearchRequest searchByTitle(final String input, final Integer page) {
 
     return new SearchRequest.Builder()
         .index(INDEX)
         .from(page * SIZE)
         .size(SIZE)
         .query(
-            q -> q.matchPhrasePrefix(
-                m -> m.field(FIELD).query(input)
+            q -> q.bool(
+                b -> b.must(
+                    m -> m.match(
+                        a -> a.field(TITLE_NGRAM).query(input)
+                    )
+                ).should(
+                    s -> s.matchPhrasePrefix(
+                        a -> a.field(TITLE).query(input)
+                    )
+                )
             )
         )
         .build();
   }
 
-  private SearchRequest autoSearch(final String input) {
+  private SearchRequest autoSearchByTitle(final String input) {
 
     return new SearchRequest.Builder()
         .index(INDEX)
         .size(0)
         .query(
-            q -> q.matchPhrasePrefix(
-                m -> m.field(FIELD).query(input)
+            q -> q.match(
+                m -> m.field(TITLE_NGRAM).query(input)
             )
         )
         // 집계를 통해 중복된 내용을 걸러주기 위해서 사용했습니다. (group by 같은 느낌)
         .aggregations(AGG_MOVIE_NAME, a -> a.terms(
-            v -> v.field("title.keyword").size(AUTO_SIZE)
+            v -> v.field(TITLE_KEYWORD).size(AUTO_SIZE)
         ))
         .build();
   }
@@ -141,6 +155,19 @@ public class SearchService {
             )
         )
         .build();
+  }
+
+  private SearchRequest searchByDescription(final String input, final Integer page) {
+
+    return new SearchRequest.Builder()
+        .index(INDEX)
+        .from(page * SIZE)
+        .size(SIZE)
+        .query(
+            q -> q.match(
+                m -> m.field(DESCRIPTION_NORI).query(input).operator(Operator.And)
+            )
+        ).build();
   }
 
 }

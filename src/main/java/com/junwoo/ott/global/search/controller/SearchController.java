@@ -26,23 +26,33 @@ public class SearchController {
   public ResponseDto<SearchResponseDto> search(
       final @RequestParam("input") String input
   ) {
-    SearchResponseDto responseDto = searchService.titleSearch(input);
+    SearchResponseDto responseDto = searchService.autoTitleSearch(input);
     return ResponseDto.ok(responseDto);
   }
 
-  @GetMapping("/videos/search")
-  public ResponseDto<Page<VideoResponseDto>> searchVideos(
-      final @RequestParam String input,
+  @GetMapping("/videos/search/title")
+  public ResponseDto<Page<VideoResponseDto>> searchVideosTitle(
+      final @RequestParam("t") String input,
       final @PageableDefault Pageable pageable
   ) {
-    VideoSearchRequestDto dto = new VideoSearchRequestDto(input, pageable);
-    Page<VideoResponseDto> responseDto = searchService.getVideosElasticSearch(dto);
+    VideoSearchRequestDto dto = new VideoSearchRequestDto(input, pageable, "title");
+    Page<VideoResponseDto> responseDto = searchService.getVideos(dto);
     return ResponseDto.ok(responseDto);
   }
 
   @GetMapping("/videos/random")
   public ResponseDto<VideoRandomResponseDto> searchRandomVideos() {
-    return ResponseDto.ok(searchService.getRandomVideosElasticSearch());
+    return ResponseDto.ok(searchService.getRandomVideos());
+  }
+
+  @GetMapping("/videos/search/description")
+  public ResponseDto<Page<VideoResponseDto>> searchVideoDescription(
+      final @RequestParam("d") String description,
+      final @PageableDefault Pageable pageable
+  ) {
+    VideoSearchRequestDto dto = new VideoSearchRequestDto(description, pageable, "description");
+    Page<VideoResponseDto> responseDto = searchService.getVideos(dto);
+    return ResponseDto.ok(responseDto);
   }
 
 }
