@@ -114,3 +114,11 @@ INSERT INTO BATCH_JOB_SEQ (ID, UNIQUE_KEY)
 select *
 from (select 0 as ID, '0' as UNIQUE_KEY) as tmp
 where not exists(select * from BATCH_JOB_SEQ);
+
+CREATE TABLE IF NOT EXISTS shedlock(
+    name VARCHAR(64),
+    lock_until TIMESTAMP(3) NULL,
+    locked_at TIMESTAMP(3) NULL,
+    locked_by VARCHAR(255),
+    PRIMARY KEY (name)
+);
