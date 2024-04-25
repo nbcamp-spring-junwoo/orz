@@ -1,6 +1,7 @@
 package com.junwoo.ott.global.schedule;
 
 import lombok.RequiredArgsConstructor;
+import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
@@ -17,6 +18,7 @@ public class CouponIssuanceScheduler {
   private final ApplicationContext context;
 
   @Scheduled(cron = "0 0 * * * ?")
+  @SchedulerLock(name = "couponIssuanceJob")
   public void runBatchJob() throws Exception {
     Job job = context.getBean("couponIssuanceJob", Job.class);
 
