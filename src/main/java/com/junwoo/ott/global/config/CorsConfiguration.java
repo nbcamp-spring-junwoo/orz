@@ -11,11 +11,18 @@ public class CorsConfiguration implements WebMvcConfigurer {
 
   @Override
   public void addCorsMappings(final CorsRegistry registry) {
-    registry.addMapping("/**")
+    registry
+        .addMapping("/**")
+        .allowedMethods("*")
         .allowCredentials(true)
-        .allowedOriginPatterns("*")
-        .allowedHeaders("*")
-        .allowedMethods("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
+        .allowedOriginPatterns(
+            "http://localhost:*",
+            "https://localhost:*",
+
+            "http://*.junwoo.com",
+            "https://*.junwoo.com"
+        )
+
 
         .exposedHeaders("Authorization");
   }
