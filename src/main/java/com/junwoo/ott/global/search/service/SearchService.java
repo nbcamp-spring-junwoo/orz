@@ -97,6 +97,7 @@ public class SearchService {
   }
 
   private SearchRequest searchByTitle(final String input, final Integer page) {
+    String text = (input.trim().length() > 2) ? TITLE_NGRAM : TITLE;
 
     return new SearchRequest.Builder()
         .index(INDEX)
@@ -106,7 +107,7 @@ public class SearchService {
             q -> q.bool(
                 b -> b.must(
                     m -> m.match(
-                        a -> a.field(TITLE_NGRAM).query(input)
+                        a -> a.field(text).query(input)
                     )
                 ).should(
                     s -> s.matchPhrasePrefix(
