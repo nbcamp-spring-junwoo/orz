@@ -64,7 +64,7 @@ public interface SubscriptionServiceTestValues {
       .build();
   MemberShipResponseDto TEST_MEMBER_SHIP_RESPONSE_DTO = TEST_MEMBERSHIP.toResponseDto();
   CardResponseDto TEST_CARD_RESPONSE_DTO = TEST_CARD.toResponseDto();
-  OrderItemResponseDto TEST_ORDER_ITEM_RESPONSE_DTO = TEST_ORDER_ITEM.toResponseDto();
+  OrderItemResponseDto TEST_ORDER_ITEM_RESPONSE_DTO = OrderItemResponseDto.of(TEST_ORDER_ITEM);
   OrderResponseDto TEST_ORDER_RESPONSE_DTO = OrderResponseDto.builder()
       .orderId("orderId")
       .createdAt(LocalDateTime.now())

@@ -1,5 +1,6 @@
 package com.junwoo.ott.domain.payment.entity;
 
+import com.junwoo.ott.domain.payment.dto.response.OrderItemResponseDto;
 import com.junwoo.ott.domain.payment.dto.response.OrderResponseDto;
 import com.junwoo.ott.domain.payment.util.PaymentUtil;
 import com.junwoo.ott.domain.user.entity.User;
@@ -50,7 +51,7 @@ public class Order extends Timestamped {
     return OrderResponseDto.builder()
         .orderId(orderId)
         .name(name)
-        .orderItems(orderItems.stream().map(OrderItem::toResponseDto).toList())
+        .orderItems(orderItems.stream().map(OrderItemResponseDto::of).toList())
         .createdAt(getCreatedAt())
         .updatedAt(getUpdatedAt())
         .build();

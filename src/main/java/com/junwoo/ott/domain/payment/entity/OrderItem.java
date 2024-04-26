@@ -2,7 +2,6 @@ package com.junwoo.ott.domain.payment.entity;
 
 import com.junwoo.ott.domain.coupon.dto.response.CouponIssuanceReadResponseDto;
 import com.junwoo.ott.domain.coupon.entity.CouponIssuance;
-import com.junwoo.ott.domain.payment.dto.response.OrderItemResponseDto;
 import com.junwoo.ott.domain.subscription.entity.Subscription;
 import com.junwoo.ott.global.customenum.payment.OrderType;
 import jakarta.persistence.Column;
@@ -89,17 +88,6 @@ public class OrderItem {
   public void setParents(final Order order) {
     this.order = order;
     order.addOrderItem(this);
-  }
-
-  public OrderItemResponseDto toResponseDto() {
-    return OrderItemResponseDto.builder()
-        .orderItemId(orderItemId)
-        .name(name)
-        .itemCode(itemCode)
-        .totalPrice(basePrice)
-        .discountingPrice(discountingPrice)
-        .discountedPrice(discountedPrice)
-        .build();
   }
 
 }
