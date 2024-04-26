@@ -1,7 +1,7 @@
 package com.junwoo.ott.domain.payment.controller;
 
-import com.junwoo.ott.domain.payment.dto.OrderReadRequestDto;
-import com.junwoo.ott.domain.payment.dto.OrderReadResponseDto;
+import com.junwoo.ott.domain.payment.dto.request.OrderReadRequestDto;
+import com.junwoo.ott.domain.payment.dto.response.OrderReadResponseDto;
 import com.junwoo.ott.domain.payment.service.OrderService;
 import com.junwoo.ott.global.common.dto.ResponseDto;
 import com.junwoo.ott.global.jwt.UserDetailsImpl;

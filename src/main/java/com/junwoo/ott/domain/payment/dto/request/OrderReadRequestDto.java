@@ -1,4 +1,4 @@
-package com.junwoo.ott.domain.payment.dto;
+package com.junwoo.ott.domain.payment.dto.request;
 
 import com.junwoo.ott.global.jwt.UserDetailsImpl;
 import lombok.AllArgsConstructor;
