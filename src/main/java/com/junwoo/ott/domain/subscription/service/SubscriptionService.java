@@ -10,10 +10,13 @@ import com.junwoo.ott.domain.payment.dto.response.CardResponseDto;
 import com.junwoo.ott.domain.payment.dto.response.OrderResponseDto;
 import com.junwoo.ott.domain.payment.entity.BillingKey;
 import com.junwoo.ott.domain.payment.entity.Card;
+import com.junwoo.ott.domain.payment.entity.Order;
 import com.junwoo.ott.domain.payment.service.BillingKeyRepository;
 import com.junwoo.ott.domain.payment.service.CardService;
 import com.junwoo.ott.domain.payment.service.OrderService;
+import com.junwoo.ott.domain.subscription.dto.request.SubscriptionGetRequestDto;
 import com.junwoo.ott.domain.subscription.dto.request.SubscriptionRequestDto;
+import com.junwoo.ott.domain.subscription.dto.response.SubscriptionGetResponseDto;
 import com.junwoo.ott.domain.subscription.entity.Subscription;
 import com.junwoo.ott.domain.subscription.entity.SubscriptionHistory;
 import com.junwoo.ott.domain.subscription.repository.SubscriptionHistoryRepository;
@@ -23,6 +26,7 @@ import com.junwoo.ott.domain.user.service.UserService;
 import com.junwoo.ott.global.customenum.MembershipType;
 import com.junwoo.ott.global.exception.custom.SubscriptionException;
 import jakarta.persistence.EntityManager;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -45,6 +49,15 @@ public class SubscriptionService {
 
   private final EntityManager entityManager;
 
+  public List<SubscriptionGetResponseDto> getSubscriptions(final SubscriptionGetRequestDto requestDto) {
+    Long userId = requestDto.getUserId();
+
+    List<SubscriptionHistory> subscriptionHistories = subscriptionHistoryRepository.findByUser_UserIdOrderBySubscriptionHistoryIdDesc(userId);
+
+    return subscriptionHistories.stream().map(SubscriptionGetResponseDto::of)
+        .toList();
+  }
+
   public void subscribe(final SubscriptionRequestDto subscriptionRequest) {
     validateUserHasNoActiveSubscription(subscriptionRequest);
 
@@ -62,12 +75,14 @@ public class SubscriptionService {
     PaymentDto paymentConfirmation = paymentClient.confirmBilling(subscription.getBillingKey()
         .getKey(), billingRequest);
 
+    Order orderEntity = Order.builder().orderId(order.getOrderId()).build();
     SubscriptionHistory subscriptionHistory = paymentConfirmation.toSubscriptionHistory();
-    subscriptionHistory.setParents(subscription);
+    subscriptionHistory.setParents(subscription, orderEntity);
+
+    subscriptionHistoryRepository.save(subscriptionHistory);
 
     userService.updateUserMembership(subscriptionRequest.getUserId(), subscription.getMembership()
         .getMembershipType());
-    subscriptionHistoryRepository.save(subscriptionHistory);
   }
 
   private Long getMembershipId(final MembershipType membershipType) {
