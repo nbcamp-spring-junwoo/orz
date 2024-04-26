@@ -1,5 +1,6 @@
 package com.junwoo.ott.domain.subscription.entity;
 
+import com.junwoo.ott.domain.payment.entity.Order;
 import com.junwoo.ott.domain.subscription.dto.response.SubscriptionHistoryResponseDto;
 import com.junwoo.ott.domain.user.entity.User;
 import com.junwoo.ott.global.common.entity.Timestamped;
@@ -14,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
@@ -45,12 +47,17 @@ public class SubscriptionHistory extends Timestamped {
   @JoinColumn(name = "subscription_id")
   private Subscription subscription;
 
+  @OneToOne
+  @JoinColumn(name = "order_id")
+  private Order order;
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
   private User user;
 
-  public void setParents(final Subscription subscription) {
+  public void setParents(final Subscription subscription, final Order order) {
     this.subscription = subscription;
+    this.order = order;
     this.user = subscription.getUser();
   }
 

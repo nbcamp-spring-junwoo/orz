@@ -23,7 +23,6 @@ public class CorsConfiguration implements WebMvcConfigurer {
             "https://*.junwoo.com"
         )
 
-
         .exposedHeaders("Authorization");
   }
 
