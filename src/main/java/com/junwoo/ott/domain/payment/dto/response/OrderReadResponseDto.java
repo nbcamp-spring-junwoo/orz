@@ -1,6 +1,5 @@
-package com.junwoo.ott.domain.payment.dto;
+package com.junwoo.ott.domain.payment.dto.response;
 
-import com.junwoo.ott.domain.payment.dto.response.OrderItemResponseDto;
 import com.junwoo.ott.domain.payment.entity.Order;
 import com.junwoo.ott.domain.payment.entity.OrderItem;
 import java.time.LocalDateTime;

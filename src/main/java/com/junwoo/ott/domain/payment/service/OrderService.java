@@ -4,8 +4,8 @@ import static com.junwoo.ott.global.customenum.payment.OrderType.SUBSCRIPTION;
 
 import com.junwoo.ott.domain.coupon.dto.response.CouponIssuanceReadResponseDto;
 import com.junwoo.ott.domain.coupon.service.CouponService;
-import com.junwoo.ott.domain.payment.dto.OrderReadRequestDto;
-import com.junwoo.ott.domain.payment.dto.OrderReadResponseDto;
+import com.junwoo.ott.domain.payment.dto.request.OrderReadRequestDto;
+import com.junwoo.ott.domain.payment.dto.response.OrderReadResponseDto;
 import com.junwoo.ott.domain.payment.dto.response.OrderResponseDto;
 import com.junwoo.ott.domain.payment.entity.Order;
 import com.junwoo.ott.domain.payment.entity.OrderItem;
