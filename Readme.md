@@ -3,31 +3,37 @@
 ---
 
 <div align="center">
-    <img src="https://github.com/nbcamp-spring-junwoo/orz/assets/48433827/02eaa19f-e5fa-4d30-9c41-fc86488b33f8" width="25%">
-    <h1 align="center">OTT</h1>
+    <img src="https://github.com/nbcamp-spring-junwoo/orz/assets/139536736/e8c8ed9e-1e8a-46c4-b19b-548a107435c4" width="25%">
+    <h1 align="center">JUNWOO OTT</h1>
     <p align="center"> 내일 배움 캠프 최종 프로젝트 </p>
     <p align="center"> 2024.03.26 ~ 2024.05.01 </p>
+    <p align="center"> www.junwoo.click </p>
 </div>
 
 ### ⚙️ 개발환경
 
 ---
 
-- ![FRAMEWORK][FRAMEWORK]![SPRINGBOOT][SPRINGBOOT]<img src="https://img.shields.io/badge/3.2.4-515151?style=for-the-badge">
-- ![SECURITY][SECURITY]![SPRINGSECURITY][SPRINGSECURITY]
-- ![BUILD][BUILD]![GRADLE][GRADLE]<img src="https://img.shields.io/badge/8.5-515151?style=for-the-badge">
-- ![LANGUAGE][LANGUAGE]![JAVA][JAVA]<img src="https://img.shields.io/badge/17-515151?style=for-the-badge">
-- ![DATABASE][DATABASE]![MYSQL][MYSQL]<img src="https://img.shields.io/badge/8.3-515151?style=for-the-badge">
-- ![OAUTH2.0][OAUTH2.0]![KAKAO][KAKAO]
+- ![FRAMEWORK][FRAMEWORK]![SPRINGBOOT][SPRINGBOOT]<img src="https://img.shields.io/badge/3.2.4-515151?style=for-the-badge">![SPRINGSECURITY][SPRINGSECURITY]<img src="https://img.shields.io/badge/6.2.3-515151?style=for-the-badge">
+- ![LANGUAGE][LANGUAGE]![GRADLE][GRADLE]<img src="https://img.shields.io/badge/8.5-515151?style=for-the-badge">![JAVA][JAVA]<img src="https://img.shields.io/badge/17-515151?style=for-the-badge">
+- ![DATABASE][DATABASE]![MYSQL][MYSQL]<img src="https://img.shields.io/badge/8.3-515151?style=for-the-badge">![REDIS][REDIS]<img src="https://img.shields.io/badge/7.1-515151?style=for-the-badge">![ELASTICSEARCH][ELASTICSEARCH]<img src="https://img.shields.io/badge/8.13-515151?style=for-the-badge">
+- ![CI/CD][CI/CD]![GITHUBACTIONS][GITHUBACTIONS]![JENKINS][JENKINS]
+- ![DEPLOY][DEPLOY]![AWS][AWS]
+
+### 🏗 아키텍처
+
+--- 
+
+<div align="center">
+    <img src="https://github.com/nbcamp-spring-junwoo/orz/assets/139536736/6093c681-3221-47d5-b3d5-c5bd8c2dd303" width="80%">
+</div>
+
 
 ### 🔍 기능구현
 
 ---
 
-<details>
-    <summary>not implemented yet</summary>
-    not implemented yet
-</details>
+
 
 ### 👯 멤버 구성
 
@@ -47,15 +53,15 @@
 
 [Framework]: https://img.shields.io/badge/Framework-%23121011?style=for-the-badge
 
-[SECURITY]: https://img.shields.io/badge/SECURITY-%23121011?style=for-the-badge
-
 [BUILD]: https://img.shields.io/badge/BUILD-%23121011?style=for-the-badge
 
 [LANGUAGE]: https://img.shields.io/badge/LANGUAGE-%23121011?style=for-the-badge
 
 [DATABASE]: https://img.shields.io/badge/DATABASE-%23121011?style=for-the-badge
 
-[OAUTH2.0]: https://img.shields.io/badge/OAUTH2.0-%23121011?style=for-the-badge
+[CI/CD]: https://img.shields.io/badge/CI/CD-%23121011?style=for-the-badge
+
+[DEPLOY]: https://img.shields.io/badge/DEPLOY-%23121011?style=for-the-badge
 
 [SPRINGBOOT]: https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white
 
@@ -68,6 +74,19 @@
 [MYSQL]: https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white
 
 [KAKAO]: https://img.shields.io/badge/kakao-yellow?style=for-the-badge&logo=kakao&logoColor=white
+
+[REDIS]: https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white
+
+[GITHUBACTIONS]: https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white
+
+[Docker]: https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white
+
+[Jenkins]: https://img.shields.io/badge/jenkins-%232C5263.svg?style=for-the-badge&logo=jenkins&logoColor=white
+
+[ElasticSearch]: https://img.shields.io/badge/-ElasticSearch-005571?style=for-the-badge&logo=elasticsearch
+
+[AWS]: https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white
+
 
 <!-- github -->
 
