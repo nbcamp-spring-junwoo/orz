@@ -19,8 +19,8 @@ public class CorsConfiguration implements WebMvcConfigurer {
             "http://localhost:*",
             "https://localhost:*",
 
-            "http://*.junwoo.com",
-            "https://*.junwoo.com"
+            "http://*.junwoo.click",
+            "https://*.junwoo.click"
         )
 
         .exposedHeaders("Authorization");
