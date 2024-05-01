@@ -49,7 +49,7 @@ public class VideoService {
     return videoRepository.findAllByVideoIdIn(videoIds);
   }
 
-  private boolean isExistVideo(final Long videoId) {
+  public boolean isExistVideo(final Long videoId) {
     return videoRepository.existsById(videoId);
   }
 
