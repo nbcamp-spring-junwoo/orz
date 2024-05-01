@@ -1,0 +1,77 @@
+# 워크 플로우 이름
+name: Java CI with Gradle to Docker and ECS Deployment
+
+
+# 워크 플로우가 언제 실행 될지를 정한다.
+on:
+  push:
+    branches: [ "server" ]
+
+# 워크 플로우가 깃 레포에 대한 권한을 읽기 만 가능하게 설정한다.
+permissions:
+  contents: read
+
+
+# 워크플로우에서 할 작업 정의한다.
+jobs:
+
+  # 작업 환경 = 우분투 최신 버전
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: server
+
+    # 깃허브에서 제공하는 checkout 엑션 사용
+    steps:
+      - uses: actions/checkout@v4
+
+      # JDK 17 설정
+      # temurin = Adoptium에서 제공하는 JDK
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      # gradle wrapper 파일에 실행 권한을 부여
+      # gradle wrapper = 개발자가 특정 버전의 Gradle을 미리 설치하지 않고도 Gradle 빌드를 실행할 수 있게 해주는 편리한 도구
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      # Gradle 빌드 엑션을 이용해서 프로젝트 빌드
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Run build in a subdirectory
+        run: ./gradlew build -x test
+
+      # AWS에 로그인
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      ## ECR에 로그인
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      # Docker Image 파일로 빌드 후 ECR 업로드
+      - name: Build and push Docker image to Amazon ECR
+        run: |
+          docker build -t ${{ secrets.ECR_REGISTRY }}/ecr-repository:latest .
+          docker push ${{ secrets.ECR_REGISTRY }}/ecr-repository:latest
+
+      # ECS 서비스 업데이트
+      - name: Update ECS Service
+        run: |
+          aws ecs update-service --cluster ${{ secrets.ECS_CLUSTER_NAME }} \
+                       --service ${{ secrets.ECS_SERVICE_NAME }} \
+                       --task-definition ${{ secrets.ECS_TASK_DEFINITION }} \
+                       --desired-count 1 \
+                       --health-check-grace-period-seconds 120 \
+                       --force-new-deployment
+

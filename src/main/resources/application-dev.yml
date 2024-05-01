@@ -6,16 +6,34 @@ server:
       force: true
 
 spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+
+  batch:
+    jdbc:
+      initialize-schema: always
+
+    job:
+      enabled: true
+
   data:
     redis:
-      port: ${redis.port}
-      host: ${redis.host}
+      port: ${spring.data.redis.port}
+      host: ${spring.data.redis.host}
+      repositories:
+        enabled: false
 
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${mysql.url}/${database.name}
-    username: ${mysql.username}
-    password: ${mysql.password}
+    master:
+      username: ${mysql.username}
+      password: ${mysql.password}
+      jdbc-url: jdbc:mysql://${mysql.url.master}/${database.name}
+
+    slave:
+      username: ${mysql.username}
+      password: ${mysql.password}
+      jdbc-url: jdbc:mysql://${mysql.url.slave}/${database.name}
 
   jpa:
     properties:
@@ -24,9 +42,15 @@ spring:
         show_sql: true
         highlight_sql: true
         use_sql_comments: true
+        auto_quote_keyword: true
 
     hibernate:
       ddl-auto: update
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema-mysql.sql
 
 springdoc:
   default-consumes-media-type: application/json
@@ -37,3 +61,11 @@ springdoc:
     display-request-duration: true
     operations-sorter: alpha
     tags-sorter: alpha
+
+admin:
+  key: ${admin.key}
+  prefix: ${admin.prefix}
+
+jwt:
+  secret:
+    key: ${jwt.secret.key}
