@@ -25,7 +25,7 @@ public class LikeController {
   private final LikeService likeService;
 
   @PostMapping("/like/{videoId}")
-  public void postLike(
+  public void toggleLike(
       final @PathVariable("videoId") Long videoId,
       final @AuthenticationPrincipal UserDetailsImpl userDetails
   ) {
