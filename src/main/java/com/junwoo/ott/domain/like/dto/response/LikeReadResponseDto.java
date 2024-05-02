@@ -7,13 +7,13 @@ import lombok.Getter;
 public class LikeReadResponseDto {
 
   private final Long videoId;
-  private final String videoTitle;
-  private final String videoPosterUrl;
+  private final String title;
+  private final String posterUrl;
 
   public LikeReadResponseDto(final Like like) {
     videoId = like.getVideo().getVideoId();
-    videoTitle = like.getVideo().getTitle();
-    videoPosterUrl = like.getVideo().getPosterUrl();
+    title = like.getVideo().getTitle();
+    posterUrl = like.getVideo().getPosterUrl();
   }
 
 }
