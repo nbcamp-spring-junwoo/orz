@@ -12,6 +12,8 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
 
   Optional<Like> findLikeByUser_UserIdAndVideo_VideoId(final Long userId, final Long videoId);
 
-  Page<Like> findLikeByUser_UserId(final Long userId, final Pageable pageable);
+  Page<Like> findLikeByUser_UserIdOrderByRegisteredAtDesc(final Long userId,
+      final Pageable pageable);
 
 }
+

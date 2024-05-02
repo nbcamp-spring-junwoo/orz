@@ -80,7 +80,8 @@ public class LikeServiceTest implements LikeServiceTestValues {
     @Test
     @DisplayName("찜 기능 조회 성공 테스트")
     void 찜_기능_조회_성공() {
-      given(likeRepository.findLikeByUser_UserId(any(), any())).willReturn(TEST_LIKES);
+      given(likeRepository.findLikeByUser_UserIdOrderByRegisteredAtDesc(any(), any())).willReturn(
+          TEST_LIKES);
 
       Page<LikeReadResponseDto> response = likeService.getLikedVideos(READ_REQUEST_DTO);
       List<LikeReadResponseDto> result = response.getContent();
