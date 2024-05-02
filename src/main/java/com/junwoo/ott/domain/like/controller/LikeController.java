@@ -24,7 +24,7 @@ public class LikeController {
 
   private final LikeService likeService;
 
-  @PostMapping("/like/{videoId}")
+  @PostMapping("/videos/{videoId}/like")
   public void toggleLike(
       final @PathVariable("videoId") Long videoId,
       final @AuthenticationPrincipal UserDetailsImpl userDetails
@@ -44,7 +44,7 @@ public class LikeController {
     return ResponseDto.ok(response);
   }
 
-  @GetMapping("/me/likes/{videoId}")
+  @GetMapping("/videos/{videoId}/like")
   public ResponseDto<Boolean> getLike(
       final @PathVariable("videoId") Long videoId,
       final @AuthenticationPrincipal UserDetailsImpl userDetails
