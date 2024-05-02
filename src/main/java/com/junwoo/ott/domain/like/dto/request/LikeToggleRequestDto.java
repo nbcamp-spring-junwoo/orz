@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class LikeCreateRequestDto {
+public class LikeToggleRequestDto {
 
   private Long userId;
   private Long videoId;

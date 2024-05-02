@@ -6,13 +6,13 @@ import com.junwoo.ott.domain.video.entity.Video;
 import lombok.Getter;
 
 @Getter
-public class LikeCreateResponseDto {
+public class LikeToggleResponseDto {
 
   private final Long likeId;
   private final User user;
   private final Video video;
 
-  public LikeCreateResponseDto(final Like like) {
+  public LikeToggleResponseDto(final Like like) {
     this.likeId = like.getId();
     this.user = like.getUser();
     this.video = like.getVideo();
