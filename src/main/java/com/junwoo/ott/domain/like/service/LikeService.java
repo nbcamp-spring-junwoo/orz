@@ -56,7 +56,8 @@ public class LikeService {
 
   @Transactional(readOnly = true)
   public Page<LikeReadResponseDto> getLikedVideos(final LikeReadRequestDto dto) {
-    Page<Like> likes = likeRepository.findLikeByUser_UserId(dto.getUserId(), dto.getPageable());
+    Page<Like> likes = likeRepository.findLikeByUser_UserIdOrderByRegisteredAtDesc(dto.getUserId(),
+        dto.getPageable());
 
     return likes.map(LikeReadResponseDto::new);
   }
